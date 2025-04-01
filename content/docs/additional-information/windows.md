@@ -24,11 +24,11 @@ The next step is to create a security group, that will allow access to a port `3
 
     ![](../images/sec_group.png)
 
-# Licensing
+## Licensing
 
 - We are not currently supporting Windows licensing. License responsibility for Windows is entirely up to the user.
 
-# Advanced Users
+## Advanced Users
 
 - You may use all features of [cloudbase-init](https://cloudbase.it/cloudbase-init/) for Windows.
 - Windows Server [hardening guidelines](https://security.uconn.edu/server-hardening-standard-windows/).
