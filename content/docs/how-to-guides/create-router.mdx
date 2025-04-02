@@ -7,36 +7,36 @@ title: "Create Router"
 
     Navigate yourself towards **Project &gt; Network &gt; Routers** in the left menu and click on the **Create Router** on the right side of the window.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/router1.png)
+    </Callout>
 
     Enter router name and select external gateway with the `-GROUP` suffix.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/router2.png)
+    </Callout>
 
     Now you need to attach your internal network to the router.
 
     **1.** Click on the router you just created.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/router3.png)
+    </Callout>
 
     **2.** Move to the **Interfaces** tab and click on the **Add interface**.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/router4.png)
         ![](/img/openstack/networks/router5.png)
+    </Callout>
 
     **3.** Select a previously created subnet and submit.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/router6.png)
+    </Callout>
 
 === "CLI"
 
@@ -69,15 +69,15 @@ If you have no gateway on you router, you can assign a new one.
 
     **1.** You can set your gateway by clicking **Set Gateway**.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/set-router1.png)
+    </Callout>
 
     **2.** Choose the network you desire to use (e.g. **public-cesnet-78-128-251**) and confirm.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/set-router2.png)
+    </Callout>
 
 === "CLI"
 
@@ -97,9 +97,9 @@ If you have no gateway on you router, you can assign a new one.
 
     Navigate to the **Project &gt; Network &gt; Routers**. Click on the action **Clear Gateway** of your router. This action will disassociate the external network from your router, so your machines will no longer be able to access the Internet. If you get an error you need to first **Disassociate Floating IPs**.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/clear-router1.png)
+    </Callout>
 
 === "CLI"
 

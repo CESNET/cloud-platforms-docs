@@ -95,8 +95,7 @@ title: "Frequently Asked Questions"
     * relax public IP try-connect loop timing
 	* configure SSH client to [reuse connection for instance with `-o ControlMaster=auto -o ControlPersist=60s`](https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing)
 
-    !!! example
-
+    <Callout type="info" title="Example">
     	As an example, consider a group of virtual machines, where at least one has access to the internet using an IPv4 or IPv6 public address, and they are connected by an internal network (e.  g. 10.0.0.0/24).
 
       To access the first VM with a public address `<public-ip-jump>`:
@@ -109,6 +108,7 @@ title: "Frequently Asked Questions"
     	* The recommended method is to create an SSH VPN using sshuttle with `sshuttle -r user@<public-ip-jump> 10.0.0.0/24`
     	* Address all internal virtual servers with their internal address (CIDR 10.0.0.0/24) and use the 1st (jump/bastion) machine with the public address as an SSH proxy.
     	* Follow the same steps to connect – first wait for ACTIVE state and then try a port connection.
+    </Callout>
 
   	## How to check, whether you are blocked
 

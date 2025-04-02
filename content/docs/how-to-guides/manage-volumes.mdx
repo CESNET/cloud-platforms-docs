@@ -9,9 +9,9 @@ attached and detached from instances at any time, their creation and deletion ar
 
 __1.__ In **Project &gt; Volumes &gt; Volumes**, select **Create Volume**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/volume1.png)
+</Callout>
 
 __2.__ Provide name, description, and size in GBs. If not instructed otherwise, leave all other fields unchanged and click on **Create Volume**.
 
@@ -30,21 +30,21 @@ It is possible to create volume snapshots or backups. In this guide we will focu
 
 __1.__ __(optional)__ In **Project &gt; Compute &gt; Instances** Turn off the affected instance.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/instance-shutoff.png)
+</Callout>
 
 __2.__ In **Project &gt; Volumes &gt; Volumes** open the **Actions** menu of selected volume an select **Create Backup**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/backup1.png)
+</Callout>
 
 __3.__ Specify Backup Name and optional information and press **Create Volume Backup**
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/backup2.png)
+</Callout>
 
 __3.__ Wait for the Backup to be created, it will be then stored in **Project &gt; Volumes &gt; Backups**.
 
@@ -52,15 +52,15 @@ __3.__ Wait for the Backup to be created, it will be then stored in **Project &g
 
 __1.__ __(optional)__ In **Project &gt; Compute &gt; Instances** Turn off the affected instance.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/instance-shutoff.png)
+</Callout>
 
 __2.__ In **Project &gt; Volumes &gt; Backups** open the **Actions** menu of selected backup and select **Restore Backup**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/backup3.png)
+</Callout>
 
 __3.__ Wait for the Backup to be restored.
 
@@ -77,39 +77,39 @@ When working with volumes, we highly recommend to always make a [volume backup](
 
 __1.__ Turn off the instance in **Project &gt; Compute &gt; Instances**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/instance-shutoff.png)
+</Callout>
 
 __2.__ Detach the volume from the instance in **Project &gt; Volumes &gt; Volumes**. On selected volume open the **Actions** menu and select **Manage Attachments**
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/attachment1.png)
+</Callout>
 
 __3.__ Select **Detach Volume** and confirm.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/attachment2.png)
+</Callout>
 
 __4.__ Open the **Actions** menu again an select **Extend Volume**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/extend1.png)
+</Callout>
 
 __5.__ Specify new size of the volume and press **Extend Volume**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/extend2.png)
+</Callout>
 
 __6.__ Attach the volume back to the instance via **Manage Attachments**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/attachment1.png)
+</Callout>
 
 __7.__ Verify correct mounting of the volume in the instance.
 
@@ -120,9 +120,9 @@ Resizing the system volume is not possible. It is however possible to create a b
 
 __1.__ Turn off the instance in **Project &gt; Compute &gt; Instances**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/instance-shutoff.png)
+</Callout>
 
 __2.__ First [create a volume backup](#creating-volume-backup).
 
@@ -130,18 +130,18 @@ __3.__ Next [restore volume backup](#restoring-volume-backup), this will create 
 
 __4.__ In **Project &gt; Volumes &gt; Volumes** find created backup volume, its name should begin with restore_backup and in the **Actions** menu select **Extend Volume**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/extend1.png)
+</Callout>
 
 __5.__ Specify new volume size and press **Extend Volume**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/extend2.png)
+</Callout>
 
 __6.__ In **Actions** menu select **Launch as Instance** and deploy a new instance with this volume, or if you need to make additional changes to the volume, you can attach it to another instance via **Manage Attachments**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![](/img/openstack/volumes/launch1.png)
+</Callout>

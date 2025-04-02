@@ -49,9 +49,9 @@ To connect to instances running on OpenStack, you can use one of the available a
         apt install -y ubuntu-desktop xrdp
         ```
 
-        !!! example
-
+        <Callout type="info" title="Example">
             ![](/img/openstack/instance/customization_script_xrdp.png)
+        </Callout>
 
         Since the installation using the Customization Script takes place in the background, it is not entirely clear when it will be completed. You can imagine the installation time as 1 hour, but it's not exact. The presence of the packages can be confirmed by the following command launched through an ssh connection:
 
@@ -70,9 +70,9 @@ To connect to instances running on OpenStack, you can use one of the available a
 
     3. Allow xrdp connection by adding appropriate rule to the VM's security group. The port number is `3389`, but direct `Rule: RDP` option is also available.
 
-        !!! example
-
+        <Callout type="info" title="Example">
             ![](/img/openstack/instance/sec_group_rdp.png)
+        </Callout>
 
         !!! caution
 

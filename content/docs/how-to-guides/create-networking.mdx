@@ -9,28 +9,28 @@ We can create a virtual network in OpenStack for the project, which can be used 
 
     Navigate yourself towards **Project &gt; Network &gt; Networks** in the left menu and click on the **Create Network** on the right side of the window. This will start an interactive dialog for network creation.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/net1.png)
+    </Callout>
 
 
     **1.** Type in the network name
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/net2.png)
+    </Callout>
 
     **2.** Move to the **Subnet** section either by clicking next or by clicking on the **Subnet** tab. You may choose to enter the network range manually (recommended for advanced users to not interfere with the public IP address ranges), or select **Allocate Network Address from a pool**. In the **Address pool** section select a `private-192-168`. Select Network mask which suits your needs (`27` as default can hold up to 29 machines).
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/net3.png)
+    </Callout>
 
     **3.** For the last tab **Subnet Details** just check that a DNS is present and the DHCP box is checked, alternatively you can create the allocation pool or specify static routes.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/networks/net4.png)
+    </Callout>
 
 === "CLI"
 

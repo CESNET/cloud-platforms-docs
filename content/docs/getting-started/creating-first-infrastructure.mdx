@@ -23,16 +23,16 @@ __1.__ Select `EINFRA CESNET` in G1 Brno or `e-INFRA CZ federation` in G2 Ostrav
 
 __2.__ Click on **Sign In**.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![login](/img/openstack/instance/login.png)
+</Callout>
 
 
 __3.__ You will be redirected to ds.eduid page, where you select your institution from the drop-down list.
 
-!!! example
-
+<Callout type="info" title="Example">
     ![institution login](/img/openstack/instance/institution_login.png)
+</Callout>
 
 __4.__ Provide your institution-specific sign-in credentials.
 
@@ -94,15 +94,15 @@ an instance remotely is SSH. Using SSH requires a pair of keys - a public key an
 
     __1.__ Navigate to **Project &gt; Compute &gt; Key Pairs** and click the **Create Key Pair** button.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/keypair1.png)
+    </Callout>
 
     __2.__ In the **Create Key Pair** insert the **Key Pair Name**. Avoid using special characters, if possible. Next select SSH key for **Key Type** and finally confirm with **Create Key Pair**.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/keypair2.png)
+    </Callout>
 
     __3.__ Download the private key to your local computer and move it to the `~/.ssh/` folder. If you are using Windows, refer to [Accessing From Windows](../technical-reference/remote-access.md#accessing-from-windows).
 
@@ -127,16 +127,16 @@ your virtual machine via SSH from your local terminal.
 
     __1.__ Go to **Project &gt; Network &gt; Security Groups**. Click on **Manage Rules**, for the **default** security group.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/sec_group1.png)
+    </Callout>
 
     __2.__ Click on **Add rule**, choose **SSH**, and leave the remaining fields unchanged.
        This will allow you to access your instance via IPv4.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/sec_group2.png)
+    </Callout>
 
     !!! caution
 
@@ -171,28 +171,28 @@ your virtual machine via SSH from your local terminal.
 
     __1.__ In **Compute &gt; Instances**, click the **Launch Instance** button.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/instance1.png)
+    </Callout>
 
     __2.__ Choose **Instance Name**, Description, and number of instances.
        If you are creating more instances, `-%i` will be automatically appended to the name of each instance. Continue via **Next**.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/instance2.png)
+    </Callout>
 
     __3.__ Choose an image from which to boot the instance. Choose to delete the volume after instance delete. This is not recommended for production deployment.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/instance3.png)
+    </Callout>
 
     __4.__ Choose the hardware resources of the instance by selecting a flavor. Additional volumes for data can be attached later on.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/instance4.png)
+    </Callout>
 
     __5.__ Select appropriate network based on your project type and continue to **Key Pair** in the left menu.
 
@@ -202,23 +202,23 @@ your virtual machine via SSH from your local terminal.
         Here is more information on available networks in [Brno G1](../technical-reference/brno-g1-site/networking.md#ipv4-personal-floating-ips)
         , [Ostrava G2](../technical-reference/ostrava-g2-site/networking.md#floating-ip-networks) and  [Brno G2](../technical-reference/brno-g2-site/networking.md#ipv4-personal-floating-ips).
 
-        !!! example
-
+        <Callout type="info" title="Example">
             ![](/img/openstack/instance/instance5.png)
+        </Callout>
 
     === "Group project"
 
         For group project select group-project-network-subnet from network `group-project-network` (check if [Router gateway](../how-to-guides/create-router.md#router-creation) is set).
 
-        !!! example
-
+        <Callout type="info" title="Example">
             ![](/img/openstack/tutorial/instance_launch_network-group.png)
+        </Callout>
 
     __6.__ In **Key Pair** select the key that was created in section [Create Key Pair](#create-key-pair) in the Available list and finally **Launch Instance**.
 
-    !!! example
-
+    <Callout type="info" title="Example">
         ![](/img/openstack/instance/instance6.png)
+    </Callout>
 
 === "CLI"
 
