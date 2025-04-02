@@ -13,7 +13,7 @@ The solution is [Beskar.cloud](http://beskar.cloud/), our distribution of OpenSt
 The new architecture based on Beskar.cloud uses two e-INFRA CZ datacentres in the CZ. From 2024 it is therefore possible to obtain computing resources in the Brno datacentre and in the same way in the Ostrava datacentre on the cloud partition of the Karolina supercomputer.    
 
 
-![The simplified map of Czechia with new cloud sites in Brno and Ostrava](map.png)
+![The simplified map of Czechia with new cloud sites in Brno and Ostrava](/img/openstack/map.png)
 
 ## Changes needed to achieve the new architecture
 Currently, all running virtual machines running in the current cloud service are physically located in the datacenter in Brno. In order to get the cloud service in Brno into the new architecture, we will have to gradually migrate the user workload from the old cloud to its new version. This will happen during Q1/2024 and we will inform the affected users in time.
