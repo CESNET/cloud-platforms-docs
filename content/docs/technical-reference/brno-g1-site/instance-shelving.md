@@ -34,7 +34,7 @@ Now the instance is offloaded from the computational host, and you can use resou
 
 Once you are finished and wish to restore your instance to a running state, go and select the option **Unshelve Instance** from **Actions** menu and click it.
  
- ![](/img/openstack/instance-shelving/unshelving_status.png)
+ ![](/img/openstack/instance-shelving/unshelving.png)
 
 ### CLI shelving
 
