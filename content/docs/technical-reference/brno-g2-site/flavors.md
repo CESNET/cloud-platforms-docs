@@ -4,20 +4,6 @@ title: Flavors
 search:
   exclude: false
 ---
-
-<style>
-  .md-sidebar--secondary:not([hidden]) {
-    visibility: hidden;
-    display: none;
-  }
-  .md-content {
-    min-width: inherit;
-  }
-  .md-typeset table:not([class]) th {
-    min-width: inherit;
-  }
-</style>
-
 # Flavors
 
 OpenStack flavor entity defines compute virtual server parameters such as:

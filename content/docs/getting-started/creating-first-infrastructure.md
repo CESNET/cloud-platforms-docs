@@ -4,11 +4,6 @@ title: Create First Instance
 search:
   exclude: false
 ---
-
-<style>
-  img[alt=login] { height: 300px; }
-</style>
-
 # Create First Instance
 
 The following guide will take you through the steps necessary to start your first virtual machine instance.
