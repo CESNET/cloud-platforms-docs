@@ -1,4 +1,7 @@
 ---
+title: "Frequently Asked Questions"
+---
+---
 
 title: "Frequently Asked Questions"
 search:
@@ -6,9 +9,6 @@ search:
 hide:
   - toc
 ---
-
-# Frequently Asked Questions
-
 ??? "Where do I report a problem?"
 	First, try searching the documentation for an answer to your problem. If that does not yield results, open a
 	ticket with [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz). When contacting user support, always

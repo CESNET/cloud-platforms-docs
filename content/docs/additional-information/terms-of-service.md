@@ -1,12 +1,12 @@
 ---
+title: "Terms of Service"
+---
+---
 
 title: Terms of service
 search:
   exclude: false
 ---
-
-# Terms of Service
-
 The following documents and rules describe your rights and responsibilities as a user of MetaCentrum Cloud.
 
 ## Documents

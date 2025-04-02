@@ -1,11 +1,12 @@
 ---
+title: "Accessing Instances"
+---
+---
 permalink: /docs/accessing-instances.html
 title: Accessing Instances
 search:
   exclude: false
 ---
-
-# Accessing Instances
 This page provides instructions on how to access virtual instances in OpenStack. Instances are virtual machines running on a cloud infrastructure. Whether you are an administrator or end user, this page will guide you through accessing and interacting with your instances on OpenStack.
 
 ## Prerequisites

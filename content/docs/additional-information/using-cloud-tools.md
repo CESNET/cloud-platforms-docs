@@ -1,12 +1,12 @@
 ---
+title: "Using Cloud Tools"
+---
+---
 
 title: Using Cloud Tools
 search:
   exclude: false
 ---
-
-# Using Cloud Tools
-
 [Cloud tools](https://gitlab.ics.muni.cz/cloud/cloud-tools) is a docker container prepared with modules required for cloud management.
 
 ## Setup

@@ -1,12 +1,12 @@
 ---
+title: "Networking"
+---
+---
 
 title: Networking
 search:
   exclude: false
 ---
-
-# Networking
-
 ## IPv4
 
 There are 2 generally available external networks, which you can allocate floating IP addresses (FIPs) from:

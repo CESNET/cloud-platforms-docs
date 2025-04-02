@@ -1,12 +1,12 @@
 ---
+title: "Manage Volumes"
+---
+---
 
 title: Manage Volumes
 search:
   exclude: false
 ---
-
-# Manage Volumes
-
 When storing a large amount of data in a virtual machine instance, it is advisable to use a separate volume and not the
 root file system containing the operating system. It adds flexibility and often prevents data loss. Volumes can be
 attached and detached from instances at any time, their creation and deletion are managed separately from instances.

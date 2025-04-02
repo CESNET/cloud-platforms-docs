@@ -1,12 +1,12 @@
 ---
+title: "IPv6 Troubleshooting"
+---
+---
 
 title: IPv6 Troubleshooting
 search:
   exclude: false
 ---
-
-# IPv6 Troubleshooting
-
 Public IPv6 addresses are assigned via SLAAC. After assigning an interface in OpenStack to your instance, verify correct configuration of your VM. You can assign interface by directly connecting your VM to the network upon creation or by assigning a secondary interface.
 
 ## Metadata Service

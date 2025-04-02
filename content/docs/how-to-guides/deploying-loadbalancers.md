@@ -1,12 +1,12 @@
 ---
+title: "Deploying Load Balancers"
+---
+---
 
 title: Deploying Loadbalancers
 search:
   exclude: false
 ---
-
-# Deploying Load Balancers
-
 Load balancers serve as a proxy between virtualized infrastructure and clients in the outside network. This is essential in OpenStack since it can be used in a scenario where the infrastructure dynamically starts new VMs and adds them into the load balancing pool in order to mitigate inaccessibility of services.
 
 ## Create Load Balancers

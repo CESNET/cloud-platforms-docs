@@ -1,12 +1,12 @@
 ---
+title: "Get Support"
+---
+---
 
 title: Get Support
 search:
   exclude: false
 ---
-
-# Get Support
-
 If you encounter a problem regarding OpenStack or MetaCentrum Cloud in general
 that are not described in this documentation, you can use our support.
 The support is managed by ticketing system, which is available

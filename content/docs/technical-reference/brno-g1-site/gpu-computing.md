@@ -1,12 +1,12 @@
 ---
+title: "GPU Computing"
+---
+---
 
 title: GPU Computing
 search:
   exclude: false
 ---
-
-# GPU Computing
-
 On this page, you can find a static list of GPUs offered in Metacentrum Cloud.
 
 | GPU								| Total nodes	| GPUs per node |

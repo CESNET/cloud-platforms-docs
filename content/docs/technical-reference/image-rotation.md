@@ -1,13 +1,12 @@
 ---
+title: "Image Rotation"
+---
+---
 
 title: Image Rotation
 search:
   exclude: false
 ---
-
-# Image Rotation
-
-
 ## What is it ?
 Image rotation in our cloud is a mechanism that keeps all official images up-to-date
 with their upstream versions.

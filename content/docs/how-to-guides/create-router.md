@@ -1,12 +1,12 @@
 ---
+title: "Create Router"
+---
+---
 
 title: Create Router
 search:
   exclude: false
 ---
-
-# Create Router
-
 ## Router Creation
 
 === "GUI"

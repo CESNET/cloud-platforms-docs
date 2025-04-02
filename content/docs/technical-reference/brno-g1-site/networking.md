@@ -1,12 +1,12 @@
 ---
+title: "Networking"
+---
+---
 
 title: Networking
 search:
   exclude: false
 ---
-
-# Networking
-
 ## IPv4 Networking
 
 ### IPv4 Personal Floating IPs

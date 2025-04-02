@@ -1,4 +1,6 @@
-# Migration to the new generation of OpenStack cloud services
+---
+title: "Migration to the new generation of OpenStack cloud services"
+---
 e-INFRA CZ is upgrading its cloud service to improve operational efficiency and reliability. The new architecture spans over Brno and Ostrava datacenters. The Brno site will need to be migrated, staring during Q1/2024. The process involves gradually transitioning user workloads, ensuring minimal disruption and close cooperation with principal investigators
 
 ## Introduction

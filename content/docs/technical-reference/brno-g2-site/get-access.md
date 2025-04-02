@@ -1,12 +1,12 @@
 ---
+title: "How to Get Access"
+---
+---
 
 title: "Get Access"
 search:
   exclude: false
 ---
-
-# How to Get Access
-
 [Access to e-INFRA OpenStack Cloud](https://brno.openstack.cloud.e-infra.cz/) is granted to users
 with active accounts in one of the following identity federations:
 

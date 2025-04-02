@@ -1,12 +1,12 @@
 ---
+title: "Cloud Policy"
+---
+---
 
 title: Cloud Policy
 search:
   exclude: false
 ---
-
-# Cloud Policy
-
 This document describes operational rules imposed by CESNET on its cloud facilities. It documents technical measures developed to achieve a reasonable level of operational security of the cloud service. The main goal of this document is to define measures and rules to limit security risks posed by cloud applications and users, and to provide feasible mechanisms to ease resolution of security incidents that might happen in the cloud facilities.
 
 The document was built with the existing [EGI security policies](https://confluence.egi.eu/display/EGIPP/EGI+Federation+Policies+and+Procedures+Home) in mind. Whenever applicable, we refer to existing policies to define the scope needed. For example, whenever 'image endorsement' is mentioned, we refer to the [Security Policy for the Endorsement and Operation of Virtual Machine Images](https://documents.egi.eu/document/771). Other policies, however, deal with "classic" sites, and the cloud technology presents some additional facts that are not taken into account. For instance, the cloud provider (site) cannot guarantee proper patch management of the systems (since the machines might not be operated directly by the site people). We are aware of the new class of problems, though, and we realise the problems may lead to security incidents that may differ from what we face with classic grid sites. We expect some new policies will be formed. For example, from the user's point point we are missing a policy similar to the [Policy on Grid Pilot Jobs](https://documents.egi.eu/document/84), which would define e.g. the responsibilities of VM owners. As an interim step however, we decided to specify measures defined to facilitate efficient security operations and streamline the incident response and users' traceability to a level which is feasible in our cloud environment. 

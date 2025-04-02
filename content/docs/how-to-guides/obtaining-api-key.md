@@ -1,12 +1,12 @@
 ---
+title: "Obtaining API Key"
+---
+---
 
 title: Obtaining API Key
 search:
   exclude: false
 ---
-
-# Obtaining API Key
-
 __1.__ In **Identity &gt; Application Credentials**, click on **Create Application Credential**.
 
 __2.__ Choose name, description, and expiration date & time.

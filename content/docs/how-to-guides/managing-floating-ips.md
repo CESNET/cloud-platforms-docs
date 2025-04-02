@@ -1,11 +1,12 @@
 ---
+title: "Managing Floating IPs"
+---
+---
 
 title: Managing Floating IPs
 search:
   exclude: false
 ---
-
-# Managing Floating IPs
 In OpenStack, a floating IP address is a public IP address that can be assigned to an instance. This allows external access to the instance, even if it is behind a router or firewall. In this how-to guide, we will walk you through the process of allocating, assigning, disassociating, and releasing a floating IP address.
 
 ## Prerequisites

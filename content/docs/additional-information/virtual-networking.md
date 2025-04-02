@@ -1,12 +1,12 @@
 ---
+title: "Virtual Networking"
+---
+---
 
 title: Virtual Networking
 search:
   exclude: false
 ---
-
-# Virtual Networking
-
 e-INFRA CZ Cloud offers software-defined networking as one of its services. Users can create their own
 networks and subnets, connect them with routers and set up tiered network topologies.
 

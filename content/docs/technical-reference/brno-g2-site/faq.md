@@ -1,4 +1,7 @@
 ---
+title: "Frequently Asked Questions"
+---
+---
 
 title: "Frequently Asked Questions"
 search:
@@ -6,5 +9,3 @@ search:
 hide:
   - toc
 ---
-
-# Frequently Asked Questions

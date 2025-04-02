@@ -1,11 +1,11 @@
 ---
+title: "Cloud evolution roadmap - plans"
+---
+---
 title: G2 e-INFRA CZ Openstack Brno Cloud Site news and plans
 search:
   exclude: false
 ---
-
-# Cloud evolution roadmap - plans
-
 ## 1. Growing G2 Brno OpenStack Cloud to provide all functionalities as G1 Brno OpenStack Cloud
 
 1. IPv6 support

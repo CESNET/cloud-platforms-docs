@@ -1,12 +1,12 @@
 ---
+title: "Security Groups"
+---
+---
 
 title: Security Groups
 search:
   exclude: false
 ---
-
-# Security Groups
-
 Security groups are a collection of security rules that are applied on specific VM.
 
 Security rules in OpenStack serve as a Firewall. They are applied directly on VM ports and therefore proper configuration is necessary. Ingress as well as egress rules can be configured using Horizon and CLI. If you can't connect via SSH or ping your instance, chances are it is because of security rules.

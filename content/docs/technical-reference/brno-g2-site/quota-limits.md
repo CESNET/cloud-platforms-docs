@@ -1,12 +1,12 @@
 ---
+title: "Quota Limits"
+---
+---
 
 title: Quota limits
 search:
   exclude: false
 ---
-
-# Quota Limits
-
 Quotas are used to specify individual resources for each project. In the following tables, you can see the default resources available for each project. If you need to increase these resources, contact [support](./get-support.md).
 
 ## Compute Resources (Nova)
