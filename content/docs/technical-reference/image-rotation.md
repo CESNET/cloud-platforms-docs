@@ -50,7 +50,7 @@ or
 
 you can find it in Horizon dashboard by clicking at specific image.
 
- ![](/compute/openstack/images/image-rotation/select_image_horizon.png)
+ ![](/img/openstack/image-rotation/select_image_horizon.png)
 
 Older images are kept for another 2 months as **public**. After that their visibility is changed to **community**.
 

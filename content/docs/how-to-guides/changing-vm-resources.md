@@ -21,16 +21,16 @@ Before resizing, you should save all your unsaved work and you should also consi
 
 !!! example
 
-    ![](/compute/openstack/images/tutorial/resize.png)
+    ![](/img/openstack/tutorial/resize.png)
 
 **2.** Select new flavor and confirm your choice
 
 !!! example
 
-    ![](/compute/openstack/images/tutorial/select.png)
+    ![](/img/openstack/tutorial/select.png)
 
 **3.** Confirm selected changes in the instance menu
 
 !!! example
 
-    ![](/compute/openstack/images/tutorial/resize_confirm.png)
+    ![](/img/openstack/tutorial/resize_confirm.png)

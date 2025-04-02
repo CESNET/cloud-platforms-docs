@@ -24,17 +24,17 @@ There are two possible ways to shelve your instance:
 
 Go into your instance list, located at the left menu bar on the path **Project>Compute>Instances**. Then you select the **Actions** menu located on the right side of the listed instances. After that, choose the **running** instance to shelve and select from the **Actions** menu the option **Shelve Instance** and click it.
 
-![](/compute/openstack/images/instance-shelving/shelving.png)
+![](/img/openstack/instance-shelving/shelving.png)
 
 Once the shelving process finishes, you can check that the instance is in the status **Shelved Offloaded** and its power state is **Shut Down**.
 
-![](/compute/openstack/images/instance-shelving/shelving_status.png)
+![](/img/openstack/instance-shelving/shelving_status.png)
 
 Now the instance is offloaded from the computational host, and you can use resources from the shelved instance.
 
 Once you are finished and wish to restore your instance to a running state, go and select the option **Unshelve Instance** from **Actions** menu and click it.
  
- ![](/compute/openstack/images/instance-shelving/unshelving_status.png)
+ ![](/img/openstack/instance-shelving/unshelving_status.png)
 
 ### CLI shelving
 

@@ -35,14 +35,14 @@ __2.__ Click on **Sign In**.
 
 !!! example
 
-    ![login](/compute/openstack/images/instance/login.png)
+    ![login](/img/openstack/instance/login.png)
 
 
 __3.__ You will be redirected to ds.eduid page, where you select your institution from the drop-down list.
 
 !!! example
 
-    ![institution login](/compute/openstack/images/instance/institution_login.png)
+    ![institution login](/img/openstack/instance/institution_login.png)
 
 __4.__ Provide your institution-specific sign-in credentials.
 
@@ -106,13 +106,13 @@ an instance remotely is SSH. Using SSH requires a pair of keys - a public key an
 
     !!! example
 
-        ![](/compute/openstack/images/instance/keypair1.png)
+        ![](/img/openstack/instance/keypair1.png)
 
     __2.__ In the **Create Key Pair** insert the **Key Pair Name**. Avoid using special characters, if possible. Next select SSH key for **Key Type** and finally confirm with **Create Key Pair**.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/keypair2.png)
+        ![](/img/openstack/instance/keypair2.png)
 
     __3.__ Download the private key to your local computer and move it to the `~/.ssh/` folder. If you are using Windows, refer to [Accessing From Windows](../technical-reference/remote-access.md#accessing-from-windows).
 
@@ -139,14 +139,14 @@ your virtual machine via SSH from your local terminal.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/sec_group1.png)
+        ![](/img/openstack/instance/sec_group1.png)
 
     __2.__ Click on **Add rule**, choose **SSH**, and leave the remaining fields unchanged.
        This will allow you to access your instance via IPv4.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/sec_group2.png)
+        ![](/img/openstack/instance/sec_group2.png)
 
     !!! caution
 
@@ -183,26 +183,26 @@ your virtual machine via SSH from your local terminal.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/instance1.png)
+        ![](/img/openstack/instance/instance1.png)
 
     __2.__ Choose **Instance Name**, Description, and number of instances.
        If you are creating more instances, `-%i` will be automatically appended to the name of each instance. Continue via **Next**.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/instance2.png)
+        ![](/img/openstack/instance/instance2.png)
 
     __3.__ Choose an image from which to boot the instance. Choose to delete the volume after instance delete. This is not recommended for production deployment.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/instance3.png)
+        ![](/img/openstack/instance/instance3.png)
 
     __4.__ Choose the hardware resources of the instance by selecting a flavor. Additional volumes for data can be attached later on.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/instance4.png)
+        ![](/img/openstack/instance/instance4.png)
 
     __5.__ Select appropriate network based on your project type and continue to **Key Pair** in the left menu.
 
@@ -214,7 +214,7 @@ your virtual machine via SSH from your local terminal.
 
         !!! example
 
-            ![](/compute/openstack/images/instance/instance5.png)
+            ![](/img/openstack/instance/instance5.png)
 
     === "Group project"
 
@@ -222,13 +222,13 @@ your virtual machine via SSH from your local terminal.
 
         !!! example
 
-            ![](/compute/openstack/images/tutorial/instance_launch_network-group.png)
+            ![](/img/openstack/tutorial/instance_launch_network-group.png)
 
     __6.__ In **Key Pair** select the key that was created in section [Create Key Pair](#create-key-pair) in the Available list and finally **Launch Instance**.
 
     !!! example
 
-        ![](/compute/openstack/images/instance/instance6.png)
+        ![](/img/openstack/instance/instance6.png)
 
 === "CLI"
 

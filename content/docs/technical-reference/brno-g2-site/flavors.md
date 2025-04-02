@@ -32,7 +32,7 @@ OpenStack flavor entity defines compute virtual server parameters such as:
 
 ## What is the right flavor for mine project?
 Purpose of following image is to help you choosing best flavor for your project
-![](/compute/openstack/images/g2_flavor_map.png)
+![](/img/openstack/g2_flavor_map.png)
 
 ## Flavor types and naming schema
 

@@ -28,13 +28,13 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/attach_interface.png)
+        ![](/img/openstack/networks/attach_interface.png)
 
     In the **Network** dropdown menu select available network.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/ipv6_attach.png)
+        ![](/img/openstack/networks/ipv6_attach.png)
 
 === "Command Line"
     To attach a network interface to an OpenStack instance, you will need to create a port that is attached to the desired network and host. You can create a new port using the following:
@@ -58,13 +58,13 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/attach_interface.png)
+        ![](/img/openstack/networks/attach_interface.png)
 
     In the **Port** dropdown menu select port on what you want to detach interface.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/detach_interface.png)        
+        ![](/img/openstack/networks/detach_interface.png)        
 
 
 === "Command Line"

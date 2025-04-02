@@ -24,13 +24,13 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/fip1.png)
+        ![](/img/openstack/networks/fip1.png)
 
     **2.** Select **Pool** with the same value as the network you chose in the previous step and confirm it by clicking **Allocate IP**.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/fip2.png)
+        ![](/img/openstack/networks/fip2.png)
 
 === "Command Line"
 
@@ -57,13 +57,13 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/fip3.png)
+        ![](/img/openstack/networks/fip3.png)
 
     **2.** Select **Port to be associated** with the desired instance. Confirm with the **Associate** button.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/fip4.png)
+        ![](/img/openstack/networks/fip4.png)
 
 === "Command Line"
 
@@ -96,7 +96,7 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/fip5.png)
+        ![](/img/openstack/networks/fip5.png)
 
 === "Command Line"
 
@@ -133,7 +133,7 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/fip5.png)
+        ![](/img/openstack/networks/fip5.png)
 
 === "Command Line"
 

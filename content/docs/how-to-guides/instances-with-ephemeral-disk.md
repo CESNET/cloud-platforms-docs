@@ -17,4 +17,4 @@ Creation of an instance with epehemral disk from CLI is similar as one described
 
 On horizon GUI, select "No" in "Create New Volume" as you see on screen below (default value is "Yes"). The rest is the same as described in [Create First Instance page](https://docs.e-infra.cz/compute/openstack/getting-started/creating-first-infrastructure/#create-a-virtual-machine-instance).
 
-![](/compute/openstack/images/ephemeral_creation.png)
+![](/img/openstack/ephemeral_creation.png)

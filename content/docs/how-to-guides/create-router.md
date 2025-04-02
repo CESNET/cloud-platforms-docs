@@ -15,13 +15,13 @@ search:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/router1.png)
+        ![](/img/openstack/networks/router1.png)
 
     Enter router name and select external gateway with the `-GROUP` suffix.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/router2.png)
+        ![](/img/openstack/networks/router2.png)
 
     Now you need to attach your internal network to the router.
 
@@ -29,20 +29,20 @@ search:
 
     !!! example
 
-        ![](/compute/openstack/images/networks/router3.png)
+        ![](/img/openstack/networks/router3.png)
 
     **2.** Move to the **Interfaces** tab and click on the **Add interface**.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/router4.png)
-        ![](/compute/openstack/images/networks/router5.png)
+        ![](/img/openstack/networks/router4.png)
+        ![](/img/openstack/networks/router5.png)
 
     **3.** Select a previously created subnet and submit.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/router6.png)
+        ![](/img/openstack/networks/router6.png)
 
 === "CLI"
 
@@ -77,13 +77,13 @@ If you have no gateway on you router, you can assign a new one.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/set-router1.png)
+        ![](/img/openstack/networks/set-router1.png)
 
     **2.** Choose the network you desire to use (e.g. **public-cesnet-78-128-251**) and confirm.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/set-router2.png)
+        ![](/img/openstack/networks/set-router2.png)
 
 === "CLI"
 
@@ -105,7 +105,7 @@ If you have no gateway on you router, you can assign a new one.
 
     !!! example
 
-        ![](/compute/openstack/images/networks/clear-router1.png)
+        ![](/img/openstack/networks/clear-router1.png)
 
 === "CLI"
 
