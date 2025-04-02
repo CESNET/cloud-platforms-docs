@@ -132,7 +132,6 @@ We recommend every project defines cloud usage workflow which may consist of:
 ## Road-Map to Effective Cloud Usage
 
 Project automation is usually done in CI/CD pipelines. Read [Gitlab CI/CD article](https://docs.gitlab.com/ee/ci/introduction/) for more details.
-![](https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_extended_v12_3.png)
 
 The following table shows the different cloud usage phases:
 
