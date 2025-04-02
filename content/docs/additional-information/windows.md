@@ -14,7 +14,7 @@ Windows host system allows RDP access allowed for the `Administrators` group. By
 
 !!! example
 
-    ![](../images/windows_console.png)
+    ![](/img/openstack/windows_console.png)
 
 We recommend disabling those accounts, creating new ones to administer Windows instances in any production environment.
 
@@ -22,7 +22,7 @@ The next step is to create a security group, that will allow access to a port `3
 
 !!! example
 
-    ![](../images/sec_group.png)
+    ![](/img/openstack/sec_group.png)
 
 ## Licensing
 

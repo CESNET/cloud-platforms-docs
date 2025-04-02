@@ -56,7 +56,7 @@ To connect to instances running on OpenStack, you can use one of the available a
 
         !!! example
 
-            ![](../images/instance/customization_script_xrdp.png)
+            ![](/img/openstack/instance/customization_script_xrdp.png)
 
         Since the installation using the Customization Script takes place in the background, it is not entirely clear when it will be completed. You can imagine the installation time as 1 hour, but it's not exact. The presence of the packages can be confirmed by the following command launched through an ssh connection:
 
@@ -77,7 +77,7 @@ To connect to instances running on OpenStack, you can use one of the available a
 
         !!! example
 
-            ![](../images/instance/sec_group_rdp.png)
+            ![](/img/openstack/instance/sec_group_rdp.png)
 
         !!! caution
 
