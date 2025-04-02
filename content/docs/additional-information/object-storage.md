@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Object Storage"
 ---
 ---
 
@@ -7,9 +7,6 @@ title: Object Storage
 search:
   exclude: false
 ---
-
-## Object Storage
-
 OpenStack supports object storage based on [OpenStack Swift](https://docs.openstack.org/swift/latest/api/object_api_v1_overview.html). Creation of an object storage container (database) is done by clicking on `+Container` on [Object storage containers page](https://dashboard.cloud.muni.cz/project/containers).
 
 Every object typically contains data along with metadata and a unique global identifier to access it. OpenStack allows you to upload your files via an HTTPS protocol. There are two ways of managing a created object storage container:

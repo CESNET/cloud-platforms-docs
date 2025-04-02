@@ -1,11 +1,13 @@
 ---
-title: "[G2 e-INFRA CZ Openstack Cloud Brno Site (g2-prod-brno)](https://brno.openstack.cloud.e-infra.cz/)"
+title: "About e-INFRA CZ Openstack G2 Cloud Brno Site"
 ---
 ---
 title: About e-INFRA CZ Openstack G2 Cloud Brno Site
 search:
   exclude: false
 ---
+## [G2 e-INFRA CZ Openstack Cloud Brno Site (g2-prod-brno)](https://brno.openstack.cloud.e-infra.cz/)
+
 [IaaS OpenStack cloud](https://brno.openstack.cloud.e-infra.cz/) providing cloud services for following organizations:
 
  - [e-INFRA CZ](https://www.e-infra.cz/en) / [MetaCentrum](https://www.metacentrum.cz/en/index.html)
