@@ -1,5 +1,5 @@
 ---
-title: "Cloud evolution roadmap - plans"
+title: "G2 e-INFRA CZ Openstack Brno Cloud Site news and plans"
 ---
 ---
 title: G2 e-INFRA CZ Openstack Brno Cloud Site news and plans

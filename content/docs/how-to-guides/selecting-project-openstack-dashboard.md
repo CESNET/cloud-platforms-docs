@@ -3,7 +3,7 @@ title: "Selecting OpenStack project in Horizon dashboard"
 ---
 ---
 
-title: Selecting OpenStack project
+title: Selecting OpenStack project in Horizon dashboard
 search:
   exclude: false
 ---

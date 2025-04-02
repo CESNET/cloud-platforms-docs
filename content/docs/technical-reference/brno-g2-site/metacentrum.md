@@ -3,7 +3,7 @@ title: "Necessity of Being Part of MetaCentrum"
 ---
 ---
 
-title: Necessity of being part of MetaCentrum
+title: Necessity of Being Part of MetaCentrum
 search:
   exclude: false
 ---

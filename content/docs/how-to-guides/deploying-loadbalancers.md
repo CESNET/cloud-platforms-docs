@@ -3,7 +3,7 @@ title: "Deploying Load Balancers"
 ---
 ---
 
-title: Deploying Loadbalancers
+title: Deploying Load Balancers
 search:
   exclude: false
 ---

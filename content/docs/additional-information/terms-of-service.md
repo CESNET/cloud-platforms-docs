@@ -3,7 +3,7 @@ title: "Terms of Service"
 ---
 ---
 
-title: Terms of service
+title: Terms of Service
 search:
   exclude: false
 ---

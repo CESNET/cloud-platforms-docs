@@ -1,5 +1,5 @@
 ---
-title: "New generation (G2) of the e-INFRA CZ OpenStack IaaS cloud"
+title: "Why we introduce new generation (G2) of the e-INFRA CZ OpenStack IaaS cloud"
 ---
 ---
 

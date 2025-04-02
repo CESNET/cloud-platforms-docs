@@ -3,7 +3,7 @@ title: "Accessing Horizon Dashboard"
 ---
 ---
 
-title: Accessing UI Dashboard
+title: Accessing Horizon Dashboard
 search:
   exclude: false
 ---

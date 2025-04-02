@@ -3,7 +3,7 @@ title: "Instances with epehemeral disks"
 ---
 ---
 
-title: Instances with epehemral disks
+title: Instances with epehemeral disks
 search:
   exclude: false
 ---
