@@ -14,9 +14,9 @@ Prerequisites:
 
 The dashboard is available at [https://dashboard.cloud.muni.cz](https://dashboard.cloud.muni.cz) or [https://horizon.ostrava.openstack.cloud.e-infra.cz](https://horizon.ostrava.openstack.cloud.e-infra.cz) or [https://horizon.brno.openstack.cloud.e-infra.cz](https://horizon.brno.openstack.cloud.e-infra.cz).
 
-!!! note
-
+<Callout type="info" title="Note" icon="📌">
     International users may choose <strong>EGI Check-in</strong>, <strong>DEEP AAI</strong> or <strong>LIFESCIENCE AAI</strong>, depending on their membership in these projects.
+</Callout>
 
 
 __1.__ Select `EINFRA CESNET` in G1 Brno or `e-INFRA CZ federation` in G2 Ostrava and G2 Brno site.
@@ -40,9 +40,9 @@ __5.__ Wait to be redirected back to our dashboard.
 
 
 
-!!! tip
-
+<Callout type="info" title="Tip" icon="💡">
     When searching for your institution you can use the search box at the top.
+</Callout>
 
 ## Create Key Pair
 
@@ -51,20 +51,20 @@ an instance remotely is SSH. Using SSH requires a pair of keys - a public key an
 
 === "CLI"
 
-    !!! note
-
+    <Callout type="info" title="Note" icon="📌">
         Prefer using this method if possible. It is the most secure one, since your private key is kept
         on your local machine at all times.
+    </Callout>
 
 
-    !!! note
-
+    <Callout type="info" title="Note" icon="📌">
         You will need the `ssh-keygen` command present on your machine. It is available as a part of SSH-related
         packages in most Linux distributions:
 
         * Debian / Ubuntu: `openssh-client`
         * RHEL / Fedora: `openssh`
         * Archlinux: `openssh`
+    </Callout>
 
 
     Use the **ssh-keygen** command to create a new pair of private and public keys:
@@ -277,8 +277,8 @@ More information about login options is described on the [Accessing Instances](.
 Refer to complete [example of creation VM and its components](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh).
 
 
-!!! info
-
+<Callout type="info" title="Info">
     On Linux and Mac, you can use the already present SSH client. On Windows, there are other possibilities for how to connect via SSH. One of the most common is [PuTTy](https://en.wikipedia.org/wiki/PuTTY) SSH client. How to configure and use PuTTy you can visit our [tutorial](../technical-reference/remote-access.md#accessing-from-windows).
+</Callout>
 
 For details, refer to [the official documentation](https://docs.openstack.org/horizon/train/user/launch-instances.html).

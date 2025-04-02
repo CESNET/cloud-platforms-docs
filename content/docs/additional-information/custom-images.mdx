@@ -68,9 +68,9 @@ openstack image list --community
 
 This is especially beneficial in case of a great number of users who should get access to this image or if you own an old image but some users might still require that image. In that case, you can set the old image as **Community image** and set the new one as default.
 
-!!! info
-
+<Callout type="info" title="Info">
     To create or upload this image you must have an **image_uploader** rights.
+</Callout>
 
 
 Example of creating a new **Community image**:
@@ -79,9 +79,9 @@ Example of creating a new **Community image**:
 openstack image create --file test-cirros.raw --property hw_scsi_model=virtio-scsi --property hw_disk_bus=scsi --property hw_rng_model=virtio --property hw_qemu_guest_agent=yes --property os_require_quiesce=yes --property os_type=linux --community test-cirros
 ```
 
-!!! note
-
+<Callout type="info" title="Note" icon="📌">
     References to existing community images should use `<image-id>` instead of `<image-name>`. See [image visibility](https://wiki.openstack.org/wiki/Glance-v2-community-image-visibility-design) document for more details.
+</Callout>
 
 
 ## Image Sharing Between Projects

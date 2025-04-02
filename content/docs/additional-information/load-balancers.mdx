@@ -5,9 +5,9 @@ Load balancers serve as a proxy between a virtualized infrastructure and clients
 
 When modifying a load balancer, each operation changes the database into immutable state. It is therefore recommended to use the `--wait` switch when creating, editing, or removing resources from load balancers.
 
-!!! info
-
+<Callout type="info" title="Info">
     We are currently observing inaccessibility of some load balancers on floating IP after creation. If this happens, please try to rebuild the load balancer before contacting support.
+</Callout>
 
 ## Provisioning Status
 

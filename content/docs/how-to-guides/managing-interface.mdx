@@ -12,9 +12,9 @@ Before you begin, you should have the following:
 
 ## Attaching Interface
 
-!!! info
-
+<Callout type="info" title="Info">
     If you approach a problem with your IPv6 deployment, please refer to [IPv6 troubleshooting](../additional-information/ipv6-troubleshooting.md).
+</Callout>
 
 === "Horizon"
 
@@ -38,9 +38,9 @@ Before you begin, you should have the following:
         openstack port create --network <network_id> --security-group <security_group_name_or_id> --host <virtual_machine_name_or_id> <port_name>
         ```
 
-        !!! info
-
+        <Callout type="info" title="Info">
             The `<network_name_or_id>` represents the network you wish to attach the new interface to. By specifying `--security-group` you can select specific security group for the port and by specifying `--host` you can directly attach the interface to the host upon creation.
+        </Callout>
 
     Additional port configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/port.html).
 
@@ -70,8 +70,9 @@ Before you begin, you should have the following:
         $ openstack server remove port <server_id> <port_id>
         ```
 
-        !!! info
+        <Callout type="info" title="Info">
             This will detach the OpenStack port specified by `<port_id>` from the instance specified by `<server_id>`.
+        </Callout>
 
     To delete the port after it has been detached from the instance, use the following command:
 
@@ -80,8 +81,9 @@ Before you begin, you should have the following:
         $ openstack port delete <port_id>
         ```
 
-        !!! info
+        <Callout type="info" title="Info">
             This will delete the specified port `<port_id>` from your OpenStack environment.
+        </Callout>
 
 ## Troubleshooting
 

@@ -36,9 +36,9 @@ Before you begin, you should have the following:
         $ openstack floating ip create <external_network_name_or_id>
         ```
 
-        !!! info
-
+        <Callout type="info" title="Info">
             The `<external_network_name_or_id>` is an external IP address pool managed by OpenStack administrators. Full list of available floating IP address pools can be found in [Technical reference G1 Brno](../../technical-reference/brno-g1-site/networking/#ipv4-group-floating-ips), [Technical reference G2 Ostrava](../../technical-reference/ostrava-g2-site/networking) and [Technical reference G2 Brno](../../technical-reference/brno-g2-site/networking).
+        </Callout>
 
     Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
 
@@ -68,8 +68,7 @@ Before you begin, you should have the following:
         ```
         $ openstack server add floating ip <server_name_or_id> <floating_ip_address>
         ```
-        !!! info
-
+        <Callout type="info" title="Info">
             The `<server_name_or_id>` is the Virtual Machine you wish to append your floating ip address to. To find the server_id, you can use the following command:
             ```
             $ openstack server show <server_name_or_id> -f value -c id
@@ -79,6 +78,7 @@ Before you begin, you should have the following:
             ```
             $ openstack floating ip list
             ```
+        </Callout>
 
     Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
 
@@ -101,8 +101,7 @@ Before you begin, you should have the following:
         ```
         $ openstack server remove floating ip <server_name_or_id> <floating_ip_address>
         ```
-        !!! info
-
+        <Callout type="info" title="Info">
             The `<server_name_or_id>` is the Virtual Machine you wish to append your floating ip address to. To find the server_id, you can use the following command:
             ```
             $ openstack server show <server_name_or_id> -f value -c id
@@ -112,6 +111,7 @@ Before you begin, you should have the following:
             ```
             $ openstack floating ip list
             ```
+        </Callout>
     This will remove the specified floating IP address from the specified instance.
 
     Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
@@ -138,12 +138,12 @@ Before you begin, you should have the following:
         ```
         $ openstack floating ip delete <floating_ip_address>
         ```
-        !!! info
-
+        <Callout type="info" title="Info">
             The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
             ```
             $ openstack floating ip list
             ```
+        </Callout>
 
     This will delete the specified floating IP address from your OpenStack project.
 
