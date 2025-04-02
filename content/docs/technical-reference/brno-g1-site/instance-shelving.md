@@ -27,7 +27,7 @@ Once the shelving process finishes, you can check that the instance is in the st
 Now the instance is offloaded from the computational host, and you can use resources from the shelved instance.
 
 Once you are finished and wish to restore your instance to a running state, go and select the option **Unshelve Instance** from **Actions** menu and click it.
- 
+
  ![](/img/openstack/instance-shelving/unshelving.png)
 
 ### CLI shelving
@@ -35,7 +35,7 @@ Once you are finished and wish to restore your instance to a running state, go a
 Select an instance in **Active** status from the list of instances you wish to shelve.
 
 ```
-# openstack server list --status active 
+# openstack server list --status active
 
 +--------------------------------------+--------------+--------+--------------------------------------+-------+---------------+
 | ID                                   | Name         | Status | Networks                             | Image | Flavor        |
@@ -54,7 +54,7 @@ After that, you can check that the selected instance is no longer in **Active** 
 ```
 # openstack server shelve vm-to-shelve
 
-# openstack server list --status active 
+# openstack server list --status active
 
 # openstack server list
 
@@ -77,7 +77,7 @@ openstack server unshelve {NAME_OF_INSTANCE|ID_OF_INSTANCE}
 ```
 # openstack server unshelve vm-to-shelve
 
-# openstack server list --status active 
+# openstack server list --status active
 
 +--------------------------------------+--------------+--------+--------------------------------------+-------+---------------+
 | ID                                   | Name         | Status | Networks                             | Image | Flavor        |

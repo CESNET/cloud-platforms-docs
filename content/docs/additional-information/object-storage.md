@@ -21,7 +21,7 @@ You must have the **heat_stack_owner** role.
 If you want to use **S3 API** you will need to generate ec2 credentials for access. Note that to generate ec2 credentials you will also need credentials containing the role of **heat_stack_owner**. Once you sourced your credentials for CLI, you can generate ec2 credentials:
 
 ```
-$ openstack ec2 credentials create          
+$ openstack ec2 credentials create
 +------------+------------------------------------------------------------------+
 | Field      | Value                                                            |
 +------------+------------------------------------------------------------------+

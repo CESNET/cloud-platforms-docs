@@ -6,7 +6,7 @@ title: "About e-INFRA CZ Openstack G2 Cloud Brno Site"
 [IaaS OpenStack cloud](https://brno.openstack.cloud.e-infra.cz/) providing cloud services for following organizations:
 
  - [e-INFRA CZ](https://www.e-infra.cz/en) / [MetaCentrum](https://www.metacentrum.cz/en/index.html)
- 
+
 ## Hardware
 
 G2 Brno cloud site consists of 12 nodes from single cluster in [Faculty of Informatics, Masaryk University, datacenter A510](https://www.fi.muni.cz/index.html.en).

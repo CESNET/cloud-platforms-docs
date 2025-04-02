@@ -15,25 +15,25 @@ To create a load balancer, first prepare a pool of VMs with operational service 
     ```
 
     __2.__ Create listeners (eg. ports 80)
-    
+
     ```
     openstack loadbalancer listener create --name my_listener --protocol TCP --protocol-port 80 --wait my_loadbalancer
     ```
 
     __3.__ Create LB pools
-    
+
     ```
     openstack loadbalancer pool create --name my_pool --lb-algorithm ROUND_ROBIN --listener my_listener --protocol TCP --wait
     ```
 
     __4.__ Create Health Monitors
-    
+
     ```
     openstack loadbalancer healthmonitor create --delay 5 --max-retries 3 --timeout 3 --type HTTP --url-path / --wait my_pool
     ```
 
     __5.__ Assign endpoint VMs
-    
+
     ```
     openstack loadbalancer member create --address vm_ip_address --protocol-port 80 --wait my_pool
     ```

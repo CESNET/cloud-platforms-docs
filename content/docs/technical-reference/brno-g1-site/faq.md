@@ -61,7 +61,7 @@ title: "Frequently Asked Questions"
 	}
 	# execute
 	detect_mtu www.nic.cz
-	```    
+	```
 
 ??? "Issues with proxy in private networks"
 	OpenStack instances can either use public or private networks. If you are using a private network and you need to access the internet for updates, etc., you can use the muni proxy server `proxy.ics.muni.cz`. This server only supports HTTP protocol, not HTTPS. To configure it you must also consider what applications

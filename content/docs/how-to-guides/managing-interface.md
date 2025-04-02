@@ -58,7 +58,7 @@ Before you begin, you should have the following:
 
     !!! example
 
-        ![](/img/openstack/networks/detach_interface.png)        
+        ![](/img/openstack/networks/detach_interface.png)
 
 
 === "Command Line"

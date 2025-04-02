@@ -13,20 +13,20 @@ Read more about [new generation (G2) of e-INFRA CZ OpenStack IaaS clouds](./tech
 
 OpenStack Cloud documentation is structured into four logical parts, namely *Getting started*, *How-to Guides*, *Technical Reference* and *Additional Information*. In each section, you can find information based on a specific perspective.
 
-**Getting Started**   
+**Getting Started**
 This section focuses on tutorials and aims to show step by step how-tos for using the infrastructure.
 
-**How-to Guides**   
+**How-to Guides**
 Guides aim to show how to solve specific problems.
 
-**Technical Reference**   
+**Technical Reference**
 This section contains mainly operational information about the e-INFRA CZ Openstack Cloud (definition of flavors, networking policy, OpenStack internals) that could be necessary when deploying an infrastructure in Brno or Ostrava site.
 
-  * [Technical details of **Brno G1** cloud site][tech-g1-brno]   
-  * [Technical details of **Ostrava G2** cloud site][tech-g2-ost]   
+  * [Technical details of **Brno G1** cloud site][tech-g1-brno]
+  * [Technical details of **Ostrava G2** cloud site][tech-g2-ost]
   * [Technical details of **Brno G2** cloud site][tech-g2-brno]
 
-**Additional Information**   
+**Additional Information**
 This section describes further information and problems that users can approach when using e-INFRA CZ Openstack Cloud.
 
 [readmore]: https://www.cerit-sc.cz/infrastructure-services/data-processing/cloud-service

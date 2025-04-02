@@ -19,6 +19,6 @@ title: "Why we introduce new generation (G2) of the e-INFRA CZ OpenStack IaaS cl
 7. More user friently FIP allocation (single general network with multiple subnets).
 8. [New cloud flavor naming schema](./brno-g2-site/flavors.md#flavor-types-and-naming-schema).
 9. Improved and simplified cloud maintenance (easy upgrades, shorter outages).
-10. New cloud Terms of Service (more strict deallocation of cloud resources in personal projects). 
+10. New cloud Terms of Service (more strict deallocation of cloud resources in personal projects).
 11. Optimized use of new hypervsior hardware features.
 12. Planned support for geo distribution of IaaS workloads (G2 Brno, G2 Ostrava)

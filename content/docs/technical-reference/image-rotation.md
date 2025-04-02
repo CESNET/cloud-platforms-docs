@@ -20,13 +20,13 @@ The older image is renamed. Its name is in the format: `{OFFICIAL_IMAGE_NAME}-{R
 
 The official image is named:
 
-    ``` 
+    ```
     centos-7-x86_64
     ```
 
 Mechanism swapped this image and saved its latest version under the same name `centos-7-x86_64`. The older version was renamed to :
 
-    ``` 
+    ```
     centos-7-x86_64-2021-12-15
     ```
 where a suffix `2021-12-15` represents the date image was rotated.
@@ -38,8 +38,8 @@ You can find image ID by using command:
     ```
     openstack image show <IMAGE_NAME | IMAGE_ID>
     ```
-    
-or 
+
+or
 
 you can find it in Horizon dashboard by clicking at specific image.
 
