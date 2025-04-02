@@ -1,12 +1,6 @@
 ---
 title: "Orchestration"
 ---
----
-
-title: Orchestration
-search:
-  exclude: false
----
 ## Terraform
 
 Terraform is the best orchestration tool for creating and managing a cloud infrastructure. It is capable of greatly simplifying cloud operations. If something goes wrong, it gives you an option to easily rebuild your cloud infrastructure.

@@ -1,12 +1,6 @@
 ---
 title: "Why we introduce new generation (G2) of the e-INFRA CZ OpenStack IaaS cloud"
 ---
----
-
-title: Why we introduce new generation (G2) of the e-INFRA CZ OpenStack IaaS cloud
-search:
-  exclude: false
----
 ## Reasons behind G2 introduction
 
 1. Difficult and time-consuming cloud upgrades.

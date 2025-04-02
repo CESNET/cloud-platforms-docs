@@ -1,12 +1,6 @@
 ---
 title: "Windows"
 ---
----
-
-title: Windows
-search:
-  exclude: false
----
 Windows host system allows RDP access allowed for the `Administrators` group. By default there are two users in this group:
 
 - Admin - the password for this account is defined by `admin_pass` OpenStack instance metadata, if no value is entered for this key, a random password is generated. (could be used for orchestration). The `admin_pass` functionality depends on used image, it happens that it does not work for certain images.

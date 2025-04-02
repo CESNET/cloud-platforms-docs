@@ -1,12 +1,6 @@
 ---
 title: "Get Access"
 ---
----
-
-title: "Get Access"
-search:
-  exclude: false
----
 [Access to MetaCentrum Cloud](https://cloud.metacentrum.cz/) is granted to users
 with active accounts in one of the following identity federations:
 

@@ -1,12 +1,6 @@
 ---
 title: "Cloud Resources"
 ---
----
-
-title: Cloud Resources
-search:
-  exclude: false
----
 ## Classification of Application
 
 Your application may be:

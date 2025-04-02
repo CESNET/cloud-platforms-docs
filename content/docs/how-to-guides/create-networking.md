@@ -1,12 +1,6 @@
 ---
 title: "Create Networking"
 ---
----
-
-title: Create Networking
-search:
-  exclude: false
----
 We can create a virtual network in OpenStack for the project, which can be used by multiple VMs and divides the logical topology for each user.
 
 ## Network and Subnet Creation

@@ -1,12 +1,6 @@
 ---
 title: "Data Storage"
 ---
----
-
-title: Data Storage
-search:
-  exclude: false
----
 Every project generates an amount of data that needs to be stored. There are options (sorted by preference):
 
 - as objects or files in a S3 compatible storage

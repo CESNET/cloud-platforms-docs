@@ -1,11 +1,6 @@
 ---
 title: "About e-INFRA CZ Openstack G2 Cloud Ostrava Site"
 ---
----
-title: About e-INFRA CZ Openstack G2 Cloud Ostrava Site
-search:
-  exclude: false
----
 ## [G2 e-INFRA CZ Openstack Cloud Ostrava Site (g2-prod-ostrava)](https://ostrava.openstack.cloud.e-infra.cz/)
 
 [IaaS OpenStack cloud](https://ostrava.openstack.cloud.e-infra.cz/) providing cloud services for following organizations:

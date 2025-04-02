@@ -1,14 +1,6 @@
 ---
 title: "Frequently Asked Questions"
 ---
----
-
-title: "Frequently Asked Questions"
-search:
-  exclude: false
-hide:
-  - toc
----
 Also you can access site specific FAQ:
 
  - [Brno G1 site FAQ](../technical-reference/brno-g1-site/faq.md)

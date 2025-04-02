@@ -1,12 +1,6 @@
 ---
 title: "Load Balancers"
 ---
----
-
-title: Load Balancers
-search:
-  exclude: false
----
 Load balancers serve as a proxy between a virtualized infrastructure and clients in the outside network. This is essential in OpenStack since it can be used in a scenario where the infrastructure dynamically starts new VMs and adds them into the load balancing pool in order to mitigate inaccessibility of services.
 
 When modifying a load balancer, each operation changes the database into immutable state. It is therefore recommended to use the `--wait` switch when creating, editing, or removing resources from load balancers.

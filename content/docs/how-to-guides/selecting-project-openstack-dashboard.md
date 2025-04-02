@@ -1,12 +1,6 @@
 ---
 title: "Selecting OpenStack project in Horizon dashboard"
 ---
----
-
-title: Selecting OpenStack project in Horizon dashboard
-search:
-  exclude: false
----
 ## Prerequisites
 
 - [Login to OpenStack Horizon](./accessing-openstack-dashboard.md).

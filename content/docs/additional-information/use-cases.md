@@ -1,12 +1,6 @@
 ---
 title: "Use Cases"
 ---
----
-
-title: Use Cases
-search:
-  exclude: false
----
 ## KYPO
 
 The [KYPO](https://crp.kypo.muni.cz/en) - Cyber Exercise & Research Platform (KYPO) project aims to create an unique environment for research and development of new methods to protect critical infrastructure against cyber-attacks. A developed virtualized environment will be used for simulation of complex cybernetic attacks against critical infrastructure and analyze their behavior and impact on the infrastructure. The KYPO will serve for research and development of new security tools and methods. In addition, it will be used for educating members of security teams.

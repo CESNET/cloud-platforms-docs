@@ -1,12 +1,6 @@
 ---
 title: "Create Router"
 ---
----
-
-title: Create Router
-search:
-  exclude: false
----
 ## Router Creation
 
 === "GUI"

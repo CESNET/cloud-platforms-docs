@@ -1,12 +1,6 @@
 ---
 title: "Volume Transfer Between Projects"
 ---
----
-
-title: Volume Transfer Between Projects
-search:
-  exclude: false
----
 __1.__ Shut off the instance and make a copy of the volume which you want to transfer using **Create volume backup**.
 You can follow [this guide](../manage-volumes/#creating-volume-backup) and as a next step create a new volume from the backup.
 You will end with a volume copy.

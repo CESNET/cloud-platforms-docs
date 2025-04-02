@@ -1,12 +1,6 @@
 ---
 title: "Instances with epehemeral disks"
 ---
----
-
-title: Instances with epehemeral disks
-search:
-  exclude: false
----
 All three cloud instances allows users to create instances with ephemeral disks. Ephemeral disks are saved directly in the hypervisor storage. In G2 clouds we have dedicated 2 types of flavors with prefix p3 and r3. In G1 cloud it is typically specified in the name of the flavor.
 
 Intended use for p3 flavors is as a virtual machine with one Ceph disk (as root) and one ephemeral disk. Flavor r3 is dedicated to having only one ephemeral disk and no ceph disk at all. However by misconfiguration it is possible to create a virtual machine with flavor r3 with only ceph disk instead of an epehemeral disk (as root). 

@@ -1,12 +1,6 @@
 ---
 title: "IP Allocation Policy"
 ---
----
-
-title: IP Allocation Policy
-search:
-  exclude: false
----
 In MetaCentrum Cloud (MCC) we support both IPv4 and IPv6. IPv4 allocation policies are based on Floating IPs (FIP). This type of networking requires the user to first connect virtual network containing specific VM to the public network before allocating a FIP for specific VM. Further information is available in the [Virtual networking](../additional-information/virtual-networking.md) section. IPv6 allocation policy is based on a common IPv6 public network, which can be directly attached to VMs.
 
 If you decide to attach a second interface to your VM, you should verify that the interface is correctly set. Older VM images have secondary interfaces down by default and some images need further configuration to enable IPv6 SLAAC.

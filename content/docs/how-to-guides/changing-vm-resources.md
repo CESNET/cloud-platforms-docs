@@ -1,12 +1,6 @@
 ---
 title: "Changing VM Resources"
 ---
----
-
-title: Changing VM Resources
-search:
-  exclude: false
----
 ## Prerequisites
 
 - Created [instance](../getting-started/creating-first-infrastructure.md).

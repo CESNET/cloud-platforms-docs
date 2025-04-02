@@ -1,12 +1,6 @@
 ---
 title: "Flavors"
 ---
----
-
-title: Flavors
-search:
-  exclude: false
----
 OpenStack flavor entity defines compute virtual server parameters such as:
 
 * virtual server specifications

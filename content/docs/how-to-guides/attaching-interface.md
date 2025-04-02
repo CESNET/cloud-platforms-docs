@@ -1,12 +1,6 @@
 ---
 title: "Attaching Network Interface"
 ---
----
-
-title: Attaching Network Interface
-search:
-  exclude: false
----
 ## Prerequisites
 
 - Created [instance](../getting-started/creating-first-infrastructure.md).

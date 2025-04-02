@@ -1,12 +1,6 @@
 ---
 title: "Get Access"
 ---
----
-
-title: Get Access
-search:
-  exclude: false
----
 As of 23.8.2023, [Ostrava G2 OpenStack site](https://ostrava.openstack.cloud.e-infra.cz/) is available to anyone with valid e-INFRA CZ identity who is explicitly granted by IT4I representatives.
 
 

@@ -1,12 +1,6 @@
 ---
 title: "Create First Instance"
 ---
----
-
-title: Create First Instance
-search:
-  exclude: false
----
 The following guide will take you through the steps necessary to start your first virtual machine instance.
 
 Prerequisites:

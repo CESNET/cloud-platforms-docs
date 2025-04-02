@@ -1,12 +1,6 @@
 ---
 title: "Port Security"
 ---
----
-
-title: Port Security
-search:
-  exclude: false
----
 OpenStack Port Security offers fine-grained security controls at the virtual port level, complementing the higher-level security mechanisms provided by security groups. Security settings defined by security groups can be further refined at the level of individual network interfaces using port security features. Enabling security groups on a VM results in the same security groups being applied to the VM's underlying network interfaces (ports). If we need to adjust the security group settings of a specific port, we can use the 'Edit Port' or 'Edit Security Groups' action (In Horizon select **VM instance > Interfaces > Actions: "Edit Security Groups"** or **Actions: "Edit Port"**). Changing the security rules for a specific port is an isolated change and does not affect the security settings of other ports on the same VM.
 
 In addition to the option to override Security Groups at the port level, the 'Edit Port' action allows you to suppress Port Security: In Horizon select **VM instance > Interfaces > Actions: "Edit Port" > Port security** by unchecking the 'Port Security' option. This action effectively removes all Security Groups currently set on the port including default set of Security Groups provided by Openstack by default. Disabling Port Security can help you overcome limitations associated with security hardening, but it can lead to security breach if not used cautiously.

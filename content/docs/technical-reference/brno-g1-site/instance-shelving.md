@@ -1,12 +1,6 @@
 ---
 title: "Instance shelving"
 ---
----
-
-title: Instance shelving
-search:
-  exclude: false
----
 [OpenStack instance shelving](https://docs.openstack.org/ocata/user-guide/cli-stop-and-start-an-instance.html#shelve-and-unshelve-an-instance) allows you to stop an instance without having it consume any cloud hypervisor resources. A shelved instance will be retained as a bootable instance, as well as its resources assigned, such as an IP address in distributed storage, for a configurable amount of time, and then deleted. This is useful as part of an instance life cycle process or to conserve resources.
 
 ## What does instance shelving do ?

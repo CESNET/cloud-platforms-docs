@@ -1,12 +1,6 @@
 ---
 title: "Storage Capabilities"
 ---
----
-
-title: Storage Capabilities
-search:
-  exclude: false
----
 Default MetaCentrum Cloud storage is implemented via the CEPH storage cluster deployed on top of HDDs. This configuration should be sufficient for most cases.
 For instances, that require high throughput and IOPS, it is possible to utilize hypervisor local SSDs. Requirements for instances on hypervisor local SSD:
 

@@ -1,12 +1,6 @@
 ---
 title: "Remote Access"
 ---
----
-
-title: Remote Access
-search:
-  exclude: false
----
 ## Accessing From Linux
 
 ### Using jump host and SSH ProxyJump

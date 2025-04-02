@@ -1,12 +1,6 @@
 ---
 title: "Accessing Horizon Dashboard"
 ---
----
-
-title: Accessing Horizon Dashboard
-search:
-  exclude: false
----
 **1.** Go to [cloud.metacentrum.cz](https://cloud.metacentrum.cz/) (eventually [cloud.muni.cz](https://cloud.muni.cz/)), click Dashboard
 
 !!! example

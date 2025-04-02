@@ -1,12 +1,6 @@
 ---
 title: "Managing Network Interface"
 ---
----
-
-title: Managing Network Interface
-search:
-  exclude: false
----
 In OpenStack, you can attach a network interface to an instance to provide additional network connectivity. This allows the instance to communicate with other resources on the network, including other instances, services, and external networks. In this how-to guide, we will walk you through the process of attaching and detaching a network interface using the OpenStack command-line interface (CLI).
 
 ## Prerequisites

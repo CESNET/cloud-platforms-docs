@@ -1,14 +1,6 @@
 ---
 title: "Overview"
 ---
----
-
-title: Overview
-search:
-  exclude: false
-hide:
-  - toc
----
 ## About e-INFRA CZ IaaS Cloud
 
 e-INFRA CZ Cloud consists of 3 cloud instances ([G1 Brno](./technical-reference/brno-g1-site/index.md), [G2 Brno](./technical-reference/brno-g2-site/index.md), [G2 Ostrava](./technical-reference/ostrava-g2-site/index.md)), 17 computational clusters containing 277 hypervisors with a sum of 8968 cores, 96 GPU cards, and 178 TB RAM in two geographical locations –⁠⁠⁠ Brno and Ostrava. Special demand applications can utilize our clusters with local SSDs and GPU cards. OpenStack instances, object storage, and image storage can leverage more than 1.5 PTB of highly available data storage provided by the CEPH storage system.

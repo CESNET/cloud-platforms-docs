@@ -1,12 +1,6 @@
 ---
 title: "Custom Images"
 ---
----
-
-title: Custom Images
-search:
-  exclude: false
----
 We don't support uploading personal images by default.
 e-INFRA CZ Cloud images are optimized for running in the cloud and we recommend users to customize them instead of building their own images from scratch. If you need to upload a custom image, please contact user support for appropriate permissions.
 
