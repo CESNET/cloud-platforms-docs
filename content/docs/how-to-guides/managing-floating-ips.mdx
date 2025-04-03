@@ -1,6 +1,10 @@
 ---
 title: "Managing Floating IPs"
 ---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+
 In OpenStack, a floating IP address is a public IP address that can be assigned to an instance. This allows external access to the instance, even if it is behind a router or firewall. In this how-to guide, we will walk you through the process of allocating, assigning, disassociating, and releasing a floating IP address.
 
 ## Prerequisites
@@ -13,111 +17,115 @@ Before you begin, you should have the following:
 
 ## Allocating IP Address
 
-=== "Horizon"
+<Tabs items={["Horizon", "Command Line"]}>
+    <Tab value="Horizon">
+        **1.** Go to **Project &gt; Network &gt; Floating IPs** and click on the **Allocate IP to Project** button.
 
-    **1.** Go to **Project &gt; Network &gt; Floating IPs** and click on the **Allocate IP to Project** button.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/fip1.png)
-    </Callout>
-
-    **2.** Select **Pool** with the same value as the network you chose in the previous step and confirm it by clicking **Allocate IP**.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/fip2.png)
-    </Callout>
-
-=== "Command Line"
-
-    To allocate a floating IP address, you can use the following command:
-
-    <Callout type="info" title="Example">
-        ```
-        $ openstack floating ip create <external_network_name_or_id>
-        ```
-
-        <Callout type="info" title="Info">
-            The `<external_network_name_or_id>` is an external IP address pool managed by OpenStack administrators. Full list of available floating IP address pools can be found in [Technical reference G1 Brno](../../technical-reference/brno-g1-site/networking/#ipv4-group-floating-ips), [Technical reference G2 Ostrava](../../technical-reference/ostrava-g2-site/networking) and [Technical reference G2 Brno](../../technical-reference/brno-g2-site/networking).
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/fip1.png)
         </Callout>
-    </Callout>
 
-    Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+        **2.** Select **Pool** with the same value as the network you chose in the previous step and confirm it by clicking **Allocate IP**.
 
-    Also, refer to [example of how floating IP allocation](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh) is handled within creation of VM.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/fip2.png)
+        </Callout>
+    </Tab>
+    <Tab value="Command Line">
+        To allocate a floating IP address, you can use the following command:
 
+        <Callout type="info" title="Example">
+            ```
+            $ openstack floating ip create <external_network_name_or_id>
+            ```
+
+            <Callout type="info" title="Info">
+                The `<external_network_name_or_id>` is an external IP address pool managed by OpenStack administrators. Full list of available floating IP address pools can be found in [Technical reference G1 Brno](../../technical-reference/brno-g1-site/networking/#ipv4-group-floating-ips), [Technical reference G2 Ostrava](../../technical-reference/ostrava-g2-site/networking) and [Technical reference G2 Brno](../../technical-reference/brno-g2-site/networking).
+            </Callout>
+        </Callout>
+
+        Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+
+        Also, refer to [example of how floating IP allocation](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh) is handled within creation of VM.
+    </Tab>
+</Tabs>
 
 ## Assigning IP Address
 
-=== "Horizon"
-    **1.** Now click on the **Associate** button next to the floating IP you just created.
+<Tabs items={["Horizon", "Command Line"]}>
+    <Tab value="Horizon">
+        **1.** Now click on the **Associate** button next to the floating IP you just created.
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/fip3.png)
-    </Callout>
-
-    **2.** Select **Port to be associated** with the desired instance. Confirm with the **Associate** button.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/fip4.png)
-    </Callout>
-
-=== "Command Line"
-
-    To assign a floating IP address to an instance, you can use the following command:
-
-    <Callout type="info" title="Example">
-        ```
-        $ openstack server add floating ip <server_name_or_id> <floating_ip_address>
-        ```
-        <Callout type="info" title="Info">
-            The `<server_name_or_id>` is the Virtual Machine you wish to append your floating ip address to. To find the server_id, you can use the following command:
-            ```
-            $ openstack server show <server_name_or_id> -f value -c id
-            ```
-
-            The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
-            ```
-            $ openstack floating ip list
-            ```
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/fip3.png)
         </Callout>
-    </Callout>
 
-    Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+        **2.** Select **Port to be associated** with the desired instance. Confirm with the **Associate** button.
 
-    Also, refer to [example of how floating IP assignment](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh) is handled within creation of VM.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/fip4.png)
+        </Callout>
+    </Tab>
+    <Tab value="Command Line">
+        To assign a floating IP address to an instance, you can use the following command:
+
+        <Callout type="info" title="Example">
+            ```
+            $ openstack server add floating ip <server_name_or_id> <floating_ip_address>
+            ```
+            <Callout type="info" title="Info">
+                The `<server_name_or_id>` is the Virtual Machine you wish to append your floating ip address to. To find the server_id, you can use the following command:
+                ```
+                $ openstack server show <server_name_or_id> -f value -c id
+                ```
+
+                The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
+                ```
+                $ openstack floating ip list
+                ```
+            </Callout>
+        </Callout>
+
+        Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+
+        Also, refer to [example of how floating IP assignment](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh) is handled within creation of VM.
+    </Tab>
+</Tabs>
+
 ## Disassociating Floating IP
 
-=== "Horizon"
+<Tabs items={["Horizon", "Command Line"]}>
+    <Tab value="Horizon">
+        Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and **Disassociate Floating IP**.
 
-    Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and **Disassociate Floating IP**.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/fip5.png)
-    </Callout>
-
-=== "Command Line"
-
-    To disassociate a floating IP address from an instance, you can use the following command:
-
-    <Callout type="info" title="Example">
-        ```
-        $ openstack server remove floating ip <server_name_or_id> <floating_ip_address>
-        ```
-        <Callout type="info" title="Info">
-            The `<server_name_or_id>` is the Virtual Machine you wish to append your floating ip address to. To find the server_id, you can use the following command:
-            ```
-            $ openstack server show <server_name_or_id> -f value -c id
-            ```
-
-            The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
-            ```
-            $ openstack floating ip list
-            ```
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/fip5.png)
         </Callout>
-    </Callout>
-    This will remove the specified floating IP address from the specified instance.
+    </Tab>
+    <Tab value="Command Line">
+        To disassociate a floating IP address from an instance, you can use the following command:
 
-    Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+        <Callout type="info" title="Example">
+            ```
+            $ openstack server remove floating ip <server_name_or_id> <floating_ip_address>
+            ```
+            <Callout type="info" title="Info">
+                The `<server_name_or_id>` is the Virtual Machine you wish to append your floating ip address to. To find the server_id, you can use the following command:
+                ```
+                $ openstack server show <server_name_or_id> -f value -c id
+                ```
+
+                The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
+                ```
+                $ openstack floating ip list
+                ```
+            </Callout>
+        </Callout>
+        This will remove the specified floating IP address from the specified instance.
+
+        Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+    </Tab>
+</Tabs>
 
 ## Releasing Floating IP
 
@@ -125,33 +133,34 @@ Before you begin, you should have the following:
     After this action, your project will no longer be able to use the floating IP address you released.
 </Callout>
 
-=== "Horizon"
+<Tabs items={["Horizon", "Command Line"]}>
+    <Tab value="Horizon">
+        Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and **Disassociate Floating IP** and specify that you wish to **Release Floating IP**.
 
-    Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and **Disassociate Floating IP** and specify that you wish to **Release Floating IP**.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/fip5.png)
-    </Callout>
-
-=== "Command Line"
-
-    To release a floating IP address, you can use the following command:
-
-    <Callout type="info" title="Example">
-        ```
-        $ openstack floating ip delete <floating_ip_address>
-        ```
-        <Callout type="info" title="Info">
-            The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
-            ```
-            $ openstack floating ip list
-            ```
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/fip5.png)
         </Callout>
-    </Callout>
+    </Tab>
+    <Tab value="Command Line">
+        To release a floating IP address, you can use the following command:
 
-    This will delete the specified floating IP address from your OpenStack project.
+        <Callout type="info" title="Example">
+            ```
+            $ openstack floating ip delete <floating_ip_address>
+            ```
+            <Callout type="info" title="Info">
+                The `<floating_ip_address>` is the ID of the floating IP created in step [Allocating IP address](#allocating-ip-address), you can check unassigned floating IPs using command:
+                ```
+                $ openstack floating ip list
+                ```
+            </Callout>
+        </Callout>
 
-    Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+        This will delete the specified floating IP address from your OpenStack project.
+
+        Additional floating IP configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/floating-ip.html).
+    </Tab>
+</Tabs>
 
 ## Troubleshooting
 - **Check status of the floating IP address**: Make sure that the status is "ACTIVE" and that the floating IP address is associated with an instance. Use the following command:

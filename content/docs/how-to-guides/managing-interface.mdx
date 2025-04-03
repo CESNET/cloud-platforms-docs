@@ -1,6 +1,10 @@
 ---
 title: "Managing Network Interface"
 ---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+
 In OpenStack, you can attach a network interface to an instance to provide additional network connectivity. This allows the instance to communicate with other resources on the network, including other instances, services, and external networks. In this how-to guide, we will walk you through the process of attaching and detaching a network interface using the OpenStack command-line interface (CLI).
 
 ## Prerequisites
@@ -16,77 +20,79 @@ Before you begin, you should have the following:
     If you approach a problem with your IPv6 deployment, please refer to [IPv6 troubleshooting](../additional-information/ipv6-troubleshooting.md).
 </Callout>
 
-=== "Horizon"
+<Tabs items={["Horizon", "Command Line"]}>
+    <Tab value="Horizon">
+        Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and click on **Attach interface**.
 
-    Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and click on **Attach interface**.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/attach_interface.png)
-    </Callout>
-
-    In the **Network** dropdown menu select available network.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/ipv6_attach.png)
-    </Callout>
-
-=== "Command Line"
-    To attach a network interface to an OpenStack instance, you will need to create a port that is attached to the desired network and host. You can create a new port using the following:
-
-    <Callout type="info" title="Example">
-        ```
-        openstack port create --network <network_id> --security-group <security_group_name_or_id> --host <virtual_machine_name_or_id> <port_name>
-        ```
-
-        <Callout type="info" title="Info">
-            The `<network_name_or_id>` represents the network you wish to attach the new interface to. By specifying `--security-group` you can select specific security group for the port and by specifying `--host` you can directly attach the interface to the host upon creation.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/attach_interface.png)
         </Callout>
-    </Callout>
 
-    Additional port configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/port.html).
+        In the **Network** dropdown menu select available network.
+
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/ipv6_attach.png)
+        </Callout>
+    </Tab>
+    <Tab value="Command Line">
+        To attach a network interface to an OpenStack instance, you will need to create a port that is attached to the desired network and host. You can create a new port using the following:
+
+        <Callout type="info" title="Example">
+            ```
+            openstack port create --network <network_id> --security-group <security_group_name_or_id> --host <virtual_machine_name_or_id> <port_name>
+            ```
+
+            <Callout type="info" title="Info">
+                The `<network_name_or_id>` represents the network you wish to attach the new interface to. By specifying `--security-group` you can select specific security group for the port and by specifying `--host` you can directly attach the interface to the host upon creation.
+            </Callout>
+        </Callout>
+
+        Additional port configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/port.html).
+    </Tab>
+</Tabs>
 
 ## Detaching Interface
 
-=== "Horizon"
+<Tabs items={["Horizon", "Command Line"]}>
+    <Tab value="Horizon">
+        Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and click on **Detach interface**.
 
-    Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and click on **Detach interface**.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/attach_interface.png)
-    </Callout>
-
-    In the **Port** dropdown menu select port on what you want to detach interface.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/detach_interface.png)
-    </Callout>
-
-
-=== "Command Line"
-
-    To detach a network interface from an OpenStack instance, you can use the following command:
-
-    <Callout type="info" title="Example">
-        ```
-        $ openstack server remove port <server_id> <port_id>
-        ```
-
-        <Callout type="info" title="Info">
-            This will detach the OpenStack port specified by `<port_id>` from the instance specified by `<server_id>`.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/attach_interface.png)
         </Callout>
-    </Callout>
 
-    To delete the port after it has been detached from the instance, use the following command:
+        In the **Port** dropdown menu select port on what you want to detach interface.
 
-    <Callout type="info" title="Example">
-        ```
-        $ openstack port delete <port_id>
-        ```
-
-        <Callout type="info" title="Info">
-            This will delete the specified port `<port_id>` from your OpenStack environment.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/detach_interface.png)
         </Callout>
-    </Callout>
+    </Tab>
+    <Tab value="Command Line">
+        To detach a network interface from an OpenStack instance, you can use the following command:
+
+        <Callout type="info" title="Example">
+            ```
+            $ openstack server remove port <server_id> <port_id>
+            ```
+
+            <Callout type="info" title="Info">
+                This will detach the OpenStack port specified by `<port_id>` from the instance specified by `<server_id>`.
+            </Callout>
+        </Callout>
+
+        To delete the port after it has been detached from the instance, use the following command:
+
+        <Callout type="info" title="Example">
+            ```
+            $ openstack port delete <port_id>
+            ```
+
+            <Callout type="info" title="Info">
+                This will delete the specified port `<port_id>` from your OpenStack environment.
+            </Callout>
+        </Callout>
+    </Tab>
+</Tabs>
 
 ## Troubleshooting
 

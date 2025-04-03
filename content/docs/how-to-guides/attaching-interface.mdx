@@ -1,6 +1,10 @@
 ---
 title: "Attaching Network Interface"
 ---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+
 ## Prerequisites
 
 - Created [instance](../getting-started/creating-first-infrastructure.md).
@@ -13,35 +17,36 @@ This guide shows how to attach additional interfaces to running instances. This 
     If you approach a problem with your IPv6 deployment, please refer to [IPv6 troubleshooting](../additional-information/ipv6-troubleshooting.md).
 </Callout>
 
-=== "GUI"
+<Tabs items={["GUI", "CLI"]}>
+    <Tab value="GUI">
+        Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and click on **Attach interface**.
 
-    Go to **Project &gt; Compute &gt;  Instances**. Click on the menu **Actions** on the instance you wish to change and click on **Attach interface**.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/attach_interface.png)
+        </Callout>
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/attach_interface.png)
-    </Callout>
+        In the **Network** dropdown menu select available IPv6 network.
 
-    In the **Network** dropdown menu select available IPv6 network.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/networks/ipv6_attach.png)
+        </Callout>
+    </Tab>
+    <Tab value="CLI">
+        **Get ID of your VM, in this instance named my-vm**
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/networks/ipv6_attach.png)
-    </Callout>
+        ```
+        VM_ID=$(openstack server list --name my-vm -f value -c ID)
+        ```
 
-=== "CLI"
+        **Create port for the network and add it to your VM**
 
-    **Get ID of your VM, in this instance named my-vm**
+        ```
+        openstack port create --network <my-network> --security-group default --host ${VM_ID} <my-port-name>
 
-    ```
-    VM_ID=$(openstack server list --name my-vm -f value -c ID)
-    ```
+        openstack server add port <VM_ID> <my-network>
 
-    **Create port for the network and add it to your VM**
+        ```
 
-    ```
-    openstack port create --network <my-network> --security-group default --host ${VM_ID} <my-port-name>
-
-    openstack server add port <VM_ID> <my-network>
-
-    ```
-
-    Additional port configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/port.html).
+        Additional port configuration is available in [official CLI documentation](https://docs.openstack.org/python-openstackclient/train/cli/command-objects/port.html).
+    </Tab>
+</Tabs>

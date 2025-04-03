@@ -1,6 +1,10 @@
 ---
 title: "Create First Instance"
 ---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+
 The following guide will take you through the steps necessary to start your first virtual machine instance.
 
 Prerequisites:
@@ -49,70 +53,71 @@ __5.__ Wait to be redirected back to our dashboard.
 All virtual machine instances running in the cloud have to be accessed remotely. The most common way of accessing
 an instance remotely is SSH. Using SSH requires a pair of keys - a public key and a private key.
 
-=== "CLI"
-
-    <Callout type="info" title="Note" icon="📌">
-        Prefer using this method if possible. It is the most secure one, since your private key is kept
-        on your local machine at all times.
-    </Callout>
-
-
-    <Callout type="info" title="Note" icon="📌">
-        You will need the `ssh-keygen` command present on your machine. It is available as a part of SSH-related
-        packages in most Linux distributions:
-
-        * Debian / Ubuntu: `openssh-client`
-        * RHEL / Fedora: `openssh`
-        * Archlinux: `openssh`
-    </Callout>
+<Tabs items={["CLI", "GUI"]}>
+    <Tab value="CLI">
+        <Callout type="info" title="Note" icon="📌">
+            Prefer using this method if possible. It is the most secure one, since your private key is kept
+            on your local machine at all times.
+        </Callout>
 
 
-    Use the **ssh-keygen** command to create a new pair of private and public keys:
-    ```
-    ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_my_cloud_key1
-    ```
-    You will be asked to specify the output file and passphrase for your key.
+        <Callout type="info" title="Note" icon="📌">
+            You will need the `ssh-keygen` command present on your machine. It is available as a part of SSH-related
+            packages in most Linux distributions:
 
-    Assuming your ssh public key is stored in `~/.ssh/id_rsa_my_cloud_key1.pub`:
-    ```
-    openstack keypair create --public-key ~/.ssh/id_rsa_my_cloud_key1.pub my_cloud_key1
-    ```
-
-    Refer to the [example of Key Pair creation](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh) within VM provisioning CLI example.
-
-=== "GUI"
-
-    <Callout type="error" title="Danger">
-        Prefer using the `CLI` method unless you have no other choice, e.g., you lack access to a local machine
-        with the `ssh-keygen` utility.
-
-        The `GUI` method requires you to create your private key on a remote machine and transfer it over a network.
-        Although both the remote machine and the network transfer should be secure, there is always some risk
-        of a security breach, which could expose your private key to a malicious party.
-    </Callout>
+            * Debian / Ubuntu: `openssh-client`
+            * RHEL / Fedora: `openssh`
+            * Archlinux: `openssh`
+        </Callout>
 
 
-    __1.__ Navigate to **Project &gt; Compute &gt; Key Pairs** and click the **Create Key Pair** button.
+        Use the **ssh-keygen** command to create a new pair of private and public keys:
+        ```
+        ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_my_cloud_key1
+        ```
+        You will be asked to specify the output file and passphrase for your key.
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/keypair1.png)
-    </Callout>
+        Assuming your ssh public key is stored in `~/.ssh/id_rsa_my_cloud_key1.pub`:
+        ```
+        openstack keypair create --public-key ~/.ssh/id_rsa_my_cloud_key1.pub my_cloud_key1
+        ```
 
-    __2.__ In the **Create Key Pair** insert the **Key Pair Name**. Avoid using special characters, if possible. Next select SSH key for **Key Type** and finally confirm with **Create Key Pair**.
+        Refer to the [example of Key Pair creation](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/blob/master/clouds/g2/ostrava/general/commandline/cmdline-demo.sh) within VM provisioning CLI example.
+    </Tab>
+    <Tab value="GUI">
+        <Callout type="error" title="Danger">
+            Prefer using the `CLI` method unless you have no other choice, e.g., you lack access to a local machine
+            with the `ssh-keygen` utility.
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/keypair2.png)
-    </Callout>
+            The `GUI` method requires you to create your private key on a remote machine and transfer it over a network.
+            Although both the remote machine and the network transfer should be secure, there is always some risk
+            of a security breach, which could expose your private key to a malicious party.
+        </Callout>
 
-    __3.__ Download the private key to your local computer and move it to the `~/.ssh/` folder. If you are using Windows, refer to [Accessing From Windows](../technical-reference/remote-access.md#accessing-from-windows).
 
-    __4.__ Set access privileges on `~/.ssh/` folder:
+        __1.__ Navigate to **Project &gt; Compute &gt; Key Pairs** and click the **Create Key Pair** button.
 
-    ```
-    chmod 700 .ssh/
-    chmod 644 .ssh/id_rsa.pub
-    chmod 600 .ssh/id_rsa
-    ```
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/keypair1.png)
+        </Callout>
+
+        __2.__ In the **Create Key Pair** insert the **Key Pair Name**. Avoid using special characters, if possible. Next select SSH key for **Key Type** and finally confirm with **Create Key Pair**.
+
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/keypair2.png)
+        </Callout>
+
+        __3.__ Download the private key to your local computer and move it to the `~/.ssh/` folder. If you are using Windows, refer to [Accessing From Windows](../technical-reference/remote-access.md#accessing-from-windows).
+
+        __4.__ Set access privileges on `~/.ssh/` folder:
+
+        ```
+        chmod 700 .ssh/
+        chmod 644 .ssh/id_rsa.pub
+        chmod 600 .ssh/id_rsa
+        ```
+    </Tab>
+</Tabs>
 
 ## Update Security Group
 
@@ -123,131 +128,134 @@ You need to add at least one new rule to be able to connect to your new instance
 This is similar to setting up firewall rules on your router or server. If set up correctly, you will be able to access
 your virtual machine via SSH from your local terminal.
 
-=== "GUI"
+<Tabs items={["GUI", "CLI"]}>
+    <Tab value="GUI">
+        __1.__ Go to **Project &gt; Network &gt; Security Groups**. Click on **Manage Rules**, for the **default** security group.
 
-    __1.__ Go to **Project &gt; Network &gt; Security Groups**. Click on **Manage Rules**, for the **default** security group.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/sec_group1.png)
+        </Callout>
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/sec_group1.png)
-    </Callout>
+        __2.__ Click on **Add rule**, choose **SSH**, and leave the remaining fields unchanged.
+        This will allow you to access your instance via IPv4.
 
-    __2.__ Click on **Add rule**, choose **SSH**, and leave the remaining fields unchanged.
-       This will allow you to access your instance via IPv4.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/sec_group2.png)
+        </Callout>
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/sec_group2.png)
-    </Callout>
+        <Callout type="warn" title="Caution">
+            You have 2 possibilities for how to configure security groups policy.
 
-    <Callout type="warn" title="Caution">
-        You have 2 possibilities for how to configure security groups policy.
+            - One is through CIDR which specifies rules for concrete network range.
+            - The second one specifies rules for members of a specified security group,
+            i.e. policy will be applied on instances that belong to the selected security group.
+        </Callout>
 
-        - One is through CIDR which specifies rules for concrete network range.
-        - The second one specifies rules for members of a specified security group,
-        i.e. policy will be applied on instances that belong to the selected security group.
-    </Callout>
+        For details, refer to [the official documentation](https://docs.openstack.org/horizon/train/user/configure-access-and-security-for-instances.html).
+    </Tab>
+    <Tab value="CLI">
+        __1.__ Add SSH rule to the default security group:
+            ```
+            openstack security group rule create --description "Permit SSH" --remote-ip 0.0.0.0/0 --protocol tcp --dst-port 22 --ingress default
+            ```
 
-    For details, refer to [the official documentation](https://docs.openstack.org/horizon/train/user/configure-access-and-security-for-instances.html).
+        Optionally, add ICMP rule (to allow ping):
+            ```
+            openstack security group rule create --description "Permit ICMP (any)" --remote-ip 0.0.0.0/0 --protocol icmp --icmp-type -1 --ingress default
+            ```
 
-=== "CLI"
-
-    __1.__ Add SSH rule to the default security group:
-        ```
-        openstack security group rule create --description "Permit SSH" --remote-ip 0.0.0.0/0 --protocol tcp --dst-port 22 --ingress default
-        ```
-
-      Optionally, add ICMP rule (to allow ping):
-        ```
-        openstack security group rule create --description "Permit ICMP (any)" --remote-ip 0.0.0.0/0 --protocol icmp --icmp-type -1 --ingress default
-        ```
-
-    __2.__ Verify:
-        ```
-        openstack security group show default
-        ```
+        __2.__ Verify:
+            ```
+            openstack security group show default
+            ```
+    </Tab>
+</Tabs>
 
 ## Create a Virtual Machine Instance
 
-=== "GUI"
-
-    __1.__ In **Compute &gt; Instances**, click the **Launch Instance** button.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/instance1.png)
-    </Callout>
-
-    __2.__ Choose **Instance Name**, Description, and number of instances.
-       If you are creating more instances, `-%i` will be automatically appended to the name of each instance. Continue via **Next**.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/instance2.png)
-    </Callout>
-
-    __3.__ Choose an image from which to boot the instance. Choose to delete the volume after instance delete. This is not recommended for production deployment.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/instance3.png)
-    </Callout>
-
-    __4.__ Choose the hardware resources of the instance by selecting a flavor. Additional volumes for data can be attached later on.
-
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/instance4.png)
-    </Callout>
-
-    __5.__ Select appropriate network based on your project type and continue to **Key Pair** in the left menu.
-
-    === "Personal project"
-
-        For personal project select personal-project-network-subnet from network `147-251-115-pers-proj-net`.
-        Here is more information on available networks in [Brno G1](../technical-reference/brno-g1-site/networking.md#ipv4-personal-floating-ips)
-        , [Ostrava G2](../technical-reference/ostrava-g2-site/networking.md#floating-ip-networks) and  [Brno G2](../technical-reference/brno-g2-site/networking.md#ipv4-personal-floating-ips).
+<Tabs items={["GUI", "CLI"]}>
+    <Tab value="GUI">
+        __1.__ In **Compute &gt; Instances**, click the **Launch Instance** button.
 
         <Callout type="info" title="Example">
-            ![](/img/openstack/instance/instance5.png)
+            ![](/img/openstack/instance/instance1.png)
         </Callout>
 
-    === "Group project"
-
-        For group project select group-project-network-subnet from network `group-project-network` (check if [Router gateway](../how-to-guides/create-router.md#router-creation) is set).
+        __2.__ Choose **Instance Name**, Description, and number of instances.
+        If you are creating more instances, `-%i` will be automatically appended to the name of each instance. Continue via **Next**.
 
         <Callout type="info" title="Example">
-            ![](/img/openstack/tutorial/instance_launch_network-group.png)
+            ![](/img/openstack/instance/instance2.png)
         </Callout>
 
-    __6.__ In **Key Pair** select the key that was created in section [Create Key Pair](#create-key-pair) in the Available list and finally **Launch Instance**.
+        __3.__ Choose an image from which to boot the instance. Choose to delete the volume after instance delete. This is not recommended for production deployment.
 
-    <Callout type="info" title="Example">
-        ![](/img/openstack/instance/instance6.png)
-    </Callout>
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/instance3.png)
+        </Callout>
 
-=== "CLI"
+        __4.__ Choose the hardware resources of the instance by selecting a flavor. Additional volumes for data can be attached later on.
 
-    __1.__ **Create volume**
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/instance4.png)
+        </Callout>
 
-      Volumes are created automatically when creating an instance in GUI, but we need to create them manually in the case of CLI.
+        __5.__ Select appropriate network based on your project type and continue to **Key Pair** in the left menu.
 
-      Create bootable volume from image (e.g. centos):
-        ```
-        openstack volume create --image "centos-7-1809-x86_64" --size 40 my_vol1
-        ```
+        <Tabs items={["Personal project", "Group project"]}>
+            <Tab value="Personal project">
+                For personal project select personal-project-network-subnet from network `147-251-115-pers-proj-net`.
+                Here is more information on available networks in [Brno G1](../technical-reference/brno-g1-site/networking.md#ipv4-personal-floating-ips)
+                , [Ostrava G2](../technical-reference/ostrava-g2-site/networking.md#floating-ip-networks) and  [Brno G2](../technical-reference/brno-g2-site/networking.md#ipv4-personal-floating-ips).
 
-      To get a list of available images:
-        ```
-        openstack image list
-        ```
+                <Callout type="info" title="Example">
+                    ![](/img/openstack/instance/instance5.png)
+                </Callout>
+            </Tab>
+            <Tab value="Group project">
+                For group project select group-project-network-subnet from network `group-project-network` (check if [Router gateway](../how-to-guides/create-router.md#router-creation) is set).
 
-    __2.__ **Create instance**
-        ```
-        openstack server create --flavor "standard.small" --volume my_vol1 \
-         --key-name my-key1 --security-group default --network 147-251-115-pers-proj-net my-server1
-        ```
+                <Callout type="info" title="Example">
+                    ![](/img/openstack/tutorial/instance_launch_network-group.png)
+                </Callout>
+            </Tab>
+        </Tabs>
 
-      To get a list of available flavors:
-        ```
-        openstack flavor list
-        ```
+        __6.__ In **Key Pair** select the key that was created in section [Create Key Pair](#create-key-pair) in the Available list and finally **Launch Instance**.
 
-      In case of a group project use `--network group-project-network`.
+        <Callout type="info" title="Example">
+            ![](/img/openstack/instance/instance6.png)
+        </Callout>
+    </Tab>
+    <Tab value="CLI">
+        __1.__ **Create volume**
+
+        Volumes are created automatically when creating an instance in GUI, but we need to create them manually in the case of CLI.
+
+        Create bootable volume from image (e.g. centos):
+            ```
+            openstack volume create --image "centos-7-1809-x86_64" --size 40 my_vol1
+            ```
+
+        To get a list of available images:
+            ```
+            openstack image list
+            ```
+
+        __2.__ **Create instance**
+            ```
+            openstack server create --flavor "standard.small" --volume my_vol1 \
+            --key-name my-key1 --security-group default --network 147-251-115-pers-proj-net my-server1
+            ```
+
+        To get a list of available flavors:
+            ```
+            openstack flavor list
+            ```
+
+        In case of a group project use `--network group-project-network`.
+    </Tab>
+</Tabs>
 
 ## Associate Floating IP
 
