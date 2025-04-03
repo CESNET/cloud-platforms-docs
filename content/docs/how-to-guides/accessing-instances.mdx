@@ -10,11 +10,11 @@ This page provides instructions on how to access virtual instances in OpenStack.
 ## Prerequisites
 Before you can access instances running on OpenStack, you should have met the following prerequisites:
 
-- [Created networking](../how-to-guides/create-networking.md): You should have created a network in OpenStack that your instances can connect to.
-- [Configured Security groups](../getting-started/creating-first-infrastructure.md#update-security-group): You should have configured security groups in OpenStack to allow traffic to and from your instances.
-- [Imported SSH key](../getting-started/creating-first-infrastructure.md#create-key-pair): If you plan to access instances, you should have imported an SSH key into OpenStack that you can use to authenticate with your instances.
-- [Created Virtual machine](../getting-started/creating-first-infrastructure.md#create-virtual-machine-instance): You should have created a virtual machine instance in OpenStack that you want to access.
-- [Associated Floating IP](../how-to-guides/managing-floating-ips.md): If you plan to access instances from outside the OpenStack environment, you should have associated a floating IP with your instance.
+- [Created networking](../how-to-guides/create-networking): You should have created a network in OpenStack that your instances can connect to.
+- [Configured Security groups](../getting-started/creating-first-infrastructure#update-security-group): You should have configured security groups in OpenStack to allow traffic to and from your instances.
+- [Imported SSH key](../getting-started/creating-first-infrastructure#create-key-pair): If you plan to access instances, you should have imported an SSH key into OpenStack that you can use to authenticate with your instances.
+- [Created Virtual machine](../getting-started/creating-first-infrastructure#create-virtual-machine-instance): You should have created a virtual machine instance in OpenStack that you want to access.
+- [Associated Floating IP](../how-to-guides/managing-floating-ips): If you plan to access instances from outside the OpenStack environment, you should have associated a floating IP with your instance.
 
 If you are unsure about any of these prerequisites, please refer to the relevant documentation page for more information.
 
@@ -103,7 +103,7 @@ To connect to instances running on OpenStack, you can use one of the available a
         - Select `SSH` as the connection type.
         - Go to `Connection -> SSH -> Auth -> Credentials` and browse to the private key file.
         - Click `Open` to start the connection.
-        - Enter your username when prompted, username topic is discussed in [FAQ](../additional-information/faq.md).
+        - Enter your username when prompted, username topic is discussed in [FAQ](../additional-information/faq).
 
         For more detailed instructions on how to connect using PuTTY, consult the relevant documentation for your operating system.
         ### Remote desktop
@@ -122,7 +122,7 @@ To connect to instances running on OpenStack, you can use one of the available a
 - **Verify credentials**: If you are unable to authenticate when attempting to access instances, verify that you are using the correct username and password or SSH key pair. You may also need to check that your credentials have the appropriate permissions to access the instances.
 - **Check instance status**: If you are unable to connect to an instance, check its status in the OpenStack dashboard. If the instance is not in an ACTIVE state, there may be an issue with its configuration or the underlying infrastructure. Try rebooting the instance or creating a new instance with similar configurations.
 - **Check logs**: If you are still unable to connect to an instance, check the logs for any errors or warnings. The OpenStack console log and the instance's system log can provide useful information on what might be causing the issue.
-- [**Check FAQ**](../technical-reference/brno-g1-site/faq.md): If you approach an issue when connecting to our infrastructure, make sure to first check FAQ before contacting support.
+- [**Check FAQ**](../technical-reference/brno-g1-site/faq): If you approach an issue when connecting to our infrastructure, make sure to first check FAQ before contacting support.
 - **Contact support**: If you are unable to resolve the issue on your own, contact your OpenStack support team for further assistance. Be sure to provide as much information as possible, including error messages and steps you have already taken to troubleshoot the issue.
 
 ## Security Considerations
