@@ -82,14 +82,14 @@ an instance remotely is SSH. Using SSH requires a pair of keys - a public key an
 
 === "GUI"
 
-    !!! danger
-
+    <Callout type="error" title="Danger">
         Prefer using the `CLI` method unless you have no other choice, e.g., you lack access to a local machine
         with the `ssh-keygen` utility.
 
         The `GUI` method requires you to create your private key on a remote machine and transfer it over a network.
         Although both the remote machine and the network transfer should be secure, there is always some risk
         of a security breach, which could expose your private key to a malicious party.
+    </Callout>
 
 
     __1.__ Navigate to **Project &gt; Compute &gt; Key Pairs** and click the **Create Key Pair** button.
@@ -138,13 +138,13 @@ your virtual machine via SSH from your local terminal.
         ![](/img/openstack/instance/sec_group2.png)
     </Callout>
 
-    !!! caution
-
+    <Callout type="warn" title="Caution">
         You have 2 possibilities for how to configure security groups policy.
 
         - One is through CIDR which specifies rules for concrete network range.
         - The second one specifies rules for members of a specified security group,
         i.e. policy will be applied on instances that belong to the selected security group.
+    </Callout>
 
     For details, refer to [the official documentation](https://docs.openstack.org/horizon/train/user/configure-access-and-security-for-instances.html).
 

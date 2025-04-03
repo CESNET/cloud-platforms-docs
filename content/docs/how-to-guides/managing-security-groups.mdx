@@ -16,12 +16,12 @@ __2.__ Click on **Add rule**, choose **SSH**, and leave the remaining fields unc
     ![](/img/openstack/instance/sec_group2.png)
 </Callout>
 
-!!! caution
-
+<Callout type="warn" title="Caution">
     You have 2 possibilities for how to configure security groups policy.
 
     - One is through CIDR which specifies rules for concrete network range.
     - The second one specifies rules for members of a specified security group,
     i.e. policy will be applied on instances that belong to the selected security group.
+</Callout>
 
 For details, refer to [the official documentation](https://docs.openstack.org/horizon/train/user/configure-access-and-security-for-instances.html).

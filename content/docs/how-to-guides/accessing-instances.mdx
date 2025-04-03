@@ -74,9 +74,9 @@ To connect to instances running on OpenStack, you can use one of the available a
             ![](/img/openstack/instance/sec_group_rdp.png)
         </Callout>
 
-        !!! caution
-
+        <Callout type="warn" title="Caution">
             The virtual machine is ready for connection using xrdp. However, it should be noted that xrdp (as well as the original rdp) were not designed for encrypted communication and a machine configured in this way is not suitable for transferring sensitive information (e.g. logging into web applications used in everyday life, such as banking and the like). For some purposes, unencrypted traffic may be sufficient, but for greater security we recommend setting up additional [SSL/TSL Encryption](https://karthidkk123.medium.com/how-to-secure-xrdp-on-ubuntu-centos-with-ssl-tls-encryption-9258162b24a3).
+        </Callout>
 
     4. If the guide above was followed, it should be possible to connect to the Ubuntu VM and use its GUI with the use of an rdp client. RDP client is a desktop application, that understands rdp traffic and opens a window containing interactive desktop of the remote host.
         - In Windows environment, `Microsoft Remote Desktop` should already be installed inside the operating system.
