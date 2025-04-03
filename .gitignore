@@ -1,4 +1,7 @@
-components/
+/components/*
 
 *.iml
 .idea
+
+
+!/**/.gitkeep
