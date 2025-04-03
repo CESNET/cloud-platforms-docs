@@ -1,0 +1,11 @@
+{
+  "title": "OpenStack",
+  "pages": [
+    "index",
+    "migration-to-g2-openstack-cloud",
+    "getting-started",
+    "how-to-guides",
+    "technical-reference",
+    "additional-information"
+  ]
+}

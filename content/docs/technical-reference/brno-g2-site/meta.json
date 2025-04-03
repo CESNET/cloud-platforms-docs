@@ -1,0 +1,14 @@
+{
+  "title": "Brno G2 site",
+  "defaultOpen": false,
+  "pages": [
+    "faq",
+    "flavors",
+    "get-access",
+    "metacentrum",
+    "get-support",
+    "networking",
+    "openstack-components",
+    "quota-limits"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": "How-to guides",
+  "defaultOpen": false,
+  "pages": [
+    "accessing-openstack-dashboard",
+    "selecting-project-openstack-dashboard",
+    "accessing-instances",
+    "managing-floating-ips",
+    "managing-interface",
+    "!attaching-remote-storage",
+    "changing-vm-resources",
+    "create-networking",
+    "create-router",
+    "deploying-loadbalancers",
+    "!high-availability-deployment",
+    "!maintaining-cloud-resources",
+    "manage-volumes",
+    "volume-transfer",
+    "managing-security-groups",
+    "obtaining-api-key",
+    "instances-with-ephemeral-disk",
+    "!using-custom-linux-images",
+    "!using-object-storage"
+  ]
+}

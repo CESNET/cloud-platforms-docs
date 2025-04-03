@@ -1,0 +1,27 @@
+{
+  "title": "Additional information",
+  "defaultOpen": false,
+  "pages": [
+    "!computing-on-hpc",
+    "!concepts-of-cloud-computing",
+    "faq",
+    "known-issues",
+    "cloud-policy",
+    "custom-images",
+    "ip-allocation-policy",
+    "ipv6-troubleshooting",
+    "load-balancers",
+    "object-storage",
+    "orchestration",
+    "project-expiration",
+    "python-libraries",
+    "register",
+    "security-groups",
+    "!storage-capabilities",
+    "terms-of-service",
+    "use-cases",
+    "using-cloud-tools",
+    "virtual-networking",
+    "windows"
+  ]
+}

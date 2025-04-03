@@ -1,0 +1,15 @@
+{
+  "title": "Brno G1 site",
+  "defaultOpen": false,
+  "pages": [
+    "faq",
+    "flavors",
+    "get-access",
+    "get-support",
+    "gpu-computing",
+    "instance-shelving",
+    "networking",
+    "openstack-components",
+    "quota-limits"
+  ]
+}
