@@ -87,71 +87,75 @@ Details on how to map GEN1 flavor names into GEN2 can be found [here][g2b-flavor
 ## e-INFRA CZ IaaS cloud comparison matrix
 
 <table>
-    <tr>
-        <th colspan="2" valign="top"></th>
-        <th valign="top">Brno GEN2</th>
-        <th valign="top">Ostrava GEN2</th>
-        <th valign="top">Brno GEN1 (will be deprecated)</th>
-    </tr>
-    <tr>
-        <td rowspan="2" valign="top">
-            <p><b>Getting access</b></p>
-            <p><b>and cloud resources</b></p>
-        </td>
-        <td valign="top"><b>Free tier</b></td>
-        <td colspan="2" valign="top">Available everyone with an valid e-INFRA CZ ID</td>
-        <td valign="top">With e-INFRA CZ ID</td>
-    </tr>
-    <tr>
-        <td valign="top"><b>Guaranteed (group projects) resources</b></td>
-        <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g2-site/get-access/">See conditions of getting resources</a></td>
-        <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/ostrava-g2-site/get-access/">See conditions of getting resources</a></td>
-        <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g1-site/get-access/">Conditions of getting resources</a></td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b><a href="https://docs.e-infra.cz/compute/openstack/">Documentation</a></b></td>
-        <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g2-site/">Link</a></td>
-        <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/ostrava-g2-site/">Link</a></td>
-        <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g1-site/">Link</a></td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>Cloud welcome page</b></td>
-        <td valign="top"><a href="https://brno.openstack.cloud.e-infra.cz/">Link</a> </td>
-        <td valign="top"><a href="https://ostrava.openstack.cloud.e-infra.cz">Link</a> </td>
-        <td valign="top"><a href="https://cloud.metacentrum.cz/">Link</a> </td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>Horizon Dashboard</b></td>
-        <td valign="top"><a href="https://horizon.brno.openstack.cloud.e-infra.cz">Horizon Brno</a></td>
-        <td valign="top"><a href="https://horizon.ostrava.openstack.cloud.e-infra.cz">Horizon Ostrava</a> </td>
-        <td valign="top"><a href="https://dashboard.cloud.muni.cz/">Dashboard Brno</a> </td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>Flavors</b></td>
-        <td colspan="2" valign="top">New flavor naming scheme</td>
-        <td valign="top">Old flavor naming scheme</td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>Storage options</b></td>
-        <td colspan="2" valign="top">Distributed ceph HDD storage, ephemeral storage</td>
-        <td valign="top">Distributed ceph HDD storage, ephemeral storage</td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>Networking</b></td>
-        <td colspan="2" valign="top">Single external/public ipv4 network, (ipv6 planned)</td>
-        <td valign="top">Multiple external/public ipv4 and ipv6 networks</td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>Number of cloud hypervisors as of 2024-01-09</b></td>
-        <td valign="top">11</td>
-        <td valign="top">22</td>
-        <td valign="top">290</td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top"><b>End Of Life</b></td>
-        <td colspan="2" valign="top"><i>Not planned at the moment</i></td>
-        <td valign="top">Approximately end of 2024</td>
-    </tr>
+    <thead>
+        <tr>
+            <th colSpan="2" valign="top"></th>
+            <th valign="top">Brno GEN2</th>
+            <th valign="top">Ostrava GEN2</th>
+            <th valign="top">Brno GEN1 (will be deprecated)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowSpan="2" valign="top">
+                <p><b>Getting access</b></p>
+                <p><b>and cloud resources</b></p>
+            </td>
+            <td valign="top"><b>Free tier</b></td>
+            <td colSpan="2" valign="top">Available everyone with an valid e-INFRA CZ ID</td>
+            <td valign="top">With e-INFRA CZ ID</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>Guaranteed (group projects) resources</b></td>
+            <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g2-site/get-access/">See conditions of getting resources</a></td>
+            <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/ostrava-g2-site/get-access/">See conditions of getting resources</a></td>
+            <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g1-site/get-access/">Conditions of getting resources</a></td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b><a href="https://docs.e-infra.cz/compute/openstack/">Documentation</a></b></td>
+            <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g2-site/">Link</a></td>
+            <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/ostrava-g2-site/">Link</a></td>
+            <td valign="top"><a href="https://docs.e-infra.cz/compute/openstack/technical-reference/brno-g1-site/">Link</a></td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>Cloud welcome page</b></td>
+            <td valign="top"><a href="https://brno.openstack.cloud.e-infra.cz/">Link</a> </td>
+            <td valign="top"><a href="https://ostrava.openstack.cloud.e-infra.cz">Link</a> </td>
+            <td valign="top"><a href="https://cloud.metacentrum.cz/">Link</a> </td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>Horizon Dashboard</b></td>
+            <td valign="top"><a href="https://horizon.brno.openstack.cloud.e-infra.cz">Horizon Brno</a></td>
+            <td valign="top"><a href="https://horizon.ostrava.openstack.cloud.e-infra.cz">Horizon Ostrava</a> </td>
+            <td valign="top"><a href="https://dashboard.cloud.muni.cz/">Dashboard Brno</a> </td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>Flavors</b></td>
+            <td colSpan="2" valign="top">New flavor naming scheme</td>
+            <td valign="top">Old flavor naming scheme</td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>Storage options</b></td>
+            <td colSpan="2" valign="top">Distributed ceph HDD storage, ephemeral storage</td>
+            <td valign="top">Distributed ceph HDD storage, ephemeral storage</td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>Networking</b></td>
+            <td colSpan="2" valign="top">Single external/public ipv4 network, (ipv6 planned)</td>
+            <td valign="top">Multiple external/public ipv4 and ipv6 networks</td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>Number of cloud hypervisors as of 2024-01-09</b></td>
+            <td valign="top">11</td>
+            <td valign="top">22</td>
+            <td valign="top">290</td>
+        </tr>
+        <tr>
+            <td colSpan="2" valign="top"><b>End Of Life</b></td>
+            <td colSpan="2" valign="top"><i>Not planned at the moment</i></td>
+            <td valign="top">Approximately end of 2024</td>
+        </tr>
+    </tbody>
 </table>
 
 ## FAQ
