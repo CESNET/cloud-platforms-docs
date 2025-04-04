@@ -8,27 +8,10 @@
     $ git clone https://github.com/CESNET/cloud-platforms-docs.git
     ```
 
-2. Copy common resources.
-    1. Clone CERIT repo with objects common to all eInfra docs:
-
-        ```bash
-        $ git clone https://github.com/CERIT-SC/fumadocs
-        ```
-
-        You need to do this only once, you just need to have the repo content somewhere.
-
-    2. Copy resources which are needed to compile the docs:
-        - `components`
-
-        ```bash
-        $ cp -r ./fumadocs/components ./cloud-platforms-docs/components/
-        ```
-
-        Do not commit these resources in this repo, only use them locally (ask Lukas Hejtmanek if in doubt). There is a `.gitignore` line to prevent that.
-
-3. Run the provided [run-local-dev.sh](./run-local-dev.sh) script:
+2. Run the provided [run-local-dev.sh](./run-local-dev.sh) script:
 
     ```bash
+    $ cd ./cloud-platforms-docs
     $ ./run-local-dev.sh
 
     > e-infra-docs@0.0.0 dev /opt/fumadocs
@@ -58,7 +41,7 @@
     - Override by setting `FUMA_IMAGE` environment variable.
     - See https://cerit.io/harbor/projects/243/repositories/fuma/ for available image versions (e-INFRA login).
 
-4. In a web browser, see the docs at `http://localhost:3000/en/docs/`.
+3. In a web browser, see the docs at `http://localhost:3000/en/docs/`.
 
     Fumadocs is able to dynamically re-compile modified content while running in DEV mode. However, some syntax errors can crash it.
 

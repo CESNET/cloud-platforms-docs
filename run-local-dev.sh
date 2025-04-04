@@ -10,6 +10,5 @@ ${CONTAINER_BIN} run -it --rm \
   -p 3000:3000 \
   -v ./content/docs:/opt/fumadocs/content/docs \
   -v ./public:/opt/fumadocs/public \
-  -v ./components:/opt/fumadocs/components \
   -e STARTPAGE=/en/docs \
   ${FUMA_IMAGE} pnpm dev
