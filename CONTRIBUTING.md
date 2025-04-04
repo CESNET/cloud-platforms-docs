@@ -41,6 +41,15 @@
     - Override by setting `FUMA_IMAGE` environment variable.
     - See https://cerit.io/harbor/projects/243/repositories/fuma/ for available image versions (e-INFRA login).
 
+    By default, the container runs the `pnpm dev` command, which deploys the docs in DEV mode (dynamic reload, dev console in browser).
+    Alternatively, you can pass another command to the container:
+    - `pnpm build` - Perform a production build of the docs. Usefull for showing all errors.
+    - `bash` - Enter the container's shell and do what you need.
+
+    ```bash
+    $ ./run-local-dev.sh bash
+    ```
+
 3. In a web browser, see the docs at `http://localhost:3000/en/docs/`.
 
     Fumadocs is able to dynamically re-compile modified content while running in DEV mode. However, some syntax errors can crash it.
