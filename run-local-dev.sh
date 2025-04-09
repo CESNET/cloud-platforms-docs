@@ -21,6 +21,7 @@ ${CONTAINER_BIN} run -it --rm \
   -p 3000:3000 \
   -v ./content/docs:/opt/fumadocs/content/docs \
   -v ./public:/opt/fumadocs/public \
+  -v ./components:/tmp/fumadocs/components_local \
   -e STARTPAGE=/en/docs \
   -e OPENAI_API_KEY=${FAKE_OPENAI_API_KEY} \
-  ${FUMA_IMAGE} ${CONTAINER_COMMAND}
+  ${FUMA_IMAGE} bash -c "ln -sf -t /opt/fumadocs/components/ /tmp/fumadocs/components_local/*; ${CONTAINER_COMMAND}"
