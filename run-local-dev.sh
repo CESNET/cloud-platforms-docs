@@ -8,11 +8,11 @@
 #     [container_command] - Optional, default is "pnpm dev", alternatively: "pnpm build", "bash", ...
 # Environment variables:
 #     CONTAINER_BIN - Container tool, default "podman".
-#     FUMA_IMAGE    - Fuma container image, default "cerit.io/docs/fuma:v15.1.2".
+#     FUMA_IMAGE    - Fuma container image, default "cerit.io/docs/fuma:v15.2.10".
 
 
 CONTAINER_BIN=${CONTAINER_BIN:-"podman"}
-FUMA_IMAGE=${FUMA_IMAGE:-"cerit.io/docs/fuma:v15.1.2"}
+FUMA_IMAGE=${FUMA_IMAGE:-"cerit.io/docs/fuma:v15.2.10"}
 CONTAINER_COMMAND=${@:-"pnpm dev"}
 
 FAKE_OPENAI_API_KEY="fake-openai-api-key"
