@@ -18,4 +18,4 @@ Sister documentation projects:
 
 [Contributing guide](./CONTRIBUTING.md) (local build, coding tips, ...)
 
-[Migration from old e-INFRA docs](./einfra-docs-migration.md)
+[Migration from old e-INFRA docs](./einfra-docs-migration/einfra-docs-migration.md)
