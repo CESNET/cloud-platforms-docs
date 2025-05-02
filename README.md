@@ -1,6 +1,6 @@
 # Cloud platforms documentation
 
-Uses the Fumadocs framework: https://fumadocs.vercel.app/.
+Uses the Fumadocs framework: https://fumadocs.dev/.
 
 See also: https://github.com/CERIT-SC/fumadocs.
 

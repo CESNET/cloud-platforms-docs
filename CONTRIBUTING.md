@@ -59,6 +59,28 @@
 - 4 GB RAM or more is recommended to run the local build.
 
 
+## How to contribute
+
+1. Fork this repo.
+2. Push your changes into a branch in your fork.
+3. Create a PR into the upstream repo's `main` branch.
+4. Go through a review of your PR. Pass any checks.
+5. Merge the PR.
+
+
+## How to deploy to production
+
+Deployment happens automatically.
+
+Procedure:
+1. Any `push` event in the repository triggers a webhook delivery to the https://docs.platforms.cloud.e-infra.cz/gh/ endpoint.
+    - The delivery only passes for a `push` into the `main` branch.
+    - The webhook uses a secret, the value of which is stored as `CLOUD_PLATFORMS_DOCS_WEBHOOK_SECRET` variable in https://gitlab.ics.muni.cz/cloud/knowledgebase.
+2. This, in turn, triggers a pull, build and deploy in the production deplyment automation (managed by Lukas Hejtmanek).
+    1. If the build is successfull, the new revision is deployed to the production site.
+    2. If the build fails, nothing is deployed.
+
+
 ## Writing docs in Fumadocs
 
-TODO
+See Fumadocs official documentation: https://fumadocs.dev/.
