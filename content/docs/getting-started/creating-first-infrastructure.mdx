@@ -10,7 +10,7 @@ The following guide will take you through the steps necessary to start your firs
 Prerequisites:
 
 * Up-to-date web browser
-* Active account, see [Accessing G1 Brno site](../technical-reference/brno-g1-site/get-access), [Accessing G2 Ostrava site](../technical-reference/ostrava-g2-site/get-access) and [Accessing G2 Brno site](../technical-reference/brno-g2-site/get-access)
+* Active account, see [Accessing G2 Ostrava site](../technical-reference/ostrava-g2-site/get-access) and [Accessing G2 Brno site](../technical-reference/brno-g2-site/get-access)
 * Basic knowledge of SSH (for remote connections)
 * [API key and CLI client](../how-to-guides/obtaining-api-key) (needed only if You want to use CLI)
 
@@ -23,7 +23,7 @@ The dashboard is available at [https://dashboard.cloud.muni.cz](https://dashboar
 </Callout>
 
 
-__1.__ Select `EINFRA CESNET` in G1 Brno or `e-INFRA CZ federation` in G2 Ostrava and G2 Brno site.
+__1.__ Select `e-INFRA CZ federation` in G2 Ostrava and G2 Brno site.
 
 __2.__ Click on **Sign In**.
 
@@ -205,8 +205,7 @@ your virtual machine via SSH from your local terminal.
         <Tabs items={["Personal project", "Group project"]}>
             <Tab value="Personal project">
                 For personal project select personal-project-network-subnet from network `147-251-115-pers-proj-net`.
-                Here is more information on available networks in [Brno G1](../technical-reference/brno-g1-site/networking#ipv4-personal-floating-ips)
-                , [Ostrava G2](../technical-reference/ostrava-g2-site/networking#floating-ip-networks) and  [Brno G2](../technical-reference/brno-g2-site/networking#ipv4-personal-floating-ips).
+                Here is more information on available networks in [Ostrava G2](../technical-reference/ostrava-g2-site/networking#floating-ip-networks) and [Brno G2](../technical-reference/brno-g2-site/networking#ipv4-personal-floating-ips).
 
                 <Callout type="info" title="Example">
                     ![](/img/openstack/instance/instance5.png)
@@ -265,8 +264,7 @@ At this point, you want to [Allocate IP Address](../how-to-guides/managing-float
 and [Assign IP Address](../how-to-guides/managing-floating-ips#assigning-ip-address).
 You don't have to care about the other sections unless you need them.
 
-Possible IP address pools are described separately for [Brno G1](../technical-reference/brno-g1-site/networking), [Ostrava G2](../technical-reference/ostrava-g2-site/networking)
-and [Brno G2](../technical-reference/brno-g2-site/networking).
+Possible IP address pools are described separately for [Ostrava G2](../technical-reference/ostrava-g2-site/networking) and [Brno G2](../technical-reference/brno-g2-site/networking).
 
 For group projects, always select the same network as used in
 [Router gateway](../how-to-guides/create-router#router-creation).
