@@ -2,6 +2,8 @@
   "title": "Technical reference",
   "defaultOpen": false,
   "pages": [
+    "!brno-g1-site",
+    "g1-deprecation",
     "brno-g2-site",
     "ostrava-g2-site",
     "cloud-resources",

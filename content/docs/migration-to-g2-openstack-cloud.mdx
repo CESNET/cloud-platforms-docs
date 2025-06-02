@@ -31,7 +31,7 @@ Currently, all running virtual machines running in the current cloud service are
 
 Principal investigators of each of the workflows that are subject to the migration to the next generation cloud service will be informed in time because we need close cooperation to ensure that the migration takes place without as little disruption as possible.
 
-This change doesn’t apply to the new cloud site deployed in the Ostrava. Since the end of 2023 it is possible to request resources in the Ostrava site, see the [documentation](https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/ostrava-g2-site/get-access).
+This change doesn’t apply to the new cloud site deployed in the Ostrava. Since the end of 2023 it is possible to request resources in the Ostrava site, see the [documentation](./technical-reference/ostrava-g2-site/get-access).
 
 ## Process of the migration
 
@@ -66,7 +66,7 @@ Migration of the personal (free-tier) projects workload may be launched by cloud
 ## Technical migration details
 
 ### Most visible changes in GEN2 Brno cloud
-* [New flavor naming](https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g2-site/flavors)
+* [New flavor naming][g2b-flavors]
 * New network naming
 * New Horizon and API URLs
 * Different ipv4 public IP network range(s)
@@ -78,7 +78,7 @@ The flavor naming scheme was reworked in GEN2 to be generally more consistent an
 Details on how to map GEN1 flavor names into GEN2 can be found [here][g2b-flavors].
 
 ## Resources to help with migrations
-[e-INFRA CZ cloud documentation][general-docs] on [GEN1](./additional-information/g1-deprecation) and [GEN2 Brno][gen2-docs] clouds discusses most important facts about cloud sites.
+[e-INFRA CZ cloud documentation][general-docs] on [GEN1][g1-docs] and [GEN2 Brno][g2b-docs] clouds discusses most important facts about cloud sites.
 
 [Infrastructure as Code (IaC) automation repository][iac-repo] shows how to effectively work with OpenStack clouds and also [highlights differences needed when launching identical infrastructure in another cloud][iac-repo-highlights].
 
@@ -103,13 +103,13 @@ Details on how to map GEN1 flavor names into GEN2 can be found [here][g2b-flavor
         </tr>
         <tr>
             <td valign="top"><b>Guaranteed (group projects) resources</b></td>
-            <td valign="top"><a href="https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g2-site/get-access/">See conditions of getting resources</a></td>
-            <td valign="top"><a href="https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/ostrava-g2-site/get-access">See conditions of getting resources</a></td>
+            <td valign="top"><a href="./technical-reference/brno-g2-site/get-access/">See conditions of getting resources</a></td>
+            <td valign="top"><a href="./technical-reference/ostrava-g2-site/get-access">See conditions of getting resources</a></td>
         </tr>
         <tr>
-            <td colSpan="2" valign="top"><b><a href="https://docs.platforms.cloud.e-infra.cz/en/docs/">Documentation</a></b></td>
-            <td valign="top"><a href="https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g2-site/">Link</a></td>
-            <td valign="top"><a href="https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/ostrava-g2-site/">Link</a></td>
+            <td colSpan="2" valign="top"><b>[Documentation][general-docs]</b></td>
+            <td valign="top">[Link][g2b-docs]</td>
+            <td valign="top">[Link][g2o-docs]</td>
         </tr>
         <tr>
             <td colSpan="2" valign="top"><b>Cloud welcome page</b></td>
@@ -238,9 +238,10 @@ DNS records may be used to seamlessly migrate from GEN1 to GEN2 cloud as pre-mig
 
 If you have DNS records to the existing infrastructure, it is necessary to double check at a very early migration stage that all used DNS records may be actually changed.
 
-[gen1-docs]: https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g1-site
-[gen2-docs]: https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g2-site
-[general-docs]: https://docs.platforms.cloud.e-infra.cz/en/docs
+[g1-docs]: ./technical-reference/brno-g1-site/
+[g2b-docs]: ./technical-reference/brno-g2-site/
+[g2o-docs]: ./technical-reference/ostrava-g2-site/
+[general-docs]: .
 [iac-repo]: https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation
 [iac-repo-highlights]: https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/tree/master/clouds/g1-to-g2-migration
-[g2b-flavors]: https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g2-site/flavors
+[g2b-flavors]: ./technical-reference/brno-g2-site/flavors
