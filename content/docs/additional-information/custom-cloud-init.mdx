@@ -1,0 +1,106 @@
+---
+title: "Custom cloud-init"
+---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+
+`Cloud-init` is a tool that helps to manage cloud instance initialization. Find out more in [Cloud-init documentation](https://cloudinit.readthedocs.io).
+
+All cloud images have `cloud-init` pre-installed and set up with default configuration, which works reasonably well for most use-cases.
+However, you may find yourself in need of some additional setup.
+
+## Applying custom `cloud-init` configuration
+
+### New instance
+
+You can provide your instance with custom configuration in the form of 'cloud-config' (also called 'user data') at the time of its creation.
+
+1. Have your `cloud-config` YAML file ready.
+
+    `my-cloud-config.yaml`
+    ```yaml
+    #cloud-config
+    runcmd:
+    - [ls, -l, /]
+    - [sh, -xc, 'echo $(date) '': hello world!''']
+    - [sh, -c, echo "=========hello world'========="]
+    - ls -l /root
+    ```
+    - **Make sure to include the `#cloud-config` annotation on the first line of the file!**
+    - See more examples at [Cloud config examples library](https://cloudinit.readthedocs.io/en/latest/reference/examples_library.html).
+2. Pass the `cloud-config` to the new instance.
+    <Tabs items={["GUI", "CLI"]}>
+        <Tab value="GUI">
+            1. In **Compute &gt; Instances**, click the **Launch Instance** button.
+                <Callout type="info" title="Example">
+                    ![](/img/openstack/instance/instance1.png)
+                </Callout>
+            2. Follow the launch steps as described e.g. in the [Create First Instance](/docs/getting-started/creating-first-infrastructure#create-a-virtual-machine-instance) guide.
+            3. In the **Configuration** step, either click **Browse** and select your `cloud-config` YAML file, or paste the config directly into the **Customization Script** textarea.
+                <Callout type="info" title="Example">
+                    ![](/img/openstack/instance/instance-configuration.png)
+                </Callout>
+            4. Complete the steps and launch the instance.
+        </Tab>
+        <Tab value="CLI">
+            Use the `--user-data` argument of the `openstack` CLI client.
+            ```shell
+            openstack server create ... --user-data ./my-cloud-config.yaml my-instance
+            ```
+        </Tab>
+    </Tabs>
+
+
+### Existing instance
+
+1. Login to the instance (via SSH, web console, ...).
+    ```shell
+    ubuntu@my-instance:~$ ssh ubuntu@147.X.X.X
+    ```
+2. Become `root` and add the configuration to the `/etc/cloud/` directory.
+    ```shell
+    ubuntu@my-instance:~$ sudo -i
+    root@my-instance:~$ cat <<EOF > /etc/cloud/cloud.cfg.d/99_hello-world.cfg
+    runcmd:
+    - [ls, -l, /]
+    - [sh, -xc, 'echo $(date) '': hello world!''']
+    - [sh, -c, echo "=========hello world'========="]
+    - ls -l /root
+    EOF
+    ```
+3. (Optional) If you want to apply your changes immediately, force `cloud-init` to reload the configuration and re-initiate.
+    ```shell
+    root@my-instance:~$ cloud-init clean && cloud-init init && cloud-init modules --mode=config && cloud-init modules --mode=final
+    ```
+    - This might prove useful in case of changes that affect runtime behavior, such as auto-configuration of network devices (see [below](#automatic-setup-of-network-interfaces)).
+    <Callout type="warn" title="Warning">
+        This set of commands makes `cloud-init` reinitiate all data generated during the first boot of the instance, including server SSH keys.
+        This means that next time you log in using SSH, you will see a security warning that the new key does not match the one stored in your local trusted keys
+        (stored usually in `~/.ssh/known_hosts`).
+        ```
+        Warning: Remote Host Identification has Changed
+        ```
+        If you are sure about the server security, you may want to remove the old key from `~/.ssh/known_hosts`:
+        ```shell
+        user@localhost:~$ ssh-keygen -R <hostname or IP>
+        ```
+    </Callout>
+
+## Custom use-cases
+
+Here, we discuss situations that require additional configuration of `cloud-init`.
+
+### Automatic setup of network interfaces
+
+By default, `cloud-init` auto-configures NICs on first boot of an instance.
+
+To make it do the auto-configuration on every boot and on the run (hotplug), use this `cloud-config`:
+```yaml
+#cloud-config
+
+updates:
+  network:
+    when: [boot, hotplug]
+```
+See https://cloudinit.readthedocs.io/en/latest/reference/modules.html#install-hotplug.
