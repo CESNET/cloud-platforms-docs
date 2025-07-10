@@ -8,6 +8,7 @@
     "known-issues",
     "cloud-policy",
     "custom-images",
+    "custom-cloud-init",
     "ip-allocation-policy",
     "ipv6-troubleshooting",
     "load-balancers",
