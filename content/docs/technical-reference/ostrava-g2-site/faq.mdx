@@ -1,3 +1,9 @@
 ---
 title: "Frequently Asked Questions"
 ---
+
+## "What networks can I use to access my instances?"
+
+Personal projects can connect instances to the internal network `internal-ipv4-general-private`, from which you can allocate Floating IPs (FIPs) from the public network `external-ipv4-general-public`. This network is publicly accessible, and no additional routing configuration is needed.
+Group projects by default come with the internal network `group-project-network (192.168.0.0/24)`, which already has routing set up to the recommended `external-ipv4-general-public` network. This allows direct allocation and use of public Floating IPs. Group projects may also use the `internal-ipv4-general-private` network with the same effect.
+- See more details, like IP address ranges, at [Networking](./networking).
