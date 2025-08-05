@@ -5,6 +5,9 @@ title: "Get Access"
 with active accounts in one of the following identity federations:
 
 * __EINFRA CESNET__,
+* __LIFESCIENCE AAI__`*`.
+* __EGI Check-in__`*`,
+* __DEEP AAI__`*`.
 
 Users from the Czech academic community should always use the `EINFRA CESNET`
 identity provider, unless instructed otherwise by user support.
@@ -72,3 +75,33 @@ request a group project using [this form](https://projects.brno.openstack.cloud.
 ## Increase Quotas for Existing Group Project
 
 To request quota increase, access to particular [flavor](flavors) or extend project lifetime, please use [this form](https://projects.brno.openstack.cloud.e-infra.cz/update.php).
+
+## Get Access Control Information
+
+__Access control__ is based on information provided by the selected identity federation
+and is presented in the form of a VO name and, optionally, a group name. Every user
+with an active membership in the specified VO/group will have full access to all resources
+of the requested group project. Membership is managed with tools provided by the selected
+identity federation, in a self-service manner.
+
+If you already have VO/group, and already using services
+provided by the __CESNET e-Infrastructure__ e.g. MetaCentrum, Data Care,
+or you represent a project internal to __Masaryk University__,
+please visit OpenID Connect User Profile according to your federation:
+
+ - [EINFRA CESNET](https://login.cesnet.cz/oidc/manage/user/profile)
+ - [LIFESCIENCE](https://profile.aai.lifescience-ri.eu/profile)
+ - EGI (contact EGI support)
+
+and provide us with information that you see on the page. That is going to be __access control information__.
+
+If you don't have VO/group or you know nothing about it, please contact the cloud support team (see  [Get Support](./get-support))
+to create a new group within the Unified Login service.
+
+ In the request, describe that you need a group for accessing MetaCentrum Cloud and provide the following information:
+
+* Project/group name
+* Project members
+
+After creating a group, you will be provided with a graphical interface for managing group members within the Perun system.
+And you will be able to make further adjustments to the member list on your own.
