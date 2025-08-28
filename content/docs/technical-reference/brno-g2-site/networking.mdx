@@ -21,9 +21,9 @@ There are 2 generally available external networks, which you can allocate floati
       a route to this external network.
       In case of group projects, you can bypass this limitation by creating a new router with a gateway to the external network `external-ipv4-general-muni`
       and interface in your internal network.
-      See [Create Router How-to Guide](../../../how-to-guides/create-router).
+      See [Create Router How-to Guide](../../how-to-guides/create-router).
 
-### Request a Floating IP from a specific subnet 
+### Request a Floating IP from a specific subnet
 
 If you want to allocate a Floating IP address (FIP) from a specific subnet, you can do so by specifying the desired subnet during allocation.
 
@@ -80,8 +80,8 @@ external network to instances connected to the default internal network.
 
 You may also use the `internal-ipv4-general-private` internal network with the same effect.
 
-In case you create your own internal network (see [Create Networking How-to Guide](../../../how-to-guides/create-networking)), you need to handle the routing
-yourself, i.e. create a new router (see [Create Router How-to Guide](../../../how-to-guides/create-router)), if you want to assign FIPs from an external network
+In case you create your own internal network (see [Create Networking How-to Guide](../../how-to-guides/create-networking)), you need to handle the routing
+yourself, i.e. create a new router (see [Create Router How-to Guide](../../how-to-guides/create-router)), if you want to assign FIPs from an external network
 to your instances.
 This is especially true if you want to use the `external-ipv4-general-muni` external network ([see above](#ipv4)).
 
@@ -95,4 +95,4 @@ Currently in Brno G2 site, you can use following IPv6 network:
 
 ## Security groups
 
-Apart from the `default` [security group](../../../additional-information/security-groups), every project in the OpenStack cloud also contains pre-generated security group `ssh`. Rules of the `ssh` groups enable access to virtual servers via SSH protocol (IPv4+IPv6).
+Apart from the `default` [security group](../../additional-information/security-groups), every project in the OpenStack cloud also contains pre-generated security group `ssh`. Rules of the `ssh` groups enable access to virtual servers via SSH protocol (IPv4+IPv6).
