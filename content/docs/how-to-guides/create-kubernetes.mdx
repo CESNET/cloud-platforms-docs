@@ -1,0 +1,40 @@
+---
+title: "Create Kubernetes on OpenStack (KOST)"
+---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+You can create your own unmanaged Kubernetes cluster with full **cluster-admin** privileges.
+
+## Architecture  
+- 1× bastion server  
+- 1–3× master nodes  
+- Multiple worker nodes  
+
+## Prerequisites
+To create a Kubernetes cluster, you need an OpenStack [group project](../technical-reference/brno-g2-site/get-access#group-project) with sufficient quotas and enabled flavors.
+
+### Example quota requirements for a simple testing cluster:
+- 1× `e1.small` for the bastion  
+- 1× `r3.4core-8ram-30edisk` for master nodes  
+- 1× `c2.4core-16ram` for worker nodes  
+- 1× floating IP  
+- 250 GB of storage  
+
+### Things to consider:
+- **Number of control nodes** – for simple testing, one node is enough; for production or business workloads, use three.  
+- **Worker node sizing** – determine how many and how powerful worker nodes you need. See [flavor types](https://docs.platforms.cloud.e-infra.cz/en/docs/technical-reference/brno-g2-site/flavors#flavor-types-and-naming-schema) and [flavor list](https://flavors-page-cloud-g2-10a73b324ea6f60888a8fd50d6fa6c9159aa60b27.gitlab-pages.ics.muni.cz/).  
+- **Public IPs** – one floating IP is required to access the cluster. If you need to expose applications (e.g., via nginx ingress), allocate an additional floating IP.  
+- **Storage** – request more storage if you plan to use persistent volumes.  
+
+## Create a new cluster
+You can create a cluster through [OpenOnDemand](https://ondemand.metacentrum.cz/pun/sys/dashboard/batch_connect/sys/bc_openstack_k8s/session_contexts/new).
+
+## Accessing the cluster
+### From localhost via command line
+After deployment is complete, download the kubeconfig file for cluster access.  
+Install [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl), save the kubeconfig to `~/.kube/config`, and then you can use `kubectl` commands to manage the cluster.
+
+## For advanced users
+If you need a more complex solution than OpenOnDemand currently provides, you can create KOST via CLI by following the steps in this [repository](https://gitlab.ics.muni.cz/cloud/kubernetes/kubernetes-infra-example).  
+Alternatively, you can contact our [support](../technical-reference/brno-g2-site/get-support).
