@@ -20,6 +20,7 @@
     "obtaining-api-key",
     "instances-with-ephemeral-disk",
     "!using-custom-linux-images",
-    "!using-object-storage"
+    "!using-object-storage",
+    "create-kubernetes"
   ]
 }
