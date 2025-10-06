@@ -1,12 +1,27 @@
 ---
 title: "Image Rotation"
 ---
-## What is it ?
-Image rotation in our cloud is a mechanism that keeps all official images up-to-date
-with their upstream versions.
+## What is IaaS image-rotation?
+IaaS image-rotation service renews each public OpenStack Glance image when new is available upstream. Private images are excluded from image-rotation process.
+Image rotation on particular image is normally no sooner than 6 months. That can be seen as particular public cloud image is not older that such period.
+Not used rotated i.e. old and "deprecated" images are:
 
-## Why is it done?
-The latest image versions have up-to-date security patches.
+1. First visible under different name (suffixed)
+2. After 6 months made hidden (available on image id only)
+3. After 2 years are deleted in case they are not used at all otherwise kept indefinitelly.
+
+## What IaaS image-rotation does?
+IaaS image-rotation service performs following actions:
+- Detects whether images are fresh.
+- Uploads fresh images to OpenStack.
+- Renames both images the way that original name is now pointing to fresh OpenStack Glance image.
+
+This procedure makes OpenStack Glance images fresh and well memorable resulting in more secure cloud computing.
+
+## Why is IaaS image-rotation deployed?
+IaaS image-rotation engine is deployed for following reasons:
+1. security reasons to make cloud users use fresh operating systems i.e. to make cloud computing less vulnerable
+2. to speed up VM operating system upgrades
 
 ## How does it work ?
 
@@ -60,3 +75,17 @@ The older image is renamed. Its name is in the format: `{OFFICIAL_IMAGE_NAME}-{R
 
     After 1 year community images are **deleted** if they are not used anymore.
 </Callout>
+
+## Terraform VM Creation with Image Rotation
+IaaS infrastructures deployed by IaC tools like Terraform has to be aware of IaaS image-rotation service. Not taking image-rotation process into account results in sudden infra refreshes caused by image rotations (same image name got different id). These [example snippets](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/tree/master/clouds/g2/brno/os-image-rotation-aware-infra) shows how to create a VM via Terraform while supporting image rotation. By configuring an image by its name, Terraform assigns the image ID on the first apply, and the VM will not be rebuilt even if the image name is reused for a newer version. To switch to a new image, it must be done explicitly.
+
+- On subsequent runs (after an image rotation) you’ll see a warning like:
+```
+Changes to Outputs:
+  + image_rotation_warning = "WARNING: Image 'ubuntu-testing' now has ID d3915b52-cd72-49d7-8c28-1cf71b96f870, but deployment is pinned to 44781784-fc60-4869-b4a8-bb7569c25956. To upgrade, run: terraform apply -replace=terraform_data.pinned_image"
+```
+This means the image name now points to a different ID (a newer image) while your deployment remains pinned to the old ID. The VM will not rebuild automatically. To adopt the new image, run:
+```
+terraform apply -replace=terraform_data.pinned_image
+```
+
