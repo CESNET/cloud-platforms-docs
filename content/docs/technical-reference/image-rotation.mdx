@@ -77,15 +77,4 @@ The older image is renamed. Its name is in the format: `{OFFICIAL_IMAGE_NAME}-{R
 </Callout>
 
 ## Terraform VM Creation with Image Rotation
-IaaS infrastructures deployed by IaC tools like Terraform has to be aware of IaaS image-rotation service. Not taking image-rotation process into account results in sudden infra refreshes caused by image rotations (same image name got different id). These [example snippets](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/tree/master/clouds/g2/brno/os-image-rotation-aware-infra) shows how to create a VM via Terraform while supporting image rotation. By configuring an image by its name, Terraform assigns the image ID on the first apply, and the VM will not be rebuilt even if the image name is reused for a newer version. To switch to a new image, it must be done explicitly.
-
-- On subsequent runs (after an image rotation) you’ll see a warning like:
-```
-Changes to Outputs:
-  + image_rotation_warning = "WARNING: Image 'ubuntu-testing' now has ID d3915b52-cd72-49d7-8c28-1cf71b96f870, but deployment is pinned to 44781784-fc60-4869-b4a8-bb7569c25956. To upgrade, run: terraform apply -replace=terraform_data.pinned_image"
-```
-This means the image name now points to a different ID (a newer image) while your deployment remains pinned to the old ID. The VM will not rebuild automatically. To adopt the new image, run:
-```
-terraform apply -replace=terraform_data.pinned_image
-```
-
+IaaS infrastructures deployed by IaC tools like Terraform has to be aware of IaaS image-rotation service. Not taking image-rotation process into account results in sudden infra refreshes caused by image rotations (same image name got different id). These [example snippets](https://gitlab.ics.muni.cz/cloud/g2/openstack-infrastructure-as-code-automation/-/tree/master/clouds/g2/brno/os-image-rotation-aware-infra) shows how to create a VM via Terraform while supporting image rotation.
