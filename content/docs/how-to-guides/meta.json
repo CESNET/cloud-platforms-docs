@@ -16,6 +16,7 @@
     "!maintaining-cloud-resources",
     "manage-volumes",
     "volume-transfer",
+    "read-only-filesystem",
     "managing-security-groups",
     "obtaining-api-key",
     "instances-with-ephemeral-disk",
