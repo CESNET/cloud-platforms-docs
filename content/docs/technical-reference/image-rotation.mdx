@@ -25,7 +25,7 @@ IaaS image-rotation engine is deployed for following reasons:
 
 ## How does it work ?
 
-Every 2 months, the mechanism checks all official images and compares them with their upstream version.
+Every 6 months, the mechanism checks all official images and compares them with their upstream version.
 
 If any image is not up-to-date, it is "rotated", i.e., its latest version takes its place under the **same** name.
 
@@ -43,7 +43,7 @@ The older image is renamed. Its name is in the format: `{OFFICIAL_IMAGE_NAME}-{R
         ```
         centos-7-x86_64-2021-12-15
         ```
-    where a suffix `2021-12-15` represents the date image was rotated.
+    where the suffix `2021-12-15` represents the date image when the image was uploaded.
 
     Older images are later still available under **new** name or its original ID.
 
@@ -59,7 +59,7 @@ The older image is renamed. Its name is in the format: `{OFFICIAL_IMAGE_NAME}-{R
 
     ![](/img/openstack/image-rotation/select_image_horizon.png)
 
-    Older images are kept for another 2 months as **public**. After that their visibility is changed to **community**.
+    Older images are kept for another 6 months as **public**. After that their visibility is changed to **community**.
 
     Community images are still available in OpenStack. You can list all community images via command:
 
@@ -72,8 +72,8 @@ The older image is renamed. Its name is in the format: `{OFFICIAL_IMAGE_NAME}-{R
         ```
         openstack server create --image <IMAGE_NAME | IMAGE_ID> [ADDITIONAL_PARAMS] <SERVER_NAME>
         ```
-
-    After 1 year community images are **deleted** if they are not used anymore.
+    {/* Not deployed:
+    After 1 year community images are **deleted** if they are not used anymore. */}
 </Callout>
 
 ## Terraform VM Creation with Image Rotation
