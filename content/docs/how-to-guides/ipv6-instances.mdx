@@ -8,7 +8,7 @@ In case of issues related to IPv6 connectivity or instance accessibility, refer 
 
 ### Dual-stack Virtual Machine (IPv4 + IPv6)
 
-To enable both IPv4 and IPv6 connectivity, select **both** the internal IPv4 network and the `external-ipv6-general-public` network in the **Networks** section when launching a new instance.
+To enable both IPv4 and IPv6 connectivity, select **first** the internal IPv4 network `internal-ipv4-general-private` and then add **second network port** using `external-ipv6-general-public` network in the **Networks** section when launching a new instance.
 
 <Callout type="info" title="Example">
     ![](/img/openstack/networks/ipv6-ipv4-networks.png)
