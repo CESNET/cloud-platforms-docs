@@ -6,6 +6,7 @@
     "selecting-project-openstack-dashboard",
     "accessing-instances",
     "managing-floating-ips",
+    "ipv6-instances",
     "managing-interface",
     "!attaching-remote-storage",
     "changing-vm-resources",

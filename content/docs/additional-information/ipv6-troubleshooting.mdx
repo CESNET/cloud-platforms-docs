@@ -7,6 +7,10 @@ Public IPv6 addresses are assigned via SLAAC. After assigning an interface in Op
 
 There is an issue with metadata service in IPv6-only environment in our OpenStack Cloud. If you decide to use IPv6 for public access, we recommend to add a local IPv4 network to your VM for deployment of initial configuration via metadata service. This problem can be usually linked to missing SSH keys in your VM in IPv6-only deployment.
 
+To avoid this issue, IPv6-only virtual machines must be created with **Configuration Drive** enabled, or deployed as dual-stack instances.
+
+For instructions on how to correctly create dual-stack and IPv6-only virtual machines, see [IPv6 Instances](../how-to-guides/ipv6-instances).
+
 ## IPv6 Address Not Obtained
 
 This problem should occur only when assigning additional interfaces to your existing VM. First, verify the interface is enabled in the system via `ip addr` and if the interface is down, run `ifconfig ETH_NAME up`.
