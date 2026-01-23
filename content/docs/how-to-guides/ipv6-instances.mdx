@@ -24,7 +24,7 @@ To create an IPv6-only virtual machine, select **only** the `external-ipv6-gener
     ![](/img/openstack/networks/ipv6-only-network.png)
 </Callout>
 
-To ensure metadata is available to the instance, enable **Configuration Drive** in the **Configuration** section, without it the VM may be **unreachable**.
+To ensure metadata is available to the instance, you have to enable **Configuration Drive** in the **Configuration** section. Not enabling **Configuration Drive** result in VM server **unavailability** as network configuration is not applied over ipv6 stack.
 
 <Callout type="info" title="Example">
     ![](/img/openstack/networks/ipv6-only-config.png)
