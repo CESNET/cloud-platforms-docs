@@ -1,0 +1,324 @@
+---
+title: "Nested virtualization"
+---
+
+
+Enabled in both `Brno G2 site` and `Ostrava G2 site`.
+
+## How to verify that nested virtualization is working
+
+### On host VM
+
+Create host VM:
+```shell
+localhost:~$ source ~/.../my-ostack-credentials
+
+localhost:~$ openstack server create --flavor e1.tiny --image ubuntu-noble-x86_64 --network 5cc94ad8-bfef-4291-ad55-6df02d2f9653 --key-name test-key --security-group b9759f8f-cc00-4d9d-93e3-8a5ac55dd0d3 --security-group e7bf0cb6-57ba-428b-b84a-e963117b4cb3 host-instance
+...
+localhost:~$ openstack floating ip create external-ipv4-general-public
+...
+localhost:~$ openstack server add floating ip host-instance 147.251.115.139
+```
+
+
+
+Login onto the VM and check CPU, kernel modules, KVM device:
+```shell
+localhost:~$ ssh -i ~/.ssh/ostack ubuntu@147.251.115.139
+...
+
+ubuntu@host-instance:~$ lscpu | grep Virtualization
+Virtualization:                       VT-x
+Virtualization type:                  full
+
+ubuntu@host-instance:~$ grep -E --color=always 'vmx|svm' /proc/cpuinfo
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat vnmi umip pku ospke avx512_vnni md_clear arch_capabilities
+vmx flags	: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid shadow_vmcs pml
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat vnmi umip pku ospke avx512_vnni md_clear arch_capabilities
+vmx flags	: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid shadow_vmcs pml
+
+ubuntu@host-instance:~$ lsmod | grep kvm
+kvm_intel             487424  4
+kvm                  1409024  3 kvm_intel
+irqbypass              12288  1 kvm
+
+ubuntu@host-instance:~$ ls -l /dev/kvm
+crw-rw---- 1 root kvm 10, 232 Jan 29 09:42 /dev/kvm
+```
+
+Install libvirt + qemu:
+```shell
+ubuntu@host-instance:~$ sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+
+ubuntu@host-instance:~$ systemctl status libvirtd
+○ libvirtd.service - libvirt legacy monolithic daemon
+     Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; preset: enabled)
+     Active: inactive (dead) since Tue 2026-01-27 22:23:29 UTC; 1 day 11h ago
+   Duration: 2min 5.896s
+TriggeredBy: ● libvirtd-ro.socket
+             ● libvirtd-admin.socket
+             ● libvirtd.socket
+       Docs: man:libvirtd(8)
+             https://libvirt.org/
+   Main PID: 6167 (code=exited, status=0/SUCCESS)
+      Tasks: 2 (limit: 32768)
+     Memory: 4.3M (peak: 44.5M)
+        CPU: 378ms
+     CGroup: /system.slice/libvirtd.service
+             ├─5111 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_leaseshelper
+             └─5112 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_leaseshelper
+
+ubuntu@host-instance:~$ kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+```
+
+### On guest (nested) VM
+
+#### Set up the guest VM
+
+Create the guest VM:
+```shell
+ubuntu@host-instance:~$ mkdir -p ~/kvm-test
+ubuntu@host-instance:~$ cd ~/kvm-test
+ubuntu@host-instance:~/kvm-test$ wget -O alpine-standard.iso https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso
+...
+ubuntu@host-instance:~/kvm-test$ qemu-img create -f qcow2 alpine-test.qcow2 1G
+Formatting 'alpine-test.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1073741824 lazy_refcounts=off refcount_bits=16
+
+ubuntu@host-instance:~/kvm-test$ sudo qemu-system-x86_64 -enable-kvm -m 1024 -smp 2 -cpu host -drive file=~/kvm-test/alpine-test.qcow2,format=qcow2,if=virtio -cdrom ~/kvm-test/alpine-standard.iso -boot d -netdev user,id=net0 -device virtio-net-pci,netdev=net0 -display none -serial stdio -name "test‑alpine-kvm"
+
+Welcome to Alpine Linux 3.20
+Kernel 6.6.31-0-lts on an x86_64 (/dev/ttyS0)
+
+localhost login: root
+Welcome to Alpine!
+
+The Alpine Wiki contains a large amount of how-to guides and general
+information about administrating Alpine systems.
+See <https://wiki.alpinelinux.org/>.
+
+You can setup the system with the command: setup-alpine
+
+You may change this message by editing /etc/motd.
+```
+
+Alpine-based VM needs additional config (network, apk repos):
+```shell
+localhost:~# ip a
+1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN qlen 1000
+    link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
+localhost:~# ip l set eth0 up
+localhost:~# udhcpc -i eth0
+udhcpc: started, v1.36.1
+udhcpc: broadcasting discover
+udhcpc: broadcasting select for 10.0.2.15, server 10.0.2.2
+udhcpc: lease of 10.0.2.15 obtained from 10.0.2.2, lease time 86400
+localhost:~# ip a
+1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fec0::5054:ff:fe12:3456/64 scope site dynamic flags 100
+       valid_lft 86392sec preferred_lft 14392sec
+    inet6 fe80::5054:ff:fe12:3456/64 scope link
+       valid_lft forever preferred_lft forever
+localhost:~# ping -c 3 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=255 time=4.952 ms
+64 bytes from 8.8.8.8: seq=1 ttl=255 time=4.689 ms
+64 bytes from 8.8.8.8: seq=2 ttl=255 time=4.793 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 4.689/4.811/4.952 ms
+
+localhost:~# setup-apkrepos -c
+ (f)    Find and use fastest mirror
+ (s)    Show mirrorlist
+ (r)    Use random mirror
+ (e)    Edit /etc/apk/repositories with text editor
+ (c)    Community repo disable
+ (skip) Skip setting up apk repositories
+
+Enter mirror number or URL: [1] 6
+
+Added mirror mirror.fel.cvut.cz
+Updating repository indexes... done.
+
+localhost:~# apk update
+fetch http://mirror.fel.cvut.cz/alpine/v3.20/main/x86_64/APKINDEX.tar.gz
+fetch http://mirror.fel.cvut.cz/alpine/v3.20/community/x86_64/APKINDEX.tar.gz
+3.20.0 [/media/cdrom/apks]
+v3.20.9 [http://mirror.fel.cvut.cz/alpine/v3.20/main]
+v3.20.8-127-gb74bc4485d7 [http://mirror.fel.cvut.cz/alpine/v3.20/community]
+OK: 24206 distinct packages available
+```
+
+On the host VM, verify the guest VM uses KVM:
+```shell
+ubuntu@host-instance:~$ ps -ef | grep qemu
+root       17876   17865  0 09:42 pts/3    00:00:00 sudo qemu-system-x86_64 -enable-kvm -m 1024 -smp 2 -cpu host -drive file=/home/ubuntu/kvm-test/alpine-test.qcow2,format=qcow2,if=virtio -cdrom /home/ubuntu/kvm-test/alpine-standard.iso -boot d -netdev user,id=net0 -device virtio-net-pci,netdev=net0 -display none -serial stdio -name test‑alpine-kvm
+root       17877   17876  0 09:42 pts/2    00:00:00 sudo qemu-system-x86_64 -enable-kvm -m 1024 -smp 2 -cpu host -drive file=/home/ubuntu/kvm-test/alpine-test.qcow2,format=qcow2,if=virtio -cdrom /home/ubuntu/kvm-test/alpine-standard.iso -boot d -netdev user,id=net0 -device virtio-net-pci,netdev=net0 -display none -serial stdio -name test‑alpine-kvm
+root       17878   17877  1 09:42 pts/2    00:00:54 qemu-system-x86_64 -enable-kvm -m 1024 -smp 2 -cpu host -drive file=/home/ubuntu/kvm-test/alpine-test.qcow2,format=qcow2,if=virtio -cdrom /home/ubuntu/kvm-test/alpine-standard.iso -boot d -netdev user,id=net0 -device virtio-net-pci,netdev=net0 -display none -serial stdio -name test‑alpine-kvm
+ubuntu     18446   17735  0 10:43 pts/1    00:00:00 grep --color=auto qemu
+
+ubuntu@host-instance:~$ sudo lsof -p 17876 | grep kvm
+ubuntu@host-instance:~$ sudo lsof -p 17877 | grep kvm
+ubuntu@host-instance:~$ sudo lsof -p 17878 | grep kvm
+qemu-syst 17878 root  mem       REG   0,15             1062 anon_inode:kvm-vcpu:1 (stat: No such file or directory)
+qemu-syst 17878 root    3r      REG    8,1 219152384 527156 /home/ubuntu/kvm-test/alpine-standard.iso
+qemu-syst 17878 root    8u      REG    8,1    196624 527155 /home/ubuntu/kvm-test/alpine-test.qcow2
+qemu-syst 17878 root    9u      CHR 10,232       0t0    584 /dev/kvm
+qemu-syst 17878 root   10u  a_inode   0,15         0   1062 kvm-vm
+qemu-syst 17878 root   11u  a_inode   0,15         0   1062 kvm-vcpu:0
+qemu-syst 17878 root   12r  a_inode   0,15         0   1062 kvm-vcpu-stats:0
+qemu-syst 17878 root   13u  a_inode   0,15         0   1062 kvm-vcpu:1
+qemu-syst 17878 root   14r  a_inode   0,15         0   1062 kvm-vcpu-stats:1
+```
+
+#### Check guest CPU info
+
+CPU info shloud correspond with that of the host VM.
+```shell
+localhost:~# cat /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 85
+model name	: Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz
+stepping	: 7
+microcode	: 0x1
+cpu MHz		: 2194.794
+cache size	: 16384 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat vnmi umip pku ospke avx512_vnni md_clear arch_capabilities
+vmx flags	: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid shadow_vmcs pml
+bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs taa mmio_stale_data retbleed eibrs_pbrsb gds bhi
+bogomips	: 4391.48
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+...
+```
+
+#### Check guest CPU speed
+
+Run a benchmark:
+```shell
+localhost:~# apk add sysbench
+(1/5) Installing libaio (0.3.113-r2)
+(2/5) Installing libgcc (13.2.1_git20240309-r1)
+(3/5) Installing luajit (2.1_p20240314-r0)
+(4/5) Installing mariadb-connector-c (3.3.10-r0)
+(5/5) Installing sysbench (1.0.20-r2)
+Executing busybox-1.36.1-r28.trigger
+OK: 13 MiB in 30 packages
+
+localhost:~# sysbench cpu --cpu-max-prime=20000 run
+sysbench 1.0.20 (using system LuaJIT 2.1.1710398010)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:   305.41
+
+General statistics:
+    total time:                          10.0007s
+    total number of events:              3056
+
+Latency (ms):
+         min:                                    3.02
+         avg:                                    3.27
+         max:                                    7.97
+         95th percentile:                        3.36
+         sum:                                 9992.23
+
+Threads fairness:
+    events (avg/stddev):           3056.0000/0.00
+    execution time (avg/stddev):   9.9922/0.00
+
+```
+
+Compare with a nested VM which is not KVM-accelerated (TCG = "Tiny Code Generator"):
+```shell
+ubuntu@host-instance:~$ sudo qemu-system-x86_64 -accel tcg -m 1024 -smp 2 -drive file=~/kvm-test/alpine-test.qcow2,format=qcow2,if=virtio -cdrom ~/kvm-test/alpine-standard.iso -boot d -netdev user,id=net0 -device virtio-net-pci,netdev=net0 -display none -serial stdio -name "test‑alpine-tcg"
+
+Welcome to Alpine Linux 3.20
+Kernel 6.6.31-0-lts on an x86_64 (/dev/ttyS0)
+
+localhost login: root
+Welcome to Alpine!
+
+The Alpine Wiki contains a large amount of how-to guides and general
+information about administrating Alpine systems.
+See <https://wiki.alpinelinux.org/>.
+
+You can setup the system with the command: setup-alpine
+
+You may change this message by editing /etc/motd.
+
+localhost:~#
+
+### do the same setup: network, apk, sysbench
+
+localhost:~# sysbench cpu --cpu-max-prime=20000 run
+sysbench 1.0.20 (using system LuaJIT 2.1.1710398010)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:    97.59
+
+General statistics:
+    total time:                          10.0087s
+    total number of events:              978
+
+Latency (ms):
+         min:                                    9.43
+         avg:                                   10.20
+         max:                                   16.61
+         95th percentile:                       10.65
+         sum:                                 9970.91
+
+Threads fairness:
+    events (avg/stddev):           978.0000/0.00
+    execution time (avg/stddev):   9.9709/0.00
+
+```
+
+The comparison shloud be similar to this:
+- KVM: `events per second:   305.41`
+- no-KVM: `events per second:    97.59`
