@@ -12,7 +12,7 @@
 
 
 CONTAINER_BIN=${CONTAINER_BIN:-"podman"}
-FUMA_IMAGE=${FUMA_IMAGE:-"cerit.io/docs/fuma:v15.2.10"}
+FUMA_IMAGE=${FUMA_IMAGE:-"cerit.io/docs/fuma:v16.4.6"}
 CONTAINER_COMMAND=${@:-"pnpm dev"}
 
 FAKE_OPENAI_API_KEY="fake-openai-api-key"
@@ -21,7 +21,8 @@ ${CONTAINER_BIN} run -it --rm \
   -p 3000:3000 \
   -v ./content/docs:/opt/fumadocs/content/docs \
   -v ./public:/opt/fumadocs/public \
+  -v ./app/api:/opt/fumadocs/app/api \
   -v ./components:/tmp/fumadocs/components_local \
   -e STARTPAGE=/en/docs \
   -e OPENAI_API_KEY=${FAKE_OPENAI_API_KEY} \
-  ${FUMA_IMAGE} bash -c "ln -sf -t /opt/fumadocs/components/ /tmp/fumadocs/components_local/*; ${CONTAINER_COMMAND}"
+  ${FUMA_IMAGE} bash -c "cp -rf -t /opt/fumadocs/components/ /tmp/fumadocs/components_local/*; ${CONTAINER_COMMAND}"
