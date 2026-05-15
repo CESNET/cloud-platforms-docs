@@ -9,6 +9,7 @@
     "get-support",
     "networking",
     "openstack-components",
-    "quota-limits"
+    "quota-limits",
+    "gpu-computing"
   ]
 }
