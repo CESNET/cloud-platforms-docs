@@ -1,0 +1,69 @@
+---
+title: "Getting Started"
+---
+
+## Prerequisites
+
+1. **Metacenter membership** — You must be a member of MetaCentrum to access PaaS Cloud.
+   - Register or renew your membership: [https://metavo.metacentrum.cz/cs/application/index.html](https://metavo.metacentrum.cz/cs/application/index.html)
+2. **A modern web browser** — The dashboard is fully web-based.
+
+## Sign In
+
+The PaaS Cloud dashboard is available at:
+
+[https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+
+**Steps:**
+
+1. Click **Sign In**.
+2. Select your identity provider (e.g., institutional login or EGI Check-in when available).
+3. Authenticate using your institutional or federated credentials.
+4. Wait to be redirected back to the dashboard.
+
+<Callout type="warn" title="Important">
+    If your MetaCentrum membership has expired, you will not be able to log in. Renew it at the registration link above before contacting support.
+</Callout>
+
+## First Steps in the Dashboard
+
+After logging in, the dashboard shows a high-level overview of your projects and resources.
+
+### 1. Select or Create a Tenant/Project
+
+PaaS Cloud is multi-tenant. Most resources belong to a tenant (also called a project). Make sure you are working inside the correct one.
+
+- If you already have a tenant assigned, select it from the top menu.
+- If you need a new tenant and have the required permissions, use the tenant creation flow.
+
+### 2. Explore the Application Marketplace
+
+- Navigate to the **Marketplace / Catalog**.
+- Browse available services: databases, registries, messaging, virtual machines, monitoring, and more.
+- Click an application to see available configuration options before deployment.
+
+### 3. Check Your Resource Quota
+
+- Open your tenant's **Quota** or **Resources** page.
+- Review limits for CPU, memory, and storage.
+- Contact the cloud team if your project needs more resources.
+
+### 4. Deploy Your First Application
+
+Typical first deployments:
+
+- A managed database (e.g., **PostgreSQL** or **Redis**) for your application.
+- A **Virtual Machine** if you need a traditional compute instance.
+- A **Load Balancer** or **Ingress** to expose services externally.
+
+Refer to the [How-to Guides](../how-to-guides/deploying-applications) section for step-by-step guides.
+
+## Next Steps
+
+- [Use Cases](../use-cases) — Understand why teams choose PaaS.
+- [Deploying Applications](../how-to-guides/deploying-applications) — Learn how to deploy from the marketplace.
+- [Technical Reference](../technical-reference/architecture) — See how the platform is implemented.
+
+<Callout type="info" title="Tip">
+    If you encounter authentication issues, verify that your MetaCentrum membership is active before contacting [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz).
+</Callout>

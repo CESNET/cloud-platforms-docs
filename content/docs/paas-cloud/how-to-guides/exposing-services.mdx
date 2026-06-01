@@ -1,0 +1,73 @@
+---
+title: "Exposing Services"
+---
+
+Applications and virtual machines often need to be reachable from the internet or from other tenants. PaaS Cloud provides two primary mechanisms: **Ingress** (HTTP/HTTPS) and **LoadBalancer** (TCP).
+
+## Prerequisites
+
+- A deployed application or running virtual machine inside a tenant.
+- Awareness of the internal service or VM IP/port you want to expose.
+
+## Choosing Ingress vs LoadBalancer
+
+| Ingress | LoadBalancer |
+|---|---|
+| HTTP and HTTPS traffic | TCP traffic (any port) |
+| Hostname-based routing | One external IP per service |
+| TLS termination supported | TLS managed by the backend |
+| Preferred for web applications | Preferred for databases, game servers, SSH, custom protocols |
+
+## Expose via Ingress (HTTP/HTTPS)
+
+### 1. Prepare Your Service
+
+Ensure your application is running inside the tenant and has an internal service endpoint (e.g., a Kubernetes Service).
+
+### 2. Create an Ingress Resource
+
+- In the dashboard, go to **Networking > Ingress** (or the **HTTP Cache / Ingress** section available in your tenant).
+- Click **Create** and fill in the details:
+  - **Host** — The domain name you want to use.
+  - **Backend service** — The internal service name and port.
+  - **Path** — Usually `/` for the root path.
+- Optionally enable TLS and provide a certificate, or rely on automatic certificate provisioning if it is enabled on the platform.
+
+### 3. Verify
+
+- Save the Ingress resource.
+- Wait for the status to show as active.
+- Access your application via the configured hostname.
+
+<Callout type="info" title="Tip">
+    If you do not have a custom domain, contact the cloud team about available domains or DNS integration options.
+</Callout>
+
+## Expose via LoadBalancer (TCP)
+
+### 1. Create a LoadBalancer
+
+- Navigate to **Networking > Load Balancers** (or equivalent).
+- Click **Create Load Balancer**.
+- Define:
+  - **Name**
+  - **Protocol and port** (e.g., TCP 5432 for PostgreSQL, TCP 22 for SSH)
+  - **Backend target** — The internal IP or service you want to forward traffic to
+
+### 2. Assign External Access
+
+- If available, the platform provisions a public IP for the LoadBalancer.
+- Note the external IP and port, and configure your client or DNS records accordingly.
+
+## Internal-Only Services
+
+Not every service needs to be public. You can keep services internal by:
+
+- Using tenant-internal DNS and cluster networking.
+- Restricting Ingress hosts to internal domains.
+- Using security groups or network policies to block external traffic.
+
+## Next Steps
+
+- [Monitoring and Logs](./monitoring-and-logs) — Monitor traffic and health of exposed services.
+- [FAQ](../faq) — Common connectivity issues and troubleshooting.

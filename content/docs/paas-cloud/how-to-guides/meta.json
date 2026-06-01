@@ -1,0 +1,10 @@
+{
+  "title": "How-to Guides",
+  "defaultOpen": false,
+  "pages": [
+    "deploying-applications",
+    "creating-vms",
+    "exposing-services",
+    "monitoring-and-logs"
+  ]
+}

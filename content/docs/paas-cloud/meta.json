@@ -1,0 +1,11 @@
+{
+  "title": "PaaS Cloud",
+  "pages": [
+    "index",
+    "getting-started",
+    "use-cases",
+    "how-to-guides",
+    "technical-reference",
+    "faq"
+  ]
+}

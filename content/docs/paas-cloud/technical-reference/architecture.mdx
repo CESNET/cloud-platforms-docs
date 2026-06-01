@@ -1,0 +1,56 @@
+---
+title: "Architecture"
+---
+
+This page describes how Cozystack is implemented within e-INFRA CZ to provide the PaaS Cloud service.
+
+## High-Level Overview
+
+PaaS Cloud is built on [Cozystack](https://cozystack.io/), an open-source platform that turns bare-metal or virtual machines into a managed Kubernetes platform. In our organization, Cozystack runs on a pool of compute nodes and provides multi-tenant isolation, managed storage, and an application marketplace.
+
+## Key Components
+
+### Control Plane
+
+- **Kubernetes API Server** — The central point for all tenant and platform operations.
+- **etcd** — Distributed key-value store for cluster state.
+- **Kube-OVN / CNI** — Software-defined networking for tenant isolation and internal LoadBalancers.
+- **LINSTOR / DRBD** — Distributed replicated storage for persistent volumes.
+
+### Worker Nodes
+
+- Run tenant workloads, virtual machines, and platform services.
+- Typically based on Talos Linux for minimal attack surface and declarative management.
+- Nodes are managed by the platform team; tenants do not manage or SSH into nodes.
+
+### Platform Services (Managed by the Cloud Team)
+
+| Service | Purpose |
+|---|---|
+| Ingress Controller (NGINX) | HTTP/HTTPS routing for tenant applications |
+| Object Storage (SeaweedFS / S3) | Backup targets and general object storage |
+| Monitoring Stack | Collects metrics and logs for all tenants |
+| OIDC / Identity Provider | Federated authentication and role mapping |
+| Marketplace Operator | Deploys and lifecycle-manages catalog applications |
+
+## Tenant Isolation
+
+- Each tenant operates within its own namespace and network boundaries.
+- Resource quotas enforce CPU, memory, and storage limits per tenant.
+- Network policies restrict cross-tenant communication by default.
+
+## Storage
+
+- Persistent volumes are provisioned through LINSTOR on top of DRBD.
+- This provides replicated, high-availability block storage.
+- Object storage is available for backup and large unstructured data use cases.
+
+## Multi-Datacenter Considerations
+
+- The platform can be stretched across multiple locations.
+- Storage replication and networking are tuned for stretched topologies when required.
+- Contact the cloud team for details about your tenant's physical placement.
+
+<Callout type="info" title="Note">
+    This is a high-level description. Exact versions, node counts, and network ranges are internal and subject to change without notice.
+</Callout>

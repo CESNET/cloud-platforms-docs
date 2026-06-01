@@ -1,0 +1,81 @@
+---
+title: "Creating Virtual Machines"
+---
+
+PaaS Cloud supports traditional virtual machines alongside container workloads. This guide walks you through creating and accessing a VM from the dashboard.
+
+## Prerequisites
+
+- Active MetaCentrum membership
+- Logged into [https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+- Sufficient tenant quota for CPU, memory, and disk
+
+## Create a Virtual Machine
+
+### 1. Open the VM Creation Flow
+
+- Navigate to **Virtualization > Virtual Machines**.
+- Click **Create Virtual Machine**.
+
+### 2. Choose an Image
+
+- Select an operating system image from the available options (e.g., Ubuntu, Debian, AlmaLinux).
+- If you need a custom image, contact the cloud team.
+
+### 3. Configure Resources
+
+- **CPU and Memory** — Select a flavor or specify custom resources.
+- **Root Disk** — Define the size of the boot volume.
+- **Extra Disks** (optional) — Attach additional persistent volumes if needed.
+
+### 4. Networking and Access
+
+- Choose the tenant network for the VM.
+- If external SSH access is required, ensure the VM will be connected to a network that can receive a floating IP, or plan to access it through a jump host.
+
+### 5. SSH Keys
+
+- Provide your public SSH key so you can log in securely.
+- If you do not have a key pair, generate one locally with:
+
+```sh
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+### 6. Launch
+
+- Review the configuration.
+- Click **Create** and wait for the VM status to become **Running**.
+
+## Access the Virtual Machine
+
+### SSH Access
+
+If the VM has a public IP (or you are reaching it through a jump host):
+
+```sh
+ssh <default-user>@<vm-ip>
+```
+
+Default users usually match the OS name (e.g., `ubuntu` for Ubuntu, `debian` for Debian, `almalinux` for AlmaLinux).
+
+### Console Access
+
+- In the dashboard, open the VM details.
+- Click **Console** for a browser-based VNC/serial console session.
+
+<Callout type="warn" title="Security">
+    Keep private keys secure and never share them. If you generate a key pair inside the dashboard, download the private key immediately and store it safely.
+</Callout>
+
+## Lifecycle Actions
+
+- **Start / Stop / Restart** — Use the action menu in the VM list or details page.
+- **Resize** — Some parameters can be changed when the VM is stopped.
+- **Snapshot** — Create a point-in-time snapshot for recovery.
+- **Delete** — Remove the VM and optionally its disks. Back up data first.
+
+## Next Steps
+
+- [Exposing Services](./exposing-services) — Publish VM services externally.
+- [Monitoring and Logs](./monitoring-and-logs) — Observe VM metrics and logs.

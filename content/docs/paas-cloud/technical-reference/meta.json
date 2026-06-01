@@ -1,0 +1,10 @@
+{
+  "title": "Technical Reference",
+  "defaultOpen": false,
+  "pages": [
+    "architecture",
+    "managed-applications",
+    "networking",
+    "identity-access"
+  ]
+}

@@ -1,0 +1,48 @@
+---
+title: "Networking"
+---
+
+This page describes the tenant networking model and how external access works in PaaS Cloud.
+
+## Tenant Networks
+
+Each tenant receives isolated network resources. By default, workloads within a tenant can communicate with each other, but cross-tenant traffic is restricted unless explicitly allowed by the platform.
+
+- **Internal Services** — Kubernetes Services and internal DNS provide service discovery within the tenant.
+- **Virtual Networks / VPCs** — Available if your tenant requires custom subnets or advanced routing.
+
+## Ingress (HTTP/HTTPS)
+
+- The platform runs a centralized Ingress controller (NGINX).
+- Tenants create Ingress resources that define hostname-based routing to their services.
+- TLS termination can be handled automatically or via custom certificates.
+- DNS records must point to the Ingress controller endpoint. Contact the cloud team for available domains or integration options.
+
+## LoadBalancer (TCP)
+
+- For non-HTTP traffic, tenants can request a TCP LoadBalancer.
+- The platform assigns an external IP and forwards traffic to the backend service or VM.
+- Common uses: SSH access to VMs, database endpoints, custom protocols.
+
+## External Access Patterns
+
+| Pattern | Mechanism | Use Case |
+|---|---|---|
+| Web application | Ingress | Websites, APIs, dashboards |
+| TCP service | LoadBalancer | Databases, SSH, game servers |
+| Internal-only | ClusterIP + network policy | Microservices, internal APIs |
+| VPN | Platform VPN service | Secure remote access to tenant networks |
+
+## DNS
+
+- Internal DNS resolves service names within the tenant automatically.
+- For external access, you can use organizational domains or request a subdomain from the cloud team.
+
+## Security
+
+- Network policies restrict inbound and outbound traffic by default.
+- Exposing a service via Ingress or LoadBalancer implies it becomes reachable from the network the endpoint is bound to. Review your exposure carefully.
+
+<Callout type="warn" title="Important">
+    Do not expose sensitive databases or management interfaces to the internet without strict access controls, VPN restrictions, or strong authentication.
+</Callout>

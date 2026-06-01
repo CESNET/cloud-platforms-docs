@@ -4,8 +4,8 @@
     "index",
     "migration-to-g2-openstack-cloud",
     "getting-started",
-    "how-to-guides",
-    "technical-reference",
+    "iaas-cloud",
+    "paas-cloud",
     "additional-information"
   ]
 }

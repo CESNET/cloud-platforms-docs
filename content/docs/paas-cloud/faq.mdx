@@ -1,0 +1,88 @@
+---
+title: "Frequently Asked Questions"
+---
+
+## How do I register for PaaS Cloud?
+
+You need an active membership in MetaCentrum. Register or renew at:
+
+[https://metavo.metacentrum.cz/cs/application/index.html](https://metavo.metacentrum.cz/cs/application/index.html)
+
+## What is the PaaS Cloud dashboard URL?
+
+[https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+
+## I can't log in. What should I check?
+
+1. Verify that your MetaCentrum membership is active and has not expired.
+2. Try an incognito/private browser window to rule out cookie issues.
+3. Ensure you are selecting the correct identity provider.
+4. If the issue persists, contact [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz).
+
+## How is PaaS Cloud different from OpenStack IaaS?
+
+PaaS Cloud (Cozystack) provides managed Kubernetes and a marketplace of ready-to-use applications. You do not manage VMs or Kubernetes nodes directly unless you explicitly create VMs in the marketplace. OpenStack IaaS gives you full control over VMs, networks, and images.
+
+## How is PaaS Cloud different from KOST?
+
+- **Faster startup** — Clusters and marketplace apps are provisioned in minutes.
+- **Self-service scaling** — Scale resources without infrastructure tickets.
+- **Managed lifecycle** — The platform team handles patching, upgrades, and node maintenance.
+- **No node management** — You do not need to maintain operating systems on Kubernetes nodes.
+
+## My application or VM is stuck in Pending. Why?
+
+Common causes:
+
+- **Quota exceeded** — Check your tenant quota in the dashboard.
+- **No available nodes** — The platform may be temporarily at capacity; wait or contact support.
+- **Scheduling constraints** — Your workload may request resources (e.g., GPU, specific storage) that are not available in your tenant.
+
+## How do I request more resources?
+
+Contact the cloud team at [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz) with the tenant name and the additional CPU, memory, or storage you need.
+
+## How do I expose my application to the internet?
+
+- For HTTP/HTTPS, create an **Ingress** resource with a hostname and backend service.
+- For TCP traffic, create a **LoadBalancer** and use the assigned external IP.
+
+See [Exposing Services](../how-to-guides/exposing-services) for details.
+
+## How do I access logs for my application?
+
+Open the **Monitoring** section in your tenant and navigate to the Grafana logging view. Filter by application name, pod, or VM.
+
+## How do I add a new application to the marketplace?
+
+The marketplace is team-driven:
+
+1. Prepare your requirements and, if possible, a Helm chart or deployment manifest.
+2. Submit your proposal to the cloud team.
+3. The cloud team reviews, tests, and deploys approved applications.
+
+This ensures quality, security, and long-term support.
+
+## What networks can I use?
+
+Each tenant has internal networks for workload communication. For external access, use Ingress or LoadBalancer resources. Contact the cloud team if you need custom VPCs, VPNs, or dedicated subnets.
+
+## Where do I report a problem?
+
+Send an email to [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz). Include:
+
+- Your username
+- The tenant / project name
+- A description of the problem and any error messages
+- Timestamps and affected resource names when possible
+
+## Can I get API or command-line access?
+
+Advanced users and CI/CD pipelines can use platform API tokens. If you need kubeconfig access to a tenant Kubernetes cluster, contact the cloud team.
+
+## My VM is running but I can't connect via SSH. What should I do?
+
+- Verify the VM has a network with external access or that you are using a jump host.
+- Confirm you are using the correct default user for the OS image.
+- Ensure your SSH key was added during VM creation.
+- Use the dashboard **Console** to access the VM and inspect network settings or SSH service status.
