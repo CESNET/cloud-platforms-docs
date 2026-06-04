@@ -1,0 +1,65 @@
+---
+title: "Deploying Applications"
+---
+
+This guide covers deploying a managed application from the PaaS Cloud marketplace using the web dashboard.
+
+## Prerequisites
+
+- Active MetaCentrum membership
+- Logged into [https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+- A selected tenant with sufficient resource quota
+
+## Deploy a Managed Application
+
+### 1. Open the Marketplace
+
+- In the dashboard, navigate to the **Marketplace** or **Catalog**.
+- Browse or search for the application you want to deploy (e.g., PostgreSQL, Redis, Harbor).
+
+### 2. Select an Application
+
+- Click the application tile to open its details.
+- Review the description, resource requirements, and configurable parameters.
+
+### 3. Configure the Instance
+
+Most applications require you to set at least the following:
+
+- **Name** — A unique identifier for your instance within the tenant.
+- **Resource sizing** — CPU/memory requests and limits.
+- **Storage** — Persistent volume size and storage class.
+- **Credentials / secrets** — Initial passwords or tokens (store these securely).
+- **Networking** — Whether the service should be reachable internally or exposed externally.
+
+<Callout type="info" title="Tip">
+    Start with small resource sizes for testing. You can scale垂直 or request more quota later.
+</Callout>
+
+### 4. Confirm and Deploy
+
+- Review the summary.
+- Click **Deploy** (or **Create**).
+- The dashboard will show a deployment progress indicator.
+
+### 5. Verify the Deployment
+
+- Return to your **Applications** or **Instances** list.
+- Wait for the status to change to **Running** or **Ready**.
+- Open the instance details to find connection endpoints, credentials, and status events.
+
+## Accessing the Application
+
+- **From within the cluster**: Use the internal service DNS name provided in the instance details.
+- **From outside**: If the application supports external access, follow the [Exposing Services](./exposing-services) guide to create an Ingress or LoadBalancer.
+
+## Updating and Deleting
+
+- **Update**: Open the instance in the dashboard and edit its parameters. The platform will apply changes following a rolling update when supported.
+- **Delete**: Use the instance action menu and confirm deletion. Back up important data beforehand.
+
+## Next Steps
+
+- [Creating Virtual Machines](./creating-vms) — Deploy traditional VMs when containers are not enough.
+- [Exposing Services](./exposing-services) — Publish your application to the internet.
+- [Monitoring and Logs](./monitoring-and-logs) — Observe application health and logs.

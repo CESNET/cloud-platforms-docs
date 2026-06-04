@@ -1,0 +1,48 @@
+---
+title: "Monitoring and Logs"
+---
+
+PaaS Cloud includes a Grafana-based monitoring stack that provides dashboards, metrics, and logs for your tenant workloads and virtual machines.
+
+## Access the Monitoring Stack
+
+1. Log into [https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/).
+2. Navigate to the **Monitoring** section in your tenant.
+3. Click the Grafana link to open the dashboards.
+
+Authentication is generally integrated with your tenant identity. If you see a login prompt, use your standard PaaS Cloud credentials.
+
+## Available Dashboards
+
+Typical dashboards include:
+
+- **Cluster / Node Overview** — CPU, memory, disk, and network utilization.
+- **Application Metrics** — Request rates, latency, error rates for deployed services.
+- **Database Metrics** — Connection counts, query performance, storage usage for managed databases.
+- **Virtual Machine Metrics** — Guest OS metrics when the VM agent is running.
+
+## Viewing Logs
+
+- In Grafana, open the **Explore** view.
+- Select the logging data source (commonly Loki or a similar log aggregator).
+- Filter by tenant, application name, pod, or VM to narrow down results.
+- Use labels and queries to search for errors, patterns, or specific time ranges.
+
+## Alerts
+
+- The platform may define common alert rules (e.g., high CPU, low disk space, pod restarts).
+- You can view triggered alerts inside the Grafana alerting section or in the dashboard notifications panel.
+- Contact the cloud team if you need custom alert rules for your tenant.
+
+## Exporting and Sharing
+
+- You can export dashboard snapshots or panels as images.
+- Share dashboard links with project members. Avoid sharing publicly unless the data is non-sensitive.
+
+<Callout type="info" title="Tip">
+    If a metric or log source appears empty, verify that your workload has the required monitoring agent or that the correct tenant filter is applied.
+</Callout>
+
+## Next Steps
+
+- [FAQ](../faq) — Troubleshooting missing metrics or access issues.

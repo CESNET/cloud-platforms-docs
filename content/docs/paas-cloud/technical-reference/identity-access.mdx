@@ -1,0 +1,56 @@
+---
+title: "Identity and Access"
+---
+
+This page explains how authentication, authorization, and quotas work in PaaS Cloud.
+
+## Authentication
+
+Access to PaaS Cloud is federated through MetaCentrum. Users log into the dashboard via institutional identity providers or federated AAI services.
+
+- **Primary login**: [https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+- **Prerequisite**: Active membership in MetaCentrum. Register or renew at [https://metavo.metacentrum.cz/cs/application/index.html](https://metavo.metacentrum.cz/cs/application/index.html)
+
+If your institutional login is not available, alternative federated providers may be offered depending on the platform configuration.
+
+## Tenants and Projects
+
+PaaS Cloud is multi-tenant. A user can be a member of one or more tenants.
+
+- **Tenant** — A bounded workspace that contains applications, VMs, networking, and storage.
+- **Tenant Members** — Users assigned to a tenant with specific roles.
+
+## Roles
+
+Typical role mappings include:
+
+| Role | Permissions |
+|---|---|
+| **Owner / Admin** | Full control over tenant resources, members, and quotas |
+| **Editor / Developer** | Can deploy, update, and delete applications and services |
+| **Viewer** | Read-only access to dashboards, metrics, and resource lists |
+
+Exact role names and granularity may vary. Contact the cloud team if you need custom RBAC arrangements.
+
+## Resource Quotas
+
+Each tenant is bound by quotas that limit total consumption:
+
+- **CPU** — Total cores across all workloads.
+- **Memory** — Total RAM.
+- **Storage** — Total persistent disk capacity.
+- **Count limits** — Maximum numbers of VMs, applications, or public IPs.
+
+To request a quota increase, contact the cloud team with a description of your use case and expected growth.
+
+## Service Accounts and API Access
+
+Advanced users and automation pipelines can interact with the platform API using tokens:
+
+- Service accounts can be created within a tenant.
+- Tokens are used for programmatic access (e.g., CI/CD pipelines, external automation).
+- Tokens should be treated as secrets and rotated regularly.
+
+<Callout type="info" title="Tip">
+    If you need kubeconfig access to a tenant Kubernetes cluster for advanced debugging or CI/CD, contact the cloud team.
+</Callout>

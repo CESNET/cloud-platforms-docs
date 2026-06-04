@@ -1,0 +1,67 @@
+---
+title: "Use Cases"
+---
+
+## Kubernetes as a Service (K8saaS)
+
+PaaS Cloud provides Kubernetes as a multi-tenant, fully managed service. This means that instead of deploying and maintaining your own Kubernetes cluster on virtual machines, you receive a ready-to-use Kubernetes environment with self-service scaling, automated updates, and built-in tooling.
+
+## Compared to KOST
+
+Teams that previously used KOST or similar self-managed infrastructure often find PaaS Cloud more convenient for the following reasons:
+
+| Area | KOST (Self-Managed) | PaaS Cloud (Managed) |
+|---|---|---|
+| **Cluster Startup** | Manual provisioning of VMs and cluster setup | Cluster is ready in minutes via the platform |
+| **Scaling** | Requires infrastructure change requests or manual work | Self-service scaling through dashboard or API |
+| **Lifecycle & Maintenance** | Users patch and upgrade nodes and cluster components | Lifecycle managed by the platform team |
+| **Node Management** | Full responsibility for VM and OS management | No need to manage underlying Kubernetes nodes |
+
+## Marketplace Out-of-the-Box Services
+
+One of the main strengths of PaaS Cloud is its application marketplace. You can deploy production-grade infrastructure components directly from the dashboard without manually configuring containers or custom charts.
+
+### Databases
+- **PostgreSQL** — Managed relational database
+- **MariaDB** — Open-source MySQL-compatible database
+- **ClickHouse** — Column-oriented DBMS for analytics
+- **FoundationDB** — Distributed transactional key-value store
+- **MongoDB** — Document-oriented NoSQL database
+- **Redis** — In-memory data store and cache
+- **Qdrant** — Vector similarity search engine
+
+### Messaging & Streaming
+- **Kafka** — Distributed event streaming platform
+- **RabbitMQ** — Reliable message broker
+- **NATS** — Lightweight messaging system
+
+### Infrastructure & Tooling
+- **Harbor** — Container image registry with scanning and RBAC
+- **OpenBAO** — Secrets management and data protection
+- **Load Balancers** — TCP and HTTP load balancing
+- **Virtual Machines** — Traditional VMs running inside the platform
+- **Grafana-Based Monitoring** — Dashboards, logs, and alerting for your workloads
+
+## Extending the Marketplace
+
+Adding new infrastructure stacks to the marketplace is a **team-driven process**:
+
+1. A user or team identifies a new application or service that would benefit the community.
+2. The user can contribute requirements, documentation, or Helm chart drafts.
+3. The cloud team reviews, approves, and deploys the new service into the marketplace.
+4. Once published, all eligible tenants can deploy the new service just like any other managed application.
+
+This ensures that the catalog remains high-quality, secure, and well-supported.
+
+## Summary
+
+PaaS Cloud is ideal for teams that want:
+
+- Managed Kubernetes without operational overhead.
+- Fast self-service scaling.
+- Quick access to databases, registries, and messaging via the marketplace.
+- A clear lifecycle with platform-managed maintenance.
+
+<Callout type="info" title="Note">
+    If you need full control of VMs, network topology, and custom images, consider the [IaaS Cloud](../iaas-cloud) instead.
+</Callout>

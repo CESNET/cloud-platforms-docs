@@ -1,0 +1,56 @@
+---
+title: "Managed Applications"
+---
+
+This page lists the managed applications available in the PaaS Cloud marketplace.
+
+## Databases
+
+| Application | Type | Typical Use |
+|---|---|---|
+| PostgreSQL | Relational | General-purpose OLTP, web applications, GIS |
+| MariaDB | Relational | MySQL-compatible workloads |
+| ClickHouse | Column-oriented | Analytics, large-scale log/event processing |
+| FoundationDB | Key-value / Document | Distributed transactional stores |
+| MongoDB | Document | Flexible schema applications, JSON-native data |
+| Redis | In-memory | Caching, sessions, message brokering, real-time data |
+| Qdrant | Vector | AI/ML embeddings, semantic search |
+
+## Messaging & Streaming
+
+| Application | Type | Typical Use |
+|---|---|---|
+| Kafka | Event streaming | High-throughput event pipelines, log aggregation |
+| RabbitMQ | Message broker | Reliable task queues, AMQP workloads |
+| NATS | Lightweight messaging | Microservices communication, IoT data |
+
+## Infrastructure & Tooling
+
+| Application | Type | Typical Use |
+|---|---|---|
+| Harbor | Container registry | Secure image storage, scanning, RBAC |
+| OpenBAO | Secrets manager | Credential management, encryption, PKI |
+| Load Balancer | Network | TCP traffic distribution |
+| Ingress / HTTP Cache | Network | HTTP/HTTPS routing and caching |
+| Virtual Machine | Compute | Traditional OS workloads |
+| Grafana Stack | Observability | Metrics dashboards, logs, alerting |
+
+## Versioning and Support
+
+- Application versions in the marketplace are curated and updated by the cloud team.
+- Critical security patches are applied during maintenance windows.
+- Major version upgrades are announced ahead of time.
+- If your project requires a specific version or custom configuration, contact the cloud team.
+
+## Requesting New Applications
+
+The marketplace catalog is team-driven:
+
+1. Identify a missing application or stack.
+2. Prepare requirements and, if possible, a Helm chart draft.
+3. Submit a request to the cloud team.
+4. The cloud team reviews, tests, and deploys approved applications into the marketplace.
+
+<Callout type="info" title="Tip">
+    Upstream documentation for each application is usually linked inside the marketplace tile. Always refer to the official docs for advanced configuration options.
+</Callout>
