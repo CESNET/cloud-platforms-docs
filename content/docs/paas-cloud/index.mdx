@@ -17,17 +17,18 @@ PaaS Cloud is e-INFRA CZ's managed container platform, built on [Cozystack](http
 ## Key Features
 
 - **Kubernetes as a Service (K8saaS)**: Multi-tenant clusters with self-service scaling and zero node management.
-- **Application Marketplace**: Deploy managed databases, registries, message queues, virtual machines, and more from the dashboard.
-- **Managed Networking**: Automatic load balancing, ingress, and tenant network isolation.
-- **Built-in Monitoring**: Grafana-based stack for dashboards, logs, and alerting.
+- **Application Marketplace**: Deploy managed databases, registries, message queues, virtual machines, and more from the dashboard. Marketplace applications are packaged as Cozystack application packages (Helm chart bundles) with defined `Application`, `Bundle`, and `Version` resources.
+- **Managed Networking**: Automatic load balancing, ingress, and tenant network isolation powered by Kube-OVN and the NGINX Ingress Controller.
+- **Built-in Monitoring**: VictoriaMetrics for metrics, Loki for logs, and Grafana for dashboards and alerting.
+- **KubeVirt Virtualization**: Run traditional virtual machines using `vm-disk` and `vm-instance` resources with support for golden images, instance types, and instance profiles.
 
 ## Quick Navigation
 
-- [Getting Started](./getting-started/login-and-first-steps) — Log in and take your first steps.
-- [Use Cases](./use-cases) — Why teams choose PaaS and what is available in the marketplace.
-- [How-to Guides](./how-to-guides/deploying-applications) — Step-by-step guides for daily tasks.
-- [Technical Reference](./technical-reference/architecture) — How the platform is implemented in our organization.
-- [FAQ](./faq) — Answers to common questions.
+- [Getting Started](./paas-cloud/getting-started) — Log in and take your first steps.
+- [Use Cases](./paas-cloud/use-cases) — Why teams choose PaaS and what is available in the marketplace.
+- [How-to Guides](./paas-cloud/how-to-guides/deploying-applications) — Step-by-step guides for daily tasks.
+- [Technical Reference](./paas-cloud/technical-reference/architecture) — How the platform is implemented in our organization.
+- [FAQ](./paas-cloud/faq) — Answers to common questions.
 
 <Callout type="info" title="Note">
     If you are looking for the OpenStack IaaS documentation, visit the [IaaS Cloud](../iaas-cloud) section.

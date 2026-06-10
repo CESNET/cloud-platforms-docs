@@ -1,0 +1,140 @@
+---
+title: "Virtualization"
+---
+
+PaaS Cloud virtual machines are powered by **KubeVirt**, running on top of Kubernetes. This page explains the core virtualization concepts, resources, and components.
+
+## vm-disk
+
+A `vm-disk` defines virtual machine storage using KubeVirt **DataVolume** and **PersistentVolumeClaim** (PVC) resources. Disks are provisioned through the **CDI (Containerized Data Importer)**.
+
+### Disk Sources
+
+| Source | Description |
+|---|---|
+| `image` (golden image) | Reference a pre-built OS image by name from the Cozystack catalog. |
+| `http` | Download an image from a remote URL. |
+| `upload` | Upload a local image using `virtctl image-upload`. |
+| `disk` | Clone an existing `vm-disk` by name. |
+| Empty | Create an empty disk for data storage. |
+
+### Example: Golden Image
+
+```yaml
+source:
+  image:
+    name: ubuntu
+```
+
+### Example: HTTP Download
+
+```yaml
+source:
+  http:
+    url: "https://download.cirros-cloud.net/0.6.2/cirros-0.6.2-x86_64-disk.img"
+```
+
+### Example: Upload
+
+```yaml
+source:
+  upload: {}
+```
+
+After creation, use `virtctl image-upload` to populate the disk. See [VM Image Upload](../how-to-guides/vm-image-upload).
+
+### Storage Parameters
+
+- **`storage`** — Disk size (default `5Gi`).
+- **`storageClass`** — Storage class for the PVC (default `replicated`).
+- **`optical`** — Set to `true` for CD-ROM disks.
+
+## vm-instance
+
+A `vm-instance` defines the Virtual Machine instance. It references one or more `vm-disk` resources and specifies compute, network, and access parameters.
+
+### Key Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `instanceType` | string | `u1.medium` | Hardware template (see [VM Instance Types](./vm-instance-types)). |
+| `instanceProfile` | string | `ubuntu` | Guest OS preference (see [VM Instance Types](./vm-instance-types)). |
+| `disks` | `[]object` | `[]` | List of `vm-disk` names to attach. First disk is bootable. |
+| `networks` | `[]object` | `[]` | Networks to attach (deprecated: `subnets`). |
+| `sshKeys` | `[]string` | `[]` | SSH public keys injected via cloud-init. |
+| `cloudInit` | string | `""` | Cloud-init user data. |
+| `external` | bool | `false` | Enable external access. |
+| `externalMethod` | string | `PortList` | Traffic passthrough method (`PortList` or `WholeIP`). |
+| `externalPorts` | `[]int` | `[22]` | Ports to forward when `external` is true. |
+| `externalAllowICMP` | bool | `true` | Accept ICMP (ping) in `PortList` mode. |
+| `gpus` | `[]object` | `[]` | GPU resources for passthrough. |
+| `runStrategy` | string | `Always` | Desired running state (`Always`, `Halted`, `RerunOnFailure`). |
+
+### Example
+
+```yaml
+disks:
+- name: example-system
+- name: example-data
+instanceType: u1.medium
+instanceProfile: ubuntu
+sshKeys:
+- "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI..."
+external: true
+externalPorts:
+- 22
+- 80
+```
+
+## CDI (Containerized Data Importer)
+
+CDI handles importing and uploading disk images into PVCs. It provides the `cdi-uploadproxy` service that `virtctl image-upload` communicates with.
+
+## Golden Images
+
+Golden images are pre-built OS images maintained by the platform team in the Cozystack catalog. They speed up VM deployment by eliminating the need to download or upload images manually.
+
+## virtctl
+
+The KubeVirt CLI tool for VM operations. See [Using virtctl](../how-to-guides/using-virtctl).
+
+## GPU Passthrough
+
+Attaching physical GPUs to VMs requires:
+- A `gn1.*` instance type (or custom resources with GPU requests).
+- Guest OS with appropriate drivers.
+- At least 4 GiB of RAM for NVIDIA driver initialization.
+
+## Windows VMs
+
+Windows VMs require a Windows instance profile (e.g., `windows.11`, `windows.2k22`) and may need VirtIO drivers. Use the `.virtio` variants for improved I/O performance.
+
+## Cloneable VMs
+
+Cozystack supports creating cloneable VMs from existing `vm-instance` and `vm-disk` resources. This enables rapid provisioning of identical VM instances for testing or scaling.
+
+## Live Migration
+
+Live migration moves a running VM between nodes without downtime, provided the VM uses shared storage (e.g., LINSTOR/DRBD). The recommended way to trigger it is to create a `VirtualMachineInstanceMigration` object that targets the running VM:
+
+```yaml
+apiVersion: kubevirt.io/v1
+kind: VirtualMachineInstanceMigration
+metadata:
+  name: migrate-<vm-name>
+  namespace: <tenant-name>
+spec:
+  vmiName: <vm-name>
+```
+
+Apply the manifest with `kubectl apply -f <filename>.yaml`.
+
+You can also trigger a migration from the command line with:
+
+```sh
+virtctl migrate <vm-name>
+```
+
+<Callout type="info" title="Reference">
+    For the upstream KubeVirt user guide, visit [kubevirt.io/user-guide](https://kubevirt.io/user-guide/).
+</Callout>

@@ -6,32 +6,36 @@ This page describes the tenant networking model and how external access works in
 
 ## Tenant Networks
 
-Each tenant receives isolated network resources. By default, workloads within a tenant can communicate with each other, but cross-tenant traffic is restricted unless explicitly allowed by the platform.
+Each tenant receives isolated network resources powered by Kube-OVN and Multus. By default, workloads within a tenant can communicate with each other, but cross-tenant traffic is restricted unless explicitly allowed by the platform.
 
 - **Internal Services** — Kubernetes Services and internal DNS provide service discovery within the tenant.
-- **Virtual Networks / VPCs** — Available if your tenant requires custom subnets or advanced routing.
+- **Virtual Networks / VPCs** — Available if your tenant requires custom subnets, advanced routing, or Virtual Routers.
+- **NetworkAttachmentDefinitions** — Used by Multus to attach additional network interfaces to Pods and VMs.
 
 ## Ingress (HTTP/HTTPS)
 
-- The platform runs a centralized Ingress controller (NGINX).
+- The platform runs a centralized NGINX Ingress Controller.
 - Tenants create Ingress resources that define hostname-based routing to their services.
 - TLS termination can be handled automatically or via custom certificates.
 - DNS records must point to the Ingress controller endpoint. Contact the cloud team for available domains or integration options.
+- The **HTTP Cache** service provides managed Nginx-based caching for HTTP/HTTPS traffic.
 
 ## LoadBalancer (TCP)
 
-- For non-HTTP traffic, tenants can request a TCP LoadBalancer.
+- For non-HTTP traffic, tenants can request a TCP LoadBalancer backed by Kube-OVN.
 - The platform assigns an external IP and forwards traffic to the backend service or VM.
+- Supports **PROXY-protocol** for preserving client IP addresses.
 - Common uses: SSH access to VMs, database endpoints, custom protocols.
 
 ## External Access Patterns
 
 | Pattern | Mechanism | Use Case |
 |---|---|---|
-| Web application | Ingress | Websites, APIs, dashboards |
-| TCP service | LoadBalancer | Databases, SSH, game servers |
+| Web application | Ingress (NGINX) | Websites, APIs, dashboards |
+| TCP service | LoadBalancer (Kube-OVN) | Databases, SSH, game servers |
 | Internal-only | ClusterIP + network policy | Microservices, internal APIs |
-| VPN | Platform VPN service | Secure remote access to tenant networks |
+| VPN | Managed VPN Service | Secure remote access to tenant networks |
+| Cached HTTP | HTTP Cache | Static asset caching and acceleration |
 
 ## DNS
 

@@ -14,7 +14,7 @@ PaaS Cloud is built on [Cozystack](https://cozystack.io/), an open-source platfo
 
 - **Kubernetes API Server** — The central point for all tenant and platform operations.
 - **etcd** — Distributed key-value store for cluster state.
-- **Kube-OVN / CNI** — Software-defined networking for tenant isolation and internal LoadBalancers.
+- **Kube-OVN / CNI** — Software-defined networking for tenant isolation, internal LoadBalancers, and VPCs.
 - **LINSTOR / DRBD** — Distributed replicated storage for persistent volumes.
 
 ### Worker Nodes
@@ -29,9 +29,19 @@ PaaS Cloud is built on [Cozystack](https://cozystack.io/), an open-source platfo
 |---|---|
 | Ingress Controller (NGINX) | HTTP/HTTPS routing for tenant applications |
 | Object Storage (SeaweedFS / S3) | Backup targets and general object storage |
-| Monitoring Stack | Collects metrics and logs for all tenants |
+| Monitoring Stack (VictoriaMetrics / Loki / Grafana) | Collects metrics and logs for all tenants |
 | OIDC / Identity Provider | Federated authentication and role mapping |
-| Marketplace Operator | Deploys and lifecycle-manages catalog applications |
+| Marketplace Operator | Deploys and lifecycle-manages catalog application packages (Helm chart bundles) |
+| KubeVirt / CDI | Virtualization runtime and containerized data importer for VMs |
+
+## Virtualization (KubeVirt)
+
+Virtual machines in PaaS Cloud are powered by KubeVirt:
+
+- **`vm-disk`** — Defines a virtual machine disk (DataVolume / PVC) created from a golden image, HTTP download, upload, or left empty.
+- **`vm-instance`** — Defines the VM instance, referencing one or more `vm-disk` resources. Supports instance types and instance profiles for hardware and OS preferences.
+- **virtctl** — The KubeVirt CLI tool used to access VM console, VNC, SSH, and upload images.
+- **CDI (Containerized Data Importer)** — Handles importing and uploading disk images into PVCs.
 
 ## Tenant Isolation
 

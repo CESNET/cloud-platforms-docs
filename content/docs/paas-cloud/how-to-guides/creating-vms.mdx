@@ -2,67 +2,145 @@
 title: "Creating Virtual Machines"
 ---
 
-PaaS Cloud supports traditional virtual machines alongside container workloads. This guide walks you through creating and accessing a VM from the dashboard.
+PaaS Cloud supports traditional virtual machines powered by KubeVirt. VMs are defined by two separate resources: a `vm-disk` (storage) and a `vm-instance` (compute). This guide walks you through creating and accessing a VM using the dashboard or `virtctl`.
 
 ## Prerequisites
 
 - Active MetaCentrum membership
-- Logged into [https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+- Logged into [Chloe Dashboard](https://dashboard.chloe.platform.cloud.e-infra.cz/)
 - Sufficient tenant quota for CPU, memory, and disk
+- (Optional) `virtctl` installed for CLI access. See [Using virtctl](./using-virtctl).
 
-## Create a Virtual Machine
+## VM Resources Overview
 
-### 1. Open the VM Creation Flow
+| Resource | Purpose |
+|---|---|
+| `vm-disk` | Defines a virtual machine disk (DataVolume / PVC). Can be created from a golden image, HTTP URL, uploaded image, or empty. |
+| `vm-instance` | Defines the Virtual Machine instance. References one or more `vm-disk` resources and specifies instance type, instance profile, networks, and SSH keys. |
 
-- Navigate to **Virtualization > Virtual Machines**.
-- Click **Create Virtual Machine**.
+## Step 1: Create a vm-disk
 
-### 2. Choose an Image
+Before creating a VM instance, you need a disk from which the VM will boot. Disk can be also cloned from already existing instance.
 
-- Select an operating system image from the available options (e.g., Ubuntu, Debian, AlmaLinux).
-- If you need a custom image, contact the cloud team.
+### From a Golden Image
 
-### 3. Configure Resources
+Select a pre-built OS image from the dashboard:
 
-- **CPU and Memory** — Select a flavor or specify custom resources.
-- **Root Disk** — Define the size of the boot volume.
-- **Extra Disks** (optional) — Attach additional persistent volumes if needed.
-
-### 4. Networking and Access
-
-- Choose the tenant network for the VM.
-- If external SSH access is required, ensure the VM will be connected to a network that can receive a floating IP, or plan to access it through a jump host.
-
-### 5. SSH Keys
-
-- Provide your public SSH key so you can log in securely.
-- If you do not have a key pair, generate one locally with:
-
-```sh
-ssh-keygen -t ed25519 -C "your_email@example.com"
+```yaml
+source:
+  image:
+    name: ubuntu
 ```
 
-### 6. Launch
+Available golden image names correspond to Cozystack instance profiles (e.g., `ubuntu`, `debian`, `almalinux`, `windows.2k22`). See [VM Instance Types](../technical-reference/vm-instance-types) for the full list.
 
-- Review the configuration.
-- Click **Create** and wait for the VM status to become **Running**.
+### From an HTTP URL
 
-## Access the Virtual Machine
+Download an image from a remote URL:
 
-### SSH Access
+```yaml
+source:
+  http:
+    url: "https://download.cirros-cloud.net/0.6.2/cirros-0.6.2-x86_64-disk.img"
+```
 
-If the VM has a public IP (or you are reaching it through a jump host):
+### Upload a Local Image
+
+Create an empty disk for upload:
+
+```yaml
+source:
+  upload: {}
+```
+
+After the disk is created, the dashboard provides a `virtctl image-upload` command. See [VM Image Upload](./vm-image-upload) for details.
+
+### Empty Disk
+
+Create an empty disk to attach to a VM (e.g., for a secondary data volume):
+
+```yaml
+source: {}
+```
+
+### Optional: CD-ROM
+
+Mark a disk as an optical drive:
+
+```yaml
+optical: true
+```
+
+## Step 2: Create a vm-instance
+
+After the disk is ready, create the VM instance.
+
+### Required Fields
+
+- **`disks`** — List of disks to attach. The first disk is always bootable.
+  ```yaml
+  disks:
+  - name: example-system
+  - name: example-data
+  ```
+- **`instanceType`** — A predefined hardware template. Default is `u1.medium`.
+  - Examples: `u1.micro`, `u1.medium`, `cx1.2xlarge`, `m1.2xlarge`, `rt1.medium`
+  - See [VM Instance Types](../technical-reference/vm-instance-types) for the full catalog.
+- **`instanceProfile`** — A guest OS preference that configures KubeVirt defaults.
+  - Examples: `ubuntu`, `debian`, `almalinux`, `windows.11`, `windows.2k22`
+- **`instanceName`** — A name for the instance.
+
+### Optional Fields
+
+- **`sshKeys`** — List of SSH public keys for authentication (injected via cloud-init).
+- **`cloudInit`** — Cloud-init user data for custom provisioning.
+- **`networks`** — Networks to attach the VM to. If empty, a default tenant network is used.
+- **`external`** — Enable external access from outside the cluster (`true` / `false`).
+- **`externalPorts`** — Ports to forward externally when `external` is enabled. Default is `[22]`.
+- **`gpus`** — List of GPU resources to attach for GPU passthrough.
+
+### Example YAML
+
+```yaml
+apiVersion: cozystack.io/v1alpha1
+kind: VMInstance
+metadata:
+  name: my-vm
+spec:
+  instanceType: u1.medium
+  instanceProfile: ubuntu
+  disks:
+  - name: my-vm-system
+  sshKeys:
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI..."
+  external: true
+  externalPorts:
+  - 22
+  - 80
+  - 443
+```
+
+## Step 3: Access the Virtual Machine
+
+### Dashboard Console
+
+- Open the VM details in the dashboard.
+- Click **Console** for a browser-based VNC or serial console session.
+
+### virtctl (CLI)
 
 ```sh
-ssh <default-user>@<vm-ip>
+# Serial console
+virtctl console <vm-name>
+
+# VNC
+virtctl vnc <vm-name>
+
+# SSH (requires external access or a jump host)
+virtctl ssh <user>@<vm-name>
 ```
 
 Default users usually match the OS name (e.g., `ubuntu` for Ubuntu, `debian` for Debian, `almalinux` for AlmaLinux).
-
-### Console Access
-
-- In the dashboard, open the VM details.
-- Click **Console** for a browser-based VNC/serial console session.
 
 <Callout type="warn" title="Security">
     Keep private keys secure and never share them. If you generate a key pair inside the dashboard, download the private key immediately and store it safely.
@@ -70,12 +148,14 @@ Default users usually match the OS name (e.g., `ubuntu` for Ubuntu, `debian` for
 
 ## Lifecycle Actions
 
-- **Start / Stop / Restart** — Use the action menu in the VM list or details page.
-- **Resize** — Some parameters can be changed when the VM is stopped.
-- **Snapshot** — Create a point-in-time snapshot for recovery.
-- **Delete** — Remove the VM and optionally its disks. Back up data first.
+- **Start / Stop / Restart** — Use the action menu in the VM list or details page. Under the hood, this changes the KubeVirt `runStrategy` (`Always`, `Halted`, `RerunOnFailure`).
+- **Resize** — Change the `instanceType` (e.g., from `u1.medium` to `u1.large`) when the VM is stopped. This modifies CPU and memory allocations.
+- **Snapshot** — Create a point-in-time snapshot of a `vm-disk` for recovery.
+- **Delete** — Remove the `vm-instance` and optionally its `vm-disk` resources. Back up data first.
 
 ## Next Steps
 
+- [VM Image Upload](./vm-image-upload) — Upload custom OS images.
+- [Using virtctl](./using-virtctl) — Full CLI reference for VM operations.
 - [Exposing Services](./exposing-services) — Publish VM services externally.
 - [Monitoring and Logs](./monitoring-and-logs) — Observe VM metrics and logs.

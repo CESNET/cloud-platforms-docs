@@ -1,0 +1,70 @@
+---
+title: Known Issues
+description: A comprehensive list of known bugs, limitations, and operational workarounds for the Cozystack v1.4 release line.
+---
+
+This page documents known issues, edge cases, and limitations identified in **Cozystack v1.4**. Please review these items before deploying production workloads or executing cluster-level upgrades.
+
+---
+
+## Storage & Virtualization
+
+### Tenant Volume Expansion Failure
+* **Symptom:** Attempting to resize a `PersistentVolumeClaim` (PVC) inside a tenant cluster fails. The system returns a `spec is immutable` error.
+* **Cause:** The cluster synchronization controller incorrectly attempts to modify restricted fields (such as `accessModes`) during a resize event, instead of isolating updates to `.storage` and `.volumeAttributesClassName`.
+* **Workaround:** Manually patch the resource or recreate the volume with the desired capacity if scaling becomes blocked.
+
+### Windows VM Live-Migration Blocks
+* **Symptom:** Live migrations or node drains stall indefinitely when hosting Windows Virtual Machines.
+* **Cause:** Persistent EFI variables and Trusted Platform Module (TPM) states stored on the default storage tier lack shared access configurations, preventing the target node from inheriting the state.
+* **Workaround:** Power down the Windows VM completely before initiating a node drain, or temporarily migrate the state files to a globally shared storage class.
+
+---
+
+## Networking & Multus Integration
+
+### Stale Sandbox Reservations
+* **Symptom:** Terminated VM sandboxes fail to clear from the cluster. This leaks internal network resources and causes node clutter.
+* **Cause:** A race condition exists between Multus and the `kube-ovn` integration layer. Because Multus lacks a localized sandbox network cache, it rejects the deletion commands during network tear-down phases.
+* **Workaround:** Administrators must manually clean up leaked network namespaces and stale ovn ports on the affected host node.
+
+### Network Policies in Non-Isolated Tenants
+* **Symptom:** Newly created VMs in a non-isolated tenant environment allow unrestricted egress traffic to unexpected external endpoints.
+* **Cause:** Non-isolated tenants do not apply default block policies upon creation. The traffic matrix remains completely open until at least one explicit egress firewall rule is applied to the namespace.
+* **Workaround:** Implement a baseline `NetworkPolicy` during tenant bootstrapping to enforce a zero-trust model from day one.
+
+### Ubuntu Host Firewall (etcd Drop)
+* **Symptom:** Multi-master K3s control planes fail to form a quorum or experience frequent split-brain states on Ubuntu nodes.
+* **Cause:** Default Ubuntu cloud images ship with aggressive iptables rules containing a `REJECT icmp-host-prohibited` target. This implicitly drops the required `etcd` peer-to-peer port (`2380`).
+* **Workaround:** Flush or adapt your host firewall rules during the node provisioning phase:
+
+```bash
+sudo iptables -F
+# Or explicitly allow the etcd traffic:
+sudo iptables -A INPUT -p tcp --dport 2380 -j ACCEPT
+```
+
+---
+
+## Administration & Operations
+
+### CRD Validation Webhook Race Condition
+* **Symptom:** Initial component or cluster deployments fail immediately with the following error:
+  `no matches for kind: CozystackResourceDefinition`
+* **Cause:** The validating/mutating admission webhooks fire before the Custom Resource Definitions (CRDs) have finished initializing and reporting a `Ready` status to the API server.
+* **Workaround:** This issue is transient. Re-running the deployment pipeline or waiting 60 seconds for the controller loops to reconcile will resolve the error.
+
+### Manual Talos Node Upgrades Required
+* **Symptom:** Upgrading underlying Talos operating system images does not trigger a rolling cluster update.
+* **Cause:** Cozystack v1.4 lacks a built-in automated reconciliation controller for handling native `TalosNode` rolling updates.
+* **Workaround:** Administrators must manually apply patch files to each node sequentially using the Talos CLI tool (`talosctl`).
+
+---
+
+## Identity & Access
+
+### Generated Kubeconfig Uses the Wrong OIDC Issuer URL
+
+* **Symptom:** After downloading a tenant `kubeconfig` from the dashboard, `kubectl` commands fail with an OIDC error such as `invalid client_id`, `issuer did not match`, or a redirect to a non-existent Keycloak host.
+* **Cause:** The `info` Helm chart in this environment populates the OIDC issuer using `_namespace.host` (e.g., `keycloak.cloud.chloe.platform.cloud.e-infra.cz`) instead of `_cluster.root-host` (`keycloak.chloe.platform.cloud.e-infra.cz`).
+* **Workaround:** Edit the `kubeconfig` and replace the incorrect issuer URL with the correct one, or use the `sed` command shown in [Using kubectl](../how-to-guides/using-kubectl).

@@ -14,38 +14,39 @@ This guide covers deploying a managed application from the PaaS Cloud marketplac
 
 ### 1. Open the Marketplace
 
-- In the dashboard, navigate to the **Marketplace** or **Catalog**.
+- In the dashboard, navigate to the **Marketplace**.
 - Browse or search for the application you want to deploy (e.g., PostgreSQL, Redis, Harbor).
+- Each application is a Cozystack application package (Helm chart bundle) with predefined `Application`, `Bundle`, and `Version` resources.
 
 ### 2. Select an Application
 
 - Click the application tile to open its details.
-- Review the description, resource requirements, and configurable parameters.
+- Review the description, resource requirements, and configurable parameters (parameter schema).
 
 ### 3. Configure the Instance
 
 Most applications require you to set at least the following:
 
 - **Name** — A unique identifier for your instance within the tenant.
-- **Resource sizing** — CPU/memory requests and limits.
-- **Storage** — Persistent volume size and storage class.
+- **Resource sizing** — CPU/memory requests and limits. Some applications offer resource presets similar to VM instance types.
+- **Storage** — Persistent volume size and storage class (e.g., `replicated` backed by LINSTOR/DRBD).
 - **Credentials / secrets** — Initial passwords or tokens (store these securely).
 - **Networking** — Whether the service should be reachable internally or exposed externally.
 
 <Callout type="info" title="Tip">
-    Start with small resource sizes for testing. You can scale垂直 or request more quota later.
+    Start with small resource sizes for testing. You can scale vertically or request more quota later.
 </Callout>
 
 ### 4. Confirm and Deploy
 
 - Review the summary.
-- Click **Deploy** (or **Create**).
+- Click **Deploy**.
 - The dashboard will show a deployment progress indicator.
 
 ### 5. Verify the Deployment
 
-- Return to your **Applications** or **Instances** list.
-- Wait for the status to change to **Running** or **Ready**.
+- Return to your **Console** list.
+- Wait for the status to change to **Ready**.
 - Open the instance details to find connection endpoints, credentials, and status events.
 
 ## Accessing the Application

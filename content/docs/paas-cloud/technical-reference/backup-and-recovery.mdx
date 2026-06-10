@@ -1,0 +1,70 @@
+---
+title: "Backup and Recovery"
+---
+
+PaaS Cloud supports backup and recovery for both virtual machines and managed applications using Cozystack's backup infrastructure.
+
+## VM Backup and Recovery
+
+### BackupJobs
+
+A **BackupJob** creates a point-in-time snapshot of a `vm-disk` or `vm-instance` and stores it in object storage (SeaweedFS/S3) or another configured target.
+
+### BackupPlans
+
+A **BackupPlan** defines a schedule and retention policy for automated backups of VM resources. You can configure:
+
+- **Schedule** — Cron expression for backup frequency.
+- **Retention** — How many backup snapshots to keep.
+- **Target** — Storage backend for backup data.
+
+### Manual Snapshot
+
+Create a one-time snapshot of a `vm-disk` from the dashboard or via `kubectl`:
+
+```sh
+kubectl create -f - <<EOF
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: my-vm-snapshot
+spec:
+  source:
+    persistentVolumeClaimName: my-vm-system
+EOF
+```
+
+### Restoring a VM
+
+To restore a VM from a backup:
+
+1. Locate the backup snapshot in the dashboard or object storage.
+2. Create a new `vm-disk` from the snapshot source.
+3. Create a new `vm-instance` referencing the restored disk.
+
+## Application Backup and Recovery
+
+Managed applications in the marketplace can be backed up using the same backup infrastructure:
+
+- **Application Backup Jobs** — Snapshot application PVCs and configuration.
+- **Velero Integration** — The platform may use Velero for cluster-wide backup and migration of application resources.
+
+### Velero Add-on
+
+For tenant Kubernetes clusters, the Velero add-on provides:
+
+- Scheduled backups of namespace resources and PVCs.
+- Cross-cluster migration of applications.
+
+Contact the cloud team to enable Velero backups for your tenant.
+
+## Best Practices
+
+- **Automate backups** — Use BackupPlans with appropriate schedules for critical VMs and applications.
+- **Test restores** — Periodically restore backups to verify integrity.
+- **Off-site copies** — For disaster recovery, request that backups be replicated to a secondary location.
+- **Monitor backup jobs** — Check the Monitoring dashboard for backup job status and alerts.
+
+<Callout type="warn" title="Important">
+    Backups are only as good as your recovery tests. Always verify that you can restore from a backup before you need it in production.
+</Callout>

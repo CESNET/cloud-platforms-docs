@@ -1,0 +1,163 @@
+---
+title: "VM Instance Types and Profiles"
+---
+
+Cozystack provides predefined **instance types** (hardware templates) and **instance profiles** (guest OS preferences) for KubeVirt virtual machines. Using these abstractions simplifies VM creation and ensures consistent performance characteristics.
+
+## Instance Types
+
+Instance types define CPU, memory, and performance policies for a VM. They are provided by Cozystack as KubeVirt `instancetype` resources.
+
+### Series Overview
+
+| Series | Abbreviation | Use Case | CPU | Memory Ratio |
+|---|---|---|---|---|
+| **U** | Universal | General-purpose applications | Burstable | 1:4 |
+| **O** | Overcommitted | Higher density, memory overcommitted | Burstable | 1:4 |
+| **CX** | Compute Exclusive | Compute-intensive workloads | Dedicated | 1:2 |
+| **M** | Memory | Memory-intensive applications | Burstable + Hugepages | 1:8 |
+| **RT** | Realtime | Realtime / low-latency workloads | Dedicated + Hugepages | 1:4 |
+
+### U Series — Universal
+
+- **Burstable CPU** — Baseline performance with burst capability.
+- **vCPU-to-Memory Ratio 1:4** — Balanced for most workloads.
+
+| Name | vCPUs | Memory |
+|---|---|---|
+| u1.nano | 1 | 512Mi |
+| u1.micro | 1 | 1Gi |
+| u1.small | 1 | 2Gi |
+| u1.medium | 1 | 4Gi |
+| u1.large | 2 | 8Gi |
+| u1.xlarge | 4 | 16Gi |
+| u1.2xlarge | 8 | 32Gi |
+| u1.4xlarge | 16 | 64Gi |
+| u1.8xlarge | 32 | 128Gi |
+
+### O Series — Overcommitted
+
+Same CPU characteristics as U Series, but memory is overcommitted for higher density.
+
+| Name | vCPUs | Memory |
+|---|---|---|
+| o1.nano | 1 | 512Mi |
+| o1.micro | 1 | 1Gi |
+| o1.small | 1 | 2Gi |
+| o1.medium | 1 | 4Gi |
+| o1.large | 2 | 8Gi |
+| o1.xlarge | 4 | 16Gi |
+| o1.2xlarge | 8 | 32Gi |
+| o1.4xlarge | 16 | 64Gi |
+| o1.8xlarge | 32 | 128Gi |
+
+### CX Series — Compute Exclusive
+
+- **Dedicated CPU** — Physical cores exclusively assigned to vCPUs.
+- **Hugepages** — Improved memory performance.
+- **Isolated Emulator Threads** — Hypervisor threads isolated from vCPUs.
+- **vNUMA** — Guest-visible NUMA topology.
+- **vCPU-to-Memory Ratio 1:2**.
+
+| Name | vCPUs | Memory |
+|---|---|---|
+| cx1.medium | 1 | 2Gi |
+| cx1.large | 2 | 4Gi |
+| cx1.xlarge | 4 | 8Gi |
+| cx1.2xlarge | 8 | 16Gi |
+| cx1.4xlarge | 16 | 32Gi |
+| cx1.8xlarge | 32 | 64Gi |
+
+### M Series — Memory
+
+- **Hugepages** — Improved memory performance.
+- **Burstable CPU**.
+- **vCPU-to-Memory Ratio 1:8**.
+
+| Name | vCPUs | Memory |
+|---|---|---|
+| m1.large | 2 | 16Gi |
+| m1.xlarge | 4 | 32Gi |
+| m1.2xlarge | 8 | 64Gi |
+| m1.4xlarge | 16 | 128Gi |
+| m1.8xlarge | 32 | 256Gi |
+
+### RT Series — Realtime
+
+- **Hugepages** and **Dedicated CPU**.
+- **Isolated Emulator Threads**.
+- Requires nodes capable of running realtime applications.
+
+| Name | vCPUs | Memory |
+|---|---|---|
+| rt1.micro | 1 | 1Gi |
+| rt1.small | 1 | 2Gi |
+| rt1.medium | 1 | 4Gi |
+| rt1.large | 2 | 8Gi |
+| rt1.xlarge | 4 | 16Gi |
+| rt1.2xlarge | 8 | 32Gi |
+| rt1.4xlarge | 16 | 64Gi |
+| rt1.8xlarge | 32 | 128Gi |
+
+### GPU Instance Types
+
+| Name | vCPUs | Memory |
+|---|---|---|
+| gn1.xlarge | 4 | 16Gi |
+| gn1.2xlarge | 8 | 32Gi |
+| gn1.4xlarge | 16 | 64Gi |
+| gn1.8xlarge | 32 | 128Gi |
+
+## Instance Profiles (Preferences)
+
+Instance profiles define guest OS-specific defaults and preferences (e.g., default disk bus, network model, firmware settings). They are provided by Cozystack as KubeVirt `preference` resources.
+
+### Linux Profiles
+
+| Profile | Guest OS |
+|---|---|
+| alpine | Alpine |
+| cirros | Cirros |
+| debian | Debian |
+| fedora | Fedora (amd64) |
+| fedora.arm64 | Fedora (arm64) |
+| opensuse.leap | OpenSUSE Leap |
+| opensuse.tumbleweed | OpenSUSE Tumbleweed |
+| sles | SUSE Linux Enterprise Server |
+| ubuntu | Ubuntu |
+
+### Enterprise Linux Profiles
+
+| Profile | Guest OS |
+|---|---|
+| centos.7 | CentOS 7 |
+| centos.stream8 | CentOS Stream 8 |
+| centos.stream9 | CentOS Stream 9 |
+| centos.stream10 | CentOS Stream 10 |
+| rhel.7 | Red Hat Enterprise Linux 7 |
+| rhel.8 | Red Hat Enterprise Linux 8 |
+| rhel.9 | Red Hat Enterprise Linux 9 (amd64) |
+| rhel.9.arm64 | Red Hat Enterprise Linux 9 (arm64) |
+| rhel.10 | Red Hat Enterprise Linux 10 Beta (amd64) |
+| rhel.10.arm64 | Red Hat Enterprise Linux 10 Beta (arm64) |
+
+### Windows Profiles
+
+| Profile | Guest OS |
+|---|---|
+| windows.10 | Microsoft Windows 10 |
+| windows.10.virtio | Microsoft Windows 10 (virtio) |
+| windows.11 | Microsoft Windows 11 |
+| windows.11.virtio | Microsoft Windows 11 (virtio) |
+| windows.2k16 | Microsoft Windows Server 2016 |
+| windows.2k16.virtio | Microsoft Windows Server 2016 (virtio) |
+| windows.2k19 | Microsoft Windows Server 2019 |
+| windows.2k19.virtio | Microsoft Windows Server 2019 (virtio) |
+| windows.2k22 | Microsoft Windows Server 2022 |
+| windows.2k22.virtio | Microsoft Windows Server 2022 (virtio) |
+| windows.2k25 | Microsoft Windows Server 2025 |
+| windows.2k25.virtio | Microsoft Windows Server 2025 (virtio) |
+
+<Callout type="info" title="Tip">
+    For GPU passthrough VMs, use a `gn1.*` instance type and ensure the guest OS has the appropriate NVIDIA drivers installed.
+</Callout>

@@ -1,0 +1,87 @@
+---
+title: "Storage"
+---
+
+PaaS Cloud storage is built on **LINSTOR** with **DRBD** replication, providing distributed, high-availability block storage for workloads and virtual machines.
+
+## Storage Architecture
+
+| Component | Purpose |
+|---|---|
+| **LINSTOR** | Distributed storage management and volume provisioning |
+| **DRBD** | Block-level replication across nodes for HA |
+| **LINSTOR CSI** | Kubernetes CSI driver for dynamic volume provisioning |
+| **SeaweedFS / S3** | Object storage for backups and unstructured data |
+
+## Storage Classes
+
+The following storage classes are typically available in PaaS Cloud:
+
+| Storage Class | Backend | Use Case |
+|---|---|---|
+| `replicated` | LINSTOR/DRBD (thin LVM) | Default for most workloads and VMs. Replicated across nodes for HA. |
+| `local` | LINSTOR (thin LVM, local) | Local-only thin LVM without replication. Faster but not HA. |
+
+Specify the storage class when creating `vm-disk` resources or PVCs:
+
+```yaml
+storageClass: replicated
+```
+
+## vm-disk Storage
+
+When you create a `vm-disk`, the underlying PVC is provisioned through LINSTOR CSI:
+
+```yaml
+spec:
+  pvc:
+    storageClassName: replicated
+    resources:
+      requests:
+        storage: 20Gi
+```
+
+- The default size is `5Gi`.
+- The default storage class is `replicated`.
+
+## Persistent Volumes for Applications
+
+Marketplace applications that require persistent storage also use LINSTOR-backed PVCs. When deploying an application, you can specify:
+
+- **Storage size** — Requested capacity.
+- **Storage class** — Typically `replicated` for HA.
+
+## Disk Preparation
+
+The platform team prepares physical disks for LINSTOR storage pools. This includes:
+
+- Creating LVM thin pools on physical devices.
+- Registering storage pools with LINSTOR.
+
+Tenants do not need to manage physical disk preparation.
+
+## Encrypted Storage
+
+LINSTOR supports encrypted volumes using LUKS. If your tenant requires encrypted storage, contact the cloud team to enable encryption on specific storage pools.
+
+## NFS
+
+NFS shares can be consumed by workloads for shared file storage. Contact the cloud team if your application requires NFS access.
+
+## Object Storage (S3)
+
+The platform provides object storage via SeaweedFS with an S3-compatible API. Common uses:
+
+- Application backups.
+- VM disk snapshots.
+- Large unstructured data.
+
+Contact the cloud team for S3 endpoint details and credentials.
+
+## Troubleshooting
+
+| Problem | Cause | Solution |
+|---|---|---|
+| PVC stuck in Pending | No available storage pool or quota exceeded | Check tenant quotas and contact support. |
+| Disk performance is low | Using `replicated` over slow network | For latency-sensitive workloads, request `lvm-thin` (local) storage class. |
+| Disk full | Volume exceeded requested size | Resize the PVC or attach an additional `vm-disk`. |

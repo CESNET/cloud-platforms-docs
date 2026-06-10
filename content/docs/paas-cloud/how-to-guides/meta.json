@@ -4,7 +4,8 @@
   "pages": [
     "deploying-applications",
     "creating-vms",
+    "using-virtctl",
     "exposing-services",
-    "monitoring-and-logs"
+    "using-kubectl"
   ]
 }
