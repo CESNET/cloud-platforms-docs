@@ -1,0 +1,114 @@
+---
+title: "VM Image Upload"
+---
+
+PaaS Cloud lets you upload custom disk images to create `vm-disk` resources. This is useful when you need an OS image that is not available as a golden image in the catalog.
+
+## Prerequisites
+
+- `virtctl` installed. See [Using virtctl](../using-virtctl).
+- `kubeconfig` access to the tenant namespace (contact the cloud team if needed).
+- A valid disk image file (e.g., `.qcow2`, `.raw`, `.img`).
+
+## Step 1: Create a vm-disk with Upload Source
+
+In the dashboard, create a `vm-disk` and select **Upload** as the source:
+
+```yaml
+source:
+  upload: {}
+```
+
+Alternatively, create it via `kubectl`:
+
+```yaml
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: my-custom-disk
+spec:
+  source:
+    upload: {}
+  pvc:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: replicated
+```
+
+## Step 2: Upload the Image
+
+Use `virtctl image-upload` to stream the image into the `vm-disk`:
+
+```sh
+virtctl image-upload dv my-custom-disk \
+  --image-path=/path/to/your-image.qcow2 \
+  --size=20Gi \
+  --storage-class=replicated \
+  --access-mode=ReadWriteOnce \
+  --insecure
+```
+
+### Parameters
+
+| Flag | Description |
+|---|---|
+| `--image-path` | Path to the local image file. |
+| `--size` | Requested PVC size. Must be at least as large as the image. |
+| `--storage-class` | Storage class for the PVC. Default is `replicated` (LINSTOR/DRBD). |
+| `--access-mode` | Access mode for the PVC. Typically `ReadWriteOnce`. |
+| `--insecure` | Skip TLS verification (useful for internal endpoints). |
+
+## Step 3: Use the Disk in a vm-instance
+
+Once uploaded, reference the disk in your `vm-instance`:
+
+```yaml
+disks:
+- name: my-custom-disk
+```
+
+## Upload Proxy Endpoint
+
+For `virtctl` to know the correct upload endpoint, the cluster must expose the CDI upload proxy:
+
+```bash
+# Expose cdi-uploadproxy via the Platform Package
+kubectl patch packages.cozystack.io cozystack.cozystack-platform --type=json \
+  -p '[{"op": "add", "path": "/spec/components/platform/values/publishing/exposedServices/-", "value": "cdi-uploadproxy"}]'
+
+# Provide the upload proxy URL
+kubectl patch packages.cozystack.io cozystack.kubevirt-cdi --type=merge -p '{
+  "spec": {
+    "components": {
+      "kubevirt-cdi": {
+        "values": {
+          "uploadProxyURL": "https://cdi-uploadproxy.example.org"
+        }
+      }
+    }
+  }
+}'
+```
+
+<Callout type="warn" title="Note">
+    In PaaS Cloud, the upload proxy endpoint is typically pre-configured by the platform team. If uploads fail, contact [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz).
+</Callout>
+
+## Supported Image Formats
+
+- QCOW2 (`.qcow2`)
+- RAW (`.`)
+- VMDK (`.vmdk`)
+- ISO (`.iso`) — for optical disks
+
+## Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| Upload hangs | Check that the CDI upload proxy is reachable. Verify the image file is not corrupt. |
+| PVC too small | Increase `--size` to match or exceed the uncompressed image size. |
+| Permission denied | Ensure your `kubeconfig` has write access to the tenant namespace. |
+| Image boots slowly | Convert the image to RAW or optimize it with `virt-sparsify` before upload. |

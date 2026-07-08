@@ -2,7 +2,7 @@
 title: "Monitoring and Logs"
 ---
 
-PaaS Cloud includes a Grafana-based monitoring stack that provides dashboards, metrics, and logs for your tenant workloads and virtual machines.
+PaaS Cloud includes a monitoring stack based on **VictoriaMetrics** (metrics), **Loki** (logs), and **Grafana** (dashboards and alerting) for your tenant workloads and virtual machines.
 
 ## Access the Monitoring Stack
 
@@ -19,14 +19,18 @@ Typical dashboards include:
 - **Cluster / Node Overview** — CPU, memory, disk, and network utilization.
 - **Application Metrics** — Request rates, latency, error rates for deployed services.
 - **Database Metrics** — Connection counts, query performance, storage usage for managed databases.
-- **Virtual Machine Metrics** — Guest OS metrics when the VM agent is running.
+- **Virtual Machine Metrics** — Guest OS metrics when the QEMU guest agent is running inside the VM.
 
 ## Viewing Logs
 
 - In Grafana, open the **Explore** view.
-- Select the logging data source (commonly Loki or a similar log aggregator).
+- Select the **Loki** logging data source.
 - Filter by tenant, application name, pod, or VM to narrow down results.
 - Use labels and queries to search for errors, patterns, or specific time ranges.
+
+## VM Guest Metrics
+
+For advanced VM monitoring, the QEMU guest agent provides guest-level metrics. You can query these through `virtctl guest-agent` commands or view them in Grafana when the agent is installed inside the VM. See [Using virtctl](../how-to-guides/using-virtctl) for details.
 
 ## Alerts
 

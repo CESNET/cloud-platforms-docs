@@ -10,7 +10,7 @@ You need an active membership in MetaCentrum. Register or renew at:
 
 ## What is the PaaS Cloud dashboard URL?
 
-[https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+[dashboard.chloe.platform.cloud.e-infra.cz/](dashboard.chloe.platform.cloud.e-infra.cz/)
 
 ## I can't log in. What should I check?
 
@@ -21,7 +21,7 @@ You need an active membership in MetaCentrum. Register or renew at:
 
 ## How is PaaS Cloud different from OpenStack IaaS?
 
-PaaS Cloud (Cozystack) provides managed Kubernetes and a marketplace of ready-to-use applications. You do not manage VMs or Kubernetes nodes directly unless you explicitly create VMs in the marketplace. OpenStack IaaS gives you full control over VMs, networks, and images.
+PaaS Cloud (Cozystack) provides managed Kubernetes and a marketplace of ready-to-use application packages (Helm chart bundles). You do not manage VMs or Kubernetes nodes directly unless you explicitly create VMs in the marketplace. OpenStack IaaS gives you full control over VMs, networks, and images.
 
 ## How is PaaS Cloud different from KOST?
 
@@ -37,6 +37,7 @@ Common causes:
 - **Quota exceeded** — Check your tenant quota in the dashboard.
 - **No available nodes** — The platform may be temporarily at capacity; wait or contact support.
 - **Scheduling constraints** — Your workload may request resources (e.g., GPU, specific storage) that are not available in your tenant.
+- **Missing disk** — A `vm-instance` requires a pre-created `vm-disk`. Ensure the disk exists in the same tenant before creating the VM.
 
 ## How do I request more resources?
 
@@ -51,13 +52,13 @@ See [Exposing Services](../how-to-guides/exposing-services) for details.
 
 ## How do I access logs for my application?
 
-Open the **Monitoring** section in your tenant and navigate to the Grafana logging view. Filter by application name, pod, or VM.
+Open the **Monitoring** section in your tenant and navigate to the Grafana logging view (Loki). Filter by application name, pod, or VM.
 
 ## How do I add a new application to the marketplace?
 
 The marketplace is team-driven:
 
-1. Prepare your requirements and, if possible, a Helm chart or deployment manifest.
+1. Prepare your requirements and, if possible, a Helm chart or deployment manifest (Cozystack application package).
 2. Submit your proposal to the cloud team.
 3. The cloud team reviews, tests, and deploys approved applications.
 
@@ -78,11 +79,24 @@ Send an email to [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz). Include:
 
 ## Can I get API or command-line access?
 
-Advanced users and CI/CD pipelines can use platform API tokens. If you need kubeconfig access to a tenant Kubernetes cluster, contact the cloud team.
+Advanced users and CI/CD pipelines can use platform API tokens. For interactive `kubectl` access, see [Using kubectl](../how-to-guides/using-kubectl). If you need a kubeconfig generated or have access issues, contact the cloud team.
 
 ## My VM is running but I can't connect via SSH. What should I do?
 
 - Verify the VM has a network with external access or that you are using a jump host.
 - Confirm you are using the correct default user for the OS image.
-- Ensure your SSH key was added during VM creation.
-- Use the dashboard **Console** to access the VM and inspect network settings or SSH service status.
+- Ensure your SSH key was added during `vm-instance` creation (via `sshKeys` or `cloudInit`).
+- Use `virtctl console <vm>` or the dashboard **Console** to access the VM and inspect network settings or SSH service status.
+- If using `virtctl ssh`, ensure `virtctl` is installed and configured correctly. See [Using virtctl](../how-to-guides/using-virtctl).
+
+## What is the difference between `vm-disk` and `vm-instance`?
+
+- **`vm-disk`** — Defines a virtual machine disk used for data storage. It can be created from a golden image, downloaded via HTTP, uploaded from a local image, or left empty.
+- **`vm-instance`** — Defines the Virtual Machine instance itself, including CPU, memory, networking, and a reference to one or more `vm-disk` resources. The first attached disk is always bootable.
+
+## What are instance types and instance profiles?
+
+- **Instance type** (`instanceType`) — A predefined hardware template (e.g., `u1.medium`, `cx1.2xlarge`) that defines CPU, memory, and performance characteristics.
+- **Instance profile** (`instanceProfile`) — A guest OS preference (e.g., `ubuntu`, `windows.11`) that configures KubeVirt preferences for the VM.
+
+See the [VM Instance Types reference](../technical-reference/vm-instance-types) for the full list.

@@ -1,0 +1,115 @@
+---
+title: "Using virtctl"
+---
+
+`virtctl` is the official KubeVirt client tool for managing and accessing virtual machines in PaaS Cloud. It complements the web dashboard and is useful for console access, image uploads, and VM control.
+
+## Installation
+
+Download `virtctl` from the [KubeVirt releases page](https://github.com/kubevirt/kubevirt/releases) or install via your package manager:
+
+```sh
+# macOS (Homebrew)
+brew install kubevirt-io/homebrew-tap/virtctl
+
+# Linux (binary)
+export KUBEVIRT_VERSION=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | jq -r .tag_name)
+wget https://github.com/kubevirt/kubevirt/releases/download/${KUBEVIRT_VERSION}/virtctl-${KUBEVIRT_VERSION}-linux-amd64
+chmod +x virtctl-${KUBEVIRT_VERSION}-linux-amd64
+sudo mv virtctl-${KUBEVIRT_VERSION}-linux-amd64 /usr/local/bin/virtctl
+```
+
+## Connecting to the Cluster
+
+Ensure your `kubeconfig` is configured for the tenant namespace. If you do not have a kubeconfig yet, see [Using kubectl](./using-kubectl). For access problems, contact the cloud team.
+
+```sh
+export KUBECONFIG=/path/to/tenant-kubeconfig
+kubectl config set-context --current --namespace=<tenant-name>
+```
+
+## Common Commands
+
+### List VMs
+
+```sh
+virtctl list
+```
+
+### Start / Stop / Restart a VM
+
+```sh
+virtctl start <vm-name>
+virtctl stop <vm-name>
+virtctl restart <vm-name>
+```
+
+### Serial Console
+
+```sh
+virtctl console <vm-name>
+```
+
+Press `Ctrl+]` to exit the console.
+
+### VNC
+
+```sh
+virtctl vnc <vm-name>
+```
+
+This opens a VNC client (requires a local VNC viewer or browser extension).
+
+### SSH
+
+```sh
+virtctl ssh <user>@<vm-name>
+```
+
+Requires the VM to have external network access or a configured jump host.
+
+### Upload an Image to a vm-disk
+
+```sh
+virtctl image-upload dv <disk-name> \
+  --image-path=/path/to/image.qcow2 \
+  --size=20Gi \
+  --storage-class=replicated \
+  --access-mode=ReadWriteOnce
+```
+
+See [VM Image Upload](../vm-image-upload) for detailed upload instructions.
+
+### Guest Agent Info
+
+```sh
+virtctl guest-agent <vm-name>
+virtctl guest-osinfo <vm-name>
+virtctl guest-fsfreeze <vm-name>
+```
+
+These commands require the QEMU guest agent to be running inside the VM.
+
+{/* Bug on the kubeovn, which is preventning migration of vm in our configuration. Fiex there kubeovn/kube-ovn#6834 but its actually on master only not in the stable version. So this feature is not functioning yet.
+
+### Migrate a VM (Live Migration)
+
+```sh
+virtctl migrate <vm-name>
+```
+
+Live migration moves a running VM to another node without downtime. Supported for VMs using shared storage.
+*/}
+
+## Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| `virtctl` not found | Install `virtctl` from the KubeVirt releases page. |
+| Cannot connect to VM | Verify the VM status is `Running` and the network is configured. |
+| SSH fails | Confirm the VM has external access, the correct SSH key was provided, and the guest OS user exists. |
+| VNC does not open | Ensure a VNC viewer is installed or use the dashboard Console instead. |
+
+<Callout type="info" title="Tip">
+    For the full list of `virtctl` commands, run `virtctl --help` or refer to the [KubeVirt User Guide](https://kubevirt.io/user-guide/user_workloads/virtctl_client_tool/).
+</Callout>

@@ -3,8 +3,13 @@
   "defaultOpen": false,
   "pages": [
     "architecture",
+    "virtualization",
+    "vm-instance-types",
+    "storage",
+    "backup-and-recovery",
     "managed-applications",
     "networking",
-    "identity-access"
+    "identity-access",
+    "known-issues.mdx"
   ]
 }

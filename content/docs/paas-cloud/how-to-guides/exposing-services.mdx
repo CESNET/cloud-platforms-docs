@@ -2,23 +2,23 @@
 title: "Exposing Services"
 ---
 
-Applications and virtual machines often need to be reachable from the internet or from other tenants. PaaS Cloud provides two primary mechanisms: **Ingress** (HTTP/HTTPS) and **LoadBalancer** (TCP).
+Applications and virtual machines often need to be reachable from the internet or from other tenants. PaaS Cloud provides two primary mechanisms: **Ingress** (HTTP/HTTPS) via the NGINX Ingress Controller and **LoadBalancer** (TCP) backed by Kube-OVN.
 
 ## Prerequisites
 
 - A deployed application or running virtual machine inside a tenant.
 - Awareness of the internal service or VM IP/port you want to expose.
 
-## Choosing Ingress vs LoadBalancer
+## Choosing HTTPCache vs TCPBalancer
 
-| Ingress | LoadBalancer |
+| HTTPCache | TCPBalancer |
 |---|---|
 | HTTP and HTTPS traffic | TCP traffic (any port) |
 | Hostname-based routing | One external IP per service |
 | TLS termination supported | TLS managed by the backend |
 | Preferred for web applications | Preferred for databases, game servers, SSH, custom protocols |
 
-## Expose via Ingress (HTTP/HTTPS)
+## Expose via HTTP/HTTPS
 
 ### 1. Prepare Your Service
 
@@ -43,7 +43,11 @@ Ensure your application is running inside the tenant and has an internal service
     If you do not have a custom domain, contact the cloud team about available domains or DNS integration options.
 </Callout>
 
-## Expose via LoadBalancer (TCP)
+## ~~Expose via LoadBalancer (TCP)~~
+
+<Callout type="warning" title="Unavailable">
+    Due to bug, TCP Loadbaalancer is currently unavailable.
+</Callout>
 
 ### 1. Create a LoadBalancer
 

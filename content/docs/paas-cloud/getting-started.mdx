@@ -4,7 +4,7 @@ title: "Getting Started"
 
 ## Prerequisites
 
-1. **Metacenter membership** — You must be a member of MetaCentrum to access PaaS Cloud.
+1. **Metacentrum membership** — You must be a member of MetaCentrum to access PaaS Cloud.
    - Register or renew your membership: [https://metavo.metacentrum.cz/cs/application/index.html](https://metavo.metacentrum.cz/cs/application/index.html)
 2. **A modern web browser** — The dashboard is fully web-based.
 
@@ -12,7 +12,7 @@ title: "Getting Started"
 
 The PaaS Cloud dashboard is available at:
 
-[https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+[dashboard.chloe.platform.cloud.e-infra.cz/](dashboard.chloe.platform.cloud.e-infra.cz/)
 
 **Steps:**
 
@@ -40,7 +40,7 @@ PaaS Cloud is multi-tenant. Most resources belong to a tenant (also called a pro
 
 - Navigate to the **Marketplace / Catalog**.
 - Browse available services: databases, registries, messaging, virtual machines, monitoring, and more.
-- Click an application to see available configuration options before deployment.
+- Click an application to see available configuration options, including parameter schemas and resource presets, before deployment.
 
 ### 3. Check Your Resource Quota
 
@@ -53,16 +53,23 @@ PaaS Cloud is multi-tenant. Most resources belong to a tenant (also called a pro
 Typical first deployments:
 
 - A managed database (e.g., **PostgreSQL** or **Redis**) for your application.
-- A **Virtual Machine** if you need a traditional compute instance.
-- A **Load Balancer** or **Ingress** to expose services externally.
+- A **Virtual Machine** (`vm-instance`) with an attached `vm-disk` if you need a traditional compute instance. Choose an [instance type](./technical-reference/vm-instance-types) (e.g., `u1.medium`) and an [instance profile](./technical-reference/vm-instance-types) (e.g., `ubuntu`) to define resources and guest OS preferences.
+- A ~~**TCPBalancer**~~ or **HTTPCache** to expose services externally.
 
-Refer to the [How-to Guides](../how-to-guides/deploying-applications) section for step-by-step guides.
+Refer to the [How-to Guides](./how-to-guides/deploying-applications) section for step-by-step guides.
+
+## CLI Access
+
+Advanced users can install `virtctl` (the KubeVirt client tool) and `kubectl` to interact with VMs and tenant resources from the command line:
+
+- `virtctl` — Access VM console, VNC, SSH, and upload disk images. See [Using virtctl](./how-to-guides/using-virtctl).
+- `kubectl` — Manage Kubernetes resources directly. See [Using kubectl](./how-to-guides/using-kubectl) for setup instructions.
 
 ## Next Steps
 
-- [Use Cases](../use-cases) — Understand why teams choose PaaS.
-- [Deploying Applications](../how-to-guides/deploying-applications) — Learn how to deploy from the marketplace.
-- [Technical Reference](../technical-reference/architecture) — See how the platform is implemented.
+- [Use Cases](./use-cases) — Understand why teams choose PaaS.
+- [Deploying Applications](./how-to-guides/deploying-applications) — Learn how to deploy from the marketplace.
+- [Technical Reference](./technical-reference/architecture) — See how the platform is implemented.
 
 <Callout type="info" title="Tip">
     If you encounter authentication issues, verify that your MetaCentrum membership is active before contacting [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz).
