@@ -1,7 +1,7 @@
 {
   "title": "OpenStack",
   "pages": [
-    "index",
+    "overview",
     "getting-started",
     "iaas-cloud",
     "paas-cloud",

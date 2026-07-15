@@ -23,6 +23,6 @@ ${CONTAINER_BIN} run -it --rm \
   -v ./public:/opt/fumadocs/public \
   -v ./app/api:/opt/fumadocs/app/api \
   -v ./components:/tmp/fumadocs/components_local \
-  -e STARTPAGE=/en/docs \
+  -e STARTPAGE=/en/docs/overview \
   -e OPENAI_API_KEY=${FAKE_OPENAI_API_KEY} \
   ${FUMA_IMAGE} bash -c "cp -rf -t /opt/fumadocs/components/ /tmp/fumadocs/components_local/*; ${CONTAINER_COMMAND}"
