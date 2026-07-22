@@ -1,7 +1,7 @@
 ---
 title: "Object Storage"
 ---
-OpenStack supports object storage based on [OpenStack Swift](https://docs.openstack.org/swift/latest/api/object_api_v1_overview.html). Creation of an object storage container (database) is done by clicking on `+Container` on [Object storage containers page](https://dashboard.cloud.muni.cz/project/containers).
+OpenStack supports object storage based on [OpenStack Swift](https://docs.openstack.org/swift/latest/api/object_api_v1_overview.html). Creation of an object storage container (database) is done by clicking on `+Container` on **Object storage containers** page ([G2-Brno](https://horizon.brno.openstack.cloud.e-infra.cz/project/containers/) [G2-Ostrava](https://horizon.ostrava.openstack.cloud.e-infra.cz/project/containers/)).
 
 Every object typically contains data along with metadata and a unique global identifier to access it. OpenStack allows you to upload your files via an HTTPS protocol. There are two ways of managing a created object storage container:
 
@@ -13,7 +13,7 @@ In both cases, you will need application credentials to be able to manage your d
 
 ### Swift Credentials
 
-The easiest way to generate **Swift** storage credentials is through [MetaCentrum cloud dashboard](https://dashboard.cloud.muni.cz). You can generate application credentials as described in the [Obtaining API Key](../how-to-guides/obtaining-api-key) section.
+The easiest way to generate **Swift** storage credentials is through **MetaCentrum cloud dashboard** ([G2-Brno](https://horizon.brno.openstack.cloud.e-infra.cz/identity/application_credentials/) [G2-Ostrava](https://horizon.ostrava.openstack.cloud.e-infra.cz/identity/application_credentials/)). You can generate application credentials as described in the [Obtaining API Key](../iaas-cloud/how-to-guides/obtaining-api-key) section.
 You must have the **heat_stack_owner** role.
 
 ### S3 Credentials

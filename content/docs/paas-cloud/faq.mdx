@@ -10,7 +10,7 @@ You need an active membership in MetaCentrum. Register or renew at:
 
 ## What is the PaaS Cloud dashboard URL?
 
-[dashboard.chloe.platform.cloud.e-infra.cz/](dashboard.chloe.platform.cloud.e-infra.cz/)
+[https://dashboard.chloe.platform.cloud.e-infra.cz](https://dashboard.chloe.platform.cloud.e-infra.cz/)
 
 ## I can't log in. What should I check?
 
@@ -48,7 +48,7 @@ Contact the cloud team at [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz) wi
 - For HTTP/HTTPS, create an **Ingress** resource with a hostname and backend service.
 - For TCP traffic, create a **LoadBalancer** and use the assigned external IP.
 
-See [Exposing Services](../how-to-guides/exposing-services) for details.
+See [Exposing Services](../paas-cloud/how-to-guides/exposing-services) for details.
 
 ## How do I access logs for my application?
 
@@ -79,7 +79,7 @@ Send an email to [cloud@metacentrum.cz](mailto:cloud@metacentrum.cz). Include:
 
 ## Can I get API or command-line access?
 
-Advanced users and CI/CD pipelines can use platform API tokens. For interactive `kubectl` access, see [Using kubectl](../how-to-guides/using-kubectl). If you need a kubeconfig generated or have access issues, contact the cloud team.
+Advanced users and CI/CD pipelines can use platform API tokens. For interactive `kubectl` access, see [Using kubectl](../paas-cloud/how-to-guides/using-kubectl). If you need a kubeconfig generated or have access issues, contact the cloud team.
 
 ## My VM is running but I can't connect via SSH. What should I do?
 
@@ -87,7 +87,7 @@ Advanced users and CI/CD pipelines can use platform API tokens. For interactive 
 - Confirm you are using the correct default user for the OS image.
 - Ensure your SSH key was added during `vm-instance` creation (via `sshKeys` or `cloudInit`).
 - Use `virtctl console <vm>` or the dashboard **Console** to access the VM and inspect network settings or SSH service status.
-- If using `virtctl ssh`, ensure `virtctl` is installed and configured correctly. See [Using virtctl](../how-to-guides/using-virtctl).
+- If using `virtctl ssh`, ensure `virtctl` is installed and configured correctly. See [Using virtctl](../paas-cloud/how-to-guides/using-virtctl).
 
 ## What is the difference between `vm-disk` and `vm-instance`?
 
@@ -99,4 +99,4 @@ Advanced users and CI/CD pipelines can use platform API tokens. For interactive 
 - **Instance type** (`instanceType`) — A predefined hardware template (e.g., `u1.medium`, `cx1.2xlarge`) that defines CPU, memory, and performance characteristics.
 - **Instance profile** (`instanceProfile`) — A guest OS preference (e.g., `ubuntu`, `windows.11`) that configures KubeVirt preferences for the VM.
 
-See the [VM Instance Types reference](../technical-reference/vm-instance-types) for the full list.
+See the [VM Instance Types reference](./technical-reference/vm-instance-types) for the full list.

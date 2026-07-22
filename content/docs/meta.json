@@ -2,7 +2,6 @@
   "title": "OpenStack",
   "pages": [
     "overview",
-    "getting-started",
     "iaas-cloud",
     "paas-cloud",
     "additional-information"
