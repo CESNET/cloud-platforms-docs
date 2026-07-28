@@ -3,6 +3,8 @@
   "defaultOpen": false,
   "pages": [
     "deploying-applications",
+    "deploying-kubernetes-clusters",
+    "backing-up-tenant-etcd",
     "creating-vms",
     "using-virtctl",
     "exposing-services",
