@@ -1,0 +1,139 @@
+---
+title: "Deploying Kubernetes Clusters"
+---
+
+This guide covers creating and managing a fully managed Kubernetes cluster inside your tenant. PaaS Cloud provisions the control plane as containers and runs the worker nodes as virtual machines, so you get Kubernetes as a Service without managing any servers yourself.
+
+## Prerequisites
+
+- Active MetaCentrum membership
+- Logged into [https://chloe.platform.cloud.e-infra.cz/](https://chloe.platform.cloud.e-infra.cz/)
+- A selected tenant with **Kubernetes support enabled** and sufficient resource quota
+
+<Callout type="warn" title="Kubernetes support must be enabled on your tenant">
+    A tenant can only host Kubernetes clusters if it was created with the required cluster services (etcd) enabled.
+</Callout>
+
+<Callout type="info" title="Size your worker nodes generously">
+    Each worker node reserves roughly 2.5&nbsp;GB of RAM for Kubernetes system components before running any of your workloads. A 4&nbsp;GB node leaves only about 1.5&nbsp;GB for your applications, so avoid the smallest presets for anything beyond testing.
+</Callout>
+
+## About Tenant Kubernetes Clusters
+
+- The **control plane** runs as containers on the platform — you never manage master nodes.
+- **Worker nodes** are virtual machines, sized using [VM instance types](../technical-reference/vm-instance-types).
+- The Kubernetes version of your cluster is **independent** of the platform. You can choose versions from **1.28 to 1.33**.
+- Once created, the cluster behaves like any standard Kubernetes cluster — use `kubectl`, Helm, or your own CI/CD to deploy workloads into it.
+
+## Create a Cluster (Dashboard)
+
+### 1. Open the Marketplace
+
+- In the dashboard, switch to the tenant that will own the cluster using the tenant selector.
+- Navigate to the **Marketplace** and select **Kubernetes**.
+
+### 2. Configure the Cluster
+
+Fill in the deployment form:
+
+- **Name** — A unique identifier within the tenant. It cannot be changed after creation.
+- **Replicas** — The number of worker nodes.
+- **Resource preset** — The size of each worker node VM.
+- **Version** — The Kubernetes version (1.28–1.33).
+
+### 3. Deploy and Verify
+
+- Click **Submit**.
+- Open the cluster's detail page and wait for its status to become **Ready**. Provisioning the worker VMs can take several minutes.
+
+### 4. Download the Kubeconfig
+
+- On the cluster's detail page, open the **Secrets** section.
+- Download the kubeconfig file to connect to your new cluster.
+
+<Callout type="info" title="Which kubeconfig to use">
+    The cluster provides a few kubeconfig variants. Use **`admin.conf`** to connect from your own machine — it is the standard admin kubeconfig. `super-admin.conf` grants extended, cluster-level administrative permissions and should be reserved for tasks that genuinely need it.
+</Callout>
+
+## Create a Cluster (kubectl)
+
+If you prefer to work declaratively, apply a `Kubernetes` resource with your [tenant kubeconfig](./using-kubectl).
+
+```yaml
+apiVersion: apps.cozystack.io/v1alpha1
+kind: Kubernetes
+metadata:
+  name: mycluster
+  namespace: tenant-myteam        # your tenant namespace
+spec:
+  minReplicas: 2                  # number of worker nodes
+  resourcesPreset: small          # size of each worker node VM
+  resources: {}                   # explicit cpu/memory — overrides resourcesPreset if set
+  version: "1.32"                 # Kubernetes version (1.28–1.33)
+```
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig apply -f kubernetes-mycluster.yaml
+```
+
+Check the status and wait until `READY` is `True`:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig get kubernetes
+kubectl --kubeconfig tenant-myteam.kubeconfig describe kubernetes mycluster
+```
+
+## Connect to Your Cluster
+
+Once you have the kubeconfig, use it like any other:
+
+```bash
+kubectl --kubeconfig mycluster.conf get nodes
+kubectl --kubeconfig mycluster.conf get pods -A
+```
+
+## Scale the Worker Nodes
+
+Increase or decrease the number of worker nodes at any time.
+
+- **Dashboard** — Open the cluster's detail page, edit the **Replicas** value, and submit.
+- **kubectl** — Edit `minReplicas` in the manifest and reapply, or edit the resource in place:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig edit kubernetes mycluster
+```
+
+New worker nodes are provisioned as VMs and join the cluster automatically once ready.
+
+## Deploy Applications to the Cluster
+
+The tenant cluster is a standard Kubernetes cluster — deploy to it with `kubectl`, Helm, or a CI/CD pipeline.
+
+Managed PaaS applications (such as PostgreSQL, MariaDB, or Redis) deployed in the **same tenant** are reachable from inside the cluster by their internal service names, for example:
+
+```
+mariadb-mydb.tenant-myteam.svc.cluster.local:3306
+postgres-mydb-rw.tenant-myteam.svc.cluster.local:5432
+```
+
+This lets your cluster workloads use managed databases without exposing them externally. See [Deploying Applications](./deploying-applications) to provision them.
+
+## Delete a Cluster
+
+- **Dashboard** — Open the cluster's detail page and use the delete action.
+- **kubectl**:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig delete kubernetes mycluster
+```
+
+<Callout type="warn" title="Deletion is irreversible">
+    Deleting a cluster removes its worker VMs and any data stored on them. Back up anything important first.
+</Callout>
+
+## Next Steps
+
+- [Deploying Applications](./deploying-applications) — Provision managed databases and services your cluster can use.
+- [Using kubectl](./using-kubectl) — Retrieve your tenant kubeconfig and authenticate.
+- [Exposing Services](./exposing-services) — Publish workloads running in your cluster to the internet.
+- [VM Instance Types](../technical-reference/vm-instance-types) — Reference for worker node sizing.

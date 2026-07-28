@@ -1,0 +1,133 @@
+---
+title: "Backing Up Tenant etcd"
+---
+
+When your tenant hosts a Kubernetes cluster, the cluster's state is kept in etcd. This guide shows how to schedule automatic etcd snapshots and upload them to S3-compatible object storage, so you can recover cluster state after a failure. The backups are taken by the platform's etcd operator, which creates a snapshot and uploads it directly to your bucket.
+
+## Prerequisites
+
+- Active MetaCentrum membership
+- A tenant with a [Kubernetes cluster](./deploying-kubernetes-clusters) (etcd enabled)
+- Your [tenant kubeconfig](./using-kubectl)
+- An S3-compatible bucket and its access credentials — the platform's built-in S3 storage can be used
+
+<Callout type="info" title="No CRD installation needed">
+    The `EtcdBackup` and `EtcdBackupSchedule` resource types are already installed by the platform. You only create resources based on them — you do not install anything yourself.
+</Callout>
+
+The rest of this guide uses `tenant-myteam` as the tenant namespace. Replace it with your own throughout.
+
+## 1. Trust the etcd CA
+
+The backup agent connects to etcd over TLS and must trust the certificate authority that issued the etcd server certificate.
+
+First, inspect the current TLS configuration:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam \
+  get etcdcluster.etcd.aenix.io etcd -o json | jq '.spec.security.tls'
+```
+
+A typical configuration looks like this:
+
+```json
+{
+  "clientSecret": "etcd-client-tls",
+  "clientTrustedCASecret": "etcd-ca-tls",
+  "peerSecret": "etcd-peer-tls",
+  "peerTrustedCASecret": "etcd-peer-ca-tls",
+  "serverSecret": "etcd-server-tls"
+}
+```
+
+Confirm that the `etcd-ca-tls` secret contains a `ca.crt` entry:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam \
+  get secret etcd-ca-tls -o json | jq -r '.data | keys[]'
+```
+
+Then patch the `EtcdCluster` so the backup agent trusts that CA:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam \
+  patch etcdcluster.etcd.aenix.io etcd --type merge \
+  -p '{"spec":{"security":{"tls":{"serverTrustedCASecret":"etcd-ca-tls"}}}}'
+```
+
+Verify the patch was applied:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam \
+  get etcdcluster.etcd.aenix.io etcd \
+  -o jsonpath='{.spec.security.tls.serverTrustedCASecret}{"\n"}'
+```
+
+The expected output is `etcd-ca-tls`.
+
+<Callout type="warn" title="This step is required">
+    Without a trusted CA, the backup agent starts but cannot verify the etcd server certificate. It may keep running with empty logs and never produce a backup.
+</Callout>
+
+## 2. Create the S3 Credentials Secret
+
+Store your S3 access key and secret key in a secret in the same namespace as the tenant etcd cluster:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam \
+  create secret generic etcd-backup-s3 \
+  --from-literal=AWS_ACCESS_KEY_ID='YOUR_ACCESS_KEY' \
+  --from-literal=AWS_SECRET_ACCESS_KEY='YOUR_SECRET_KEY'
+```
+
+## 3. Create the Backup Schedule
+
+Create an `EtcdBackupSchedule` that defines when snapshots are taken and where they are stored:
+
+```yaml
+apiVersion: etcd.aenix.io/v1alpha1
+kind: EtcdBackupSchedule
+metadata:
+  name: etcd-daily
+  namespace: tenant-myteam
+spec:
+  clusterRef:
+    name: etcd
+  schedule: "30 1 * * *"          # cron format — here, daily at 01:30
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  destination:
+    s3:
+      endpoint: https://your-s3-endpoint.example.com
+      bucket: your-bucket-name
+      key: cozystack/tenant-myteam/etcd
+      credentialsSecretRef:
+        name: etcd-backup-s3
+      forcePathStyle: true
+```
+
+Apply it:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig \
+  apply -f tenant-myteam-etcd-backup-schedule.yaml
+```
+
+Confirm the schedule was created:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam get etcdbackupschedule
+```
+
+## Verify Backups Are Running
+
+After a scheduled run, check the generated backups and their Jobs:
+
+```bash
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam get etcdbackups
+kubectl --kubeconfig tenant-myteam.kubeconfig -n tenant-myteam get jobs
+```
+
+You should also see the snapshot objects appear in your S3 bucket under the `key` prefix you configured.
+
+

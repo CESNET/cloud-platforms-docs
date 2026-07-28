@@ -1,9 +1,9 @@
 ---
 title: Known Issues
-description: A comprehensive list of known bugs, limitations, and operational workarounds for the Cozystack v1.4 release line.
+description: Known bugs, limitations, and workarounds affecting PaaS Cloud — both upstream Cozystack v1.4 issues and specifics of the e-INFRA CZ deployment.
 ---
 
-This page documents known issues, edge cases, and limitations identified in **Cozystack v1.4**. Please review these items before deploying production workloads or executing cluster-level upgrades.
+This page documents known issues, edge cases, and limitations affecting PaaS Cloud. It covers both upstream bugs in **Cozystack v1.4** (the version this platform runs) and behavior specific to the e-INFRA CZ deployment — such as the Perun/Keycloak identity integration. Please review these items before deploying production workloads or executing cluster-level upgrades.
 
 ---
 
@@ -14,10 +14,15 @@ This page documents known issues, edge cases, and limitations identified in **Co
 * **Cause:** The cluster synchronization controller incorrectly attempts to modify restricted fields (such as `accessModes`) during a resize event, instead of isolating updates to `.storage` and `.volumeAttributesClassName`.
 * **Workaround:** Manually patch the resource or recreate the volume with the desired capacity if scaling becomes blocked.
 
-### Windows VM Live-Migration Blocks
-* **Symptom:** Live migrations or node drains stall indefinitely when hosting Windows Virtual Machines.
-* **Cause:** Persistent EFI variables and Trusted Platform Module (TPM) states stored on the default storage tier lack shared access configurations, preventing the target node from inheriting the state.
-* **Workaround:** Power down the Windows VM completely before initiating a node drain, or temporarily migrate the state files to a globally shared storage class.
+### VM Disk From a Golden Image Never Binds in a Different StorageClass
+* **Symptom:** Creating a `vm-disk` from a golden image into a StorageClass different from the one the golden images live in never completes. The disk stays pending indefinitely with no error surfaced; behind the scenes a temporary clone PVC (`tmp-pvc-…`) in `cozy-public` remains unbound and the CSI driver logs `context deadline exceeded`.
+* **Cause:** The golden images live in a replicated StorageClass, but the clone into a different target class (for example a node-local `local` class) is attempted as a CSI clone across storage backends, which cannot complete. Reported on v1.4.2 with LINSTOR storage. Tracked upstream in [cozystack#2908](https://github.com/cozystack/cozystack/issues/2908); not yet fixed in the v1.4 release line.
+* **Workaround:** Create disks sourced from a golden image in the **same StorageClass** as the images (the default `replicated` class). If you need the data in another class, create the disk in `replicated` first and migrate afterwards.
+
+### Cannot Add a Disk on the VM Create Form Until Refresh
+* **Symptom:** On the dashboard's VM create form, the **Add disk** control does nothing on a freshly opened page. Adding a disk only works after reloading the page once.
+* **Cause:** A dashboard form-state bug in the VM disk widget shipped in v1.4.2. Tracked upstream in [cozystack#3109](https://github.com/cozystack/cozystack/issues/3109); the disk form has since been reworked on newer releases.
+* **Workaround:** Reload the VM create page once before adding disks.
 
 ---
 
@@ -28,36 +33,20 @@ This page documents known issues, edge cases, and limitations identified in **Co
 * **Cause:** A race condition exists between Multus and the `kube-ovn` integration layer. Because Multus lacks a localized sandbox network cache, it rejects the deletion commands during network tear-down phases.
 * **Workaround:** Administrators must manually clean up leaked network namespaces and stale ovn ports on the affected host node.
 
-### Network Policies in Non-Isolated Tenants
-* **Symptom:** Newly created VMs in a non-isolated tenant environment allow unrestricted egress traffic to unexpected external endpoints.
-* **Cause:** Non-isolated tenants do not apply default block policies upon creation. The traffic matrix remains completely open until at least one explicit egress firewall rule is applied to the namespace.
-* **Workaround:** Implement a baseline `NetworkPolicy` during tenant bootstrapping to enforce a zero-trust model from day one.
-
-### Ubuntu Host Firewall (etcd Drop)
-* **Symptom:** Multi-master K3s control planes fail to form a quorum or experience frequent split-brain states on Ubuntu nodes.
-* **Cause:** Default Ubuntu cloud images ship with aggressive iptables rules containing a `REJECT icmp-host-prohibited` target. This implicitly drops the required `etcd` peer-to-peer port (`2380`).
-* **Workaround:** Flush or adapt your host firewall rules during the node provisioning phase:
-
-```bash
-sudo iptables -F
-# Or explicitly allow the etcd traffic:
-sudo iptables -A INPUT -p tcp --dport 2380 -j ACCEPT
-```
+### TCP LoadBalancer Fails to Start on HAProxy 3.3+
+* **Symptom:** A `TCPLoadBalancer` (the `tcp-balancer` app) never becomes ready; its HAProxy pod crashes on startup with a config error such as:
+  `backend 'http' has the same name as frontend 'http' ... This is no longer supported as of 3.3. Please rename one or the other.`
+* **Cause:** The `tcp-balancer` chart references the HAProxy image as `haproxy:latest`. HAProxy 3.3 removed support for a frontend and backend sharing the same name, but the generated `haproxy.cfg` still declares matching pairs (`http`/`http`, `https`/`https`, `kubernetes`/`kubernetes`, `talos`/`talos`). Because the image tag is `:latest`, a `TCPLoadBalancer` can start failing without any platform upgrade — as soon as a node pulls the newer HAProxy image. Tracked upstream in [cozystack#1966](https://github.com/cozystack/cozystack/issues/1966); the fix ([#2321](https://github.com/cozystack/cozystack/pull/2321)) is not yet included in the v1.4 release line.
+* **Workaround:** Pin the HAProxy image to a pre-3.3 tag (for example `haproxy:3.2`) until the fix is released. If you cannot override the image yourself, contact us at **cloud@metacentrum.cz**.
 
 ---
 
-## Administration & Operations
+## Managed Applications
 
-### CRD Validation Webhook Race Condition
-* **Symptom:** Initial component or cluster deployments fail immediately with the following error:
-  `no matches for kind: CozystackResourceDefinition`
-* **Cause:** The validating/mutating admission webhooks fire before the Custom Resource Definitions (CRDs) have finished initializing and reporting a `Ready` status to the API server.
-* **Workaround:** This issue is transient. Re-running the deployment pipeline or waiting 60 seconds for the controller loops to reconcile will resolve the error.
-
-### Manual Talos Node Upgrades Required
-* **Symptom:** Upgrading underlying Talos operating system images does not trigger a rolling cluster update.
-* **Cause:** Cozystack v1.4 lacks a built-in automated reconciliation controller for handling native `TalosNode` rolling updates.
-* **Workaround:** Administrators must manually apply patch files to each node sequentially using the Talos CLI tool (`talosctl`).
+### MariaDB Volumes Are Not Deleted With the Application
+* **Symptom:** After deleting a MariaDB application instance, its `PersistentVolumeClaim`s remain in the tenant namespace and keep consuming storage quota.
+* **Cause:** The chart's post-delete cleanup hook looks for PVCs labelled `app.kubernetes.io/instance=<release>`, but the MariaDB operator creates them via StatefulSets without that label, so the hook matches nothing and deletes nothing. Tracked upstream in [cozystack#2350](https://github.com/cozystack/cozystack/issues/2350); not yet fixed in the v1.4 release line.
+* **Workaround:** After deleting a MariaDB instance, remove its leftover PVCs manually. List them with `kubectl -n <tenant-namespace> get pvc`, identify the ones belonging to the deleted instance (their names include the instance name), and delete them with `kubectl -n <tenant-namespace> delete pvc <name>`.
 
 ---
 
@@ -68,3 +57,8 @@ sudo iptables -A INPUT -p tcp --dport 2380 -j ACCEPT
 * **Symptom:** After downloading a tenant `kubeconfig` from the dashboard, `kubectl` commands fail with an OIDC error such as `invalid client_id`, `issuer did not match`, or a redirect to a non-existent Keycloak host.
 * **Cause:** The `info` Helm chart in this environment populates the OIDC issuer using `_namespace.host` (e.g., `keycloak.cloud.chloe.platform.cloud.e-infra.cz`) instead of `_cluster.root-host` (`keycloak.chloe.platform.cloud.e-infra.cz`).
 * **Workaround:** Edit the `kubeconfig` and replace the incorrect issuer URL with the correct one, or use the `sed` command shown in [Using kubectl](../how-to-guides/using-kubectl).
+
+### Dashboard Login Fails for Users in Many Groups (Large OIDC Token)
+* **Symptom:** The first OIDC sign-in to the dashboard fails — you are redirected back with a 403 and an error such as `Login Failed: Unable to find a valid CSRF token. Please try again.` (accompanied by a `Request ID`), or requests fail with `400 Bad Request: request header or cookie too large`. Clicking **Sign in** a second time usually succeeds.
+* **Cause:** Because Keycloak federates identities from Perun, a user who belongs to a large number of groups receives a correspondingly large OIDC access token. Carried in cookies and headers, it exceeds the default NGINX `client-header-buffer-size`. The ingress rejects the oversized request, and the dashboard's authentication proxy then loses its CSRF/state cookie, so the login round-trip fails. Tracked upstream in [cozystack#2853](https://github.com/cozystack/cozystack/issues/2853); not yet fixed in the v1.4 release line.
+* **Workaround:** Retry the sign-in — the second attempt reuses a smaller session cookie and usually passes. A durable fix requires raising `client-header-buffer-size` (for example to `16k`) on the tenant-root ingress-nginx controller and the `incloud-web-nginx-config` configmap; if the problem persists, contact us at **cloud@metacentrum.cz**.
