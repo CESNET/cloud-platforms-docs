@@ -1,0 +1,24 @@
+---
+title: "OpenStack Components"
+---
+The following table contains a list of deployed OpenStack services. Services are separated
+into two groups based on their stability and the level of support we are able to provide. All services in the production
+group are well tested by our team and are covered by our support. Services marked as experimental can be useful
+for testing purposes, but their functionality won't be covered by our support.
+
+| Service   | Description             | Type         |
+|-----------|-------------------------|--------------|
+| Cinder    | Block Storage service   | production   |
+| Glance    | Image service           | production   |
+| Horizon   | Dashboard               | production   |
+| Keystone  | Identity service        | production   |
+| Neutron   | Networking service      | production   |
+| Nova      | Compute service         | production   |
+| Placement | Placement service       | production   |
+| Barbican  | Key Manager service     | production   |
+| Swift/S3  | Object Storage service  | production   |
+| Designate | DNS service             | production   |
+| Octavia   | Load Balancing Service  | experimental |
+| Masakari  | Instance High Availability Service | experimental |
+
+Note: Unlike the G2 Brno and Ostrava sites, the Heat orchestration service is currently not deployed on this cloud.

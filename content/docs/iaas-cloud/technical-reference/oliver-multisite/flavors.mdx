@@ -1,0 +1,27 @@
+---
+title: "Flavors"
+---
+OpenStack flavor entity defines compute virtual server parameters such as:
+
+* virtual server specifications
+    * vCPU count
+    * memory amount
+    * storage size (distributed)
+    * defines QoS (IOPs, network bandwith, ...)
+* defines set of compute hypervisors where can be virtual server scheduled (via host aggregates)
+
+## Flavor types and naming schema
+
+| Flavor type | Flavor characteristic | (live) migration support | GPU support | Local ephemeral disk resources | vCPU overcommit | Network QoS (in/out) | Disk QoS |
+|-------------|-----------------------|:------------------------:|:-----------:|:------------------------------:|:---------------:|----------------------|----------|
+| `e1.*` | economic computing, small jobs, limited performance | Yes | No | No | 1:8  | 256 Mbit/s | 250 MB/s, 2000 IOPS |
+| `c2.*` | compute, medium performance                          | Yes | No | No | 1:2  | 2 Gbit/s   | 2000 MB/s, 3000 IOPS |
+| `c3.*` | compute, high performance, no CPU overcommit         | Yes | No | No | 1:1  | 10 Gbit/s  | 2000 MB/s, 3000 IOPS |
+
+Notes:
+
+* Unless stated otherwise in the flavor name (`*-100disk`, `*-500disk` variants), the root disk size is **80 GB**,
+  provided from replicated Ceph storage. There are currently no flavors with local ephemeral disks.
+* `e1.*` flavors are **public** (available in all projects). `c2.*` and `c3.*` flavors need to be explicitly
+  enabled for a group project — request access via [support](./get-support) or the quota increase form.
+* There is currently no GPU support on this cloud site.
