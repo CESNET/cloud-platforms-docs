@@ -1,0 +1,56 @@
+---
+title: "Networking"
+---
+
+Tenant and provider networking is implemented with OVN on Open vSwitch (OVS) using geneve overlay tunnels.
+
+## IPv4
+
+There is 1 generally available external network, which you can allocate floating IP addresses (FIPs) from:
+
+- `external-ipv4-general-public`
+    - This network has 1 address pool:
+        - `78.128.234.0/24` (allocation pool `78.128.234.3` – `78.128.234.254`, gateway `78.128.234.1`)
+    - FIPs from this network are publicly accessible.
+
+Unlike the Brno G2 site, there is no MUNI-internal external network on this cloud.
+
+
+### Group Projects
+
+By default, group projects are provided with a default internal network:
+
+- `group-project-network` (`192.168.0.0/24`)
+
+This network already has a route (router `group-project-router`) to the recommended external network `external-ipv4-general-public`,
+which means you can associate FIPs from this external network to instances connected to the default internal network.
+
+You may also use the `internal-ipv4-general-private` internal network with the same effect.
+
+In case you create your own internal network (see [Create Networking How-to Guide](../../how-to-guides/create-networking)), you need to handle the routing
+yourself, i.e. create a new router (see [Create Router How-to Guide](../../how-to-guides/create-router)), if you want to assign FIPs from an external network
+to your instances.
+
+
+## IPv6
+
+In the Oliver cloud site, you can use following IPv6 network:
+
+- `external-ipv6-general-public` (`2001:718:ff01:3::/64`, DHCPv6 stateful)
+
+
+## Load balancers (Octavia)
+
+Load balancer amphorae run in a dedicated management network `internal-ipv4-lbaas-mgmt-private` (`172.17.0.0/20`).
+
+
+## DNS
+
+The cloud provides DNS as a service (OpenStack Designate, server `dns.oliver.platform.cloud.e-infra.cz`).
+Group projects with the default networking enabled can also receive a DNS zone
+`<project-name>.dyn.oliver.platform.cloud.e-infra.cz` for their instances.
+
+
+## Security groups
+
+Apart from the `default` [security group](../../../additional-information/security-groups), every project in the OpenStack cloud also contains pre-generated security group `ssh`. Rules of the `ssh` groups enable access to virtual servers via SSH protocol (IPv4+IPv6).

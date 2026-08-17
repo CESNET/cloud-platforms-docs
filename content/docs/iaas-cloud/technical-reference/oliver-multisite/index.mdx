@@ -1,0 +1,63 @@
+---
+title: "About e-INFRA CZ OpenStack IaaS Multisite Cloud Oliver"
+---
+## [e-INFRA CZ OpenStack IaaS Multisite Cloud Oliver](https://oliver.platform.cloud.e-infra.cz/)
+
+[IaaS OpenStack cloud](https://oliver.platform.cloud.e-infra.cz/) providing cloud services for following organizations:
+
+ - [e-INFRA CZ](https://www.e-infra.cz/en) / [MetaCentrum](https://www.metacentrum.cz/en/index.html)
+
+Unlike the G2 Brno and G2 Ostrava clouds, which are two separate OpenStack deployments, the Oliver cloud is
+a **single multi-site OpenStack cloud** (one identity, one API/Horizon endpoint) spanning both geographical locations.
+Compute capacity is split into two host aggregates / availability zones — `brno` and `ostrava` — so you can choose
+where your instances run.
+
+## Hardware
+
+The cloud runs on **24 active nodes** (Kubernetes cluster size verified by the cloud team, August 2026) in two geographical locations:
+
+**Brno site** ([Faculty of Informatics, Masaryk University, datacenter A510](https://www.fi.muni.cz/index.html.en)) — 17 nodes:
+
+| Node group  | Count | Role |
+|-------------|-------|------|
+| `hdn-*`     | 5     | compute hypervisors (`e1.*`, `c2.*` flavors), 64 physical cores (128 threads) per node |
+| `hdp-*`     | 6     | compute hypervisors (`c3.*` flavors), 128 physical cores (256 threads) per node |
+| `cp-osd-*`  | 6     | dedicated Ceph storage nodes (NVMe, encrypted devices) |
+
+**Ostrava site** ([IT4Innovations datacenter](https://www.it4i.cz/en)) — 10 nodes:
+
+| Node group  | Count | Role |
+|-------------|-------|------|
+| `o-hda-*`   | 10    | Gigabyte [R183-Z94](https://www.gigabyte.com/Enterprise/Rack-Server/R183-Z94-AAV2-rev-1x) nodes, 128 physical cores (256 threads) per node; 5 serve as compute hypervisors (`e1.*`, `c2.*`, `c3.*` flavors), the rest hosts the OpenStack control plane |
+
+The tables list the full roster of machines assigned to the site (27 total). The active node count above reflects what is currently joined in the underlying Kubernetes cluster and changes as hardware is commissioned, serviced or rotated.
+
+## Software, cloud versions and components
+
+The Oliver cloud site is built on top of [OpenStack](https://www.openstack.org/), which is a free open standard IaaS cloud computing platform
+and one of the top 3 most active open source projects in the world. New OpenStack major versions are
+released twice a year. OpenStack functionality is separated into more than 50 services.
+
+[OpenStack 2025.1 (Epoxy)](https://releases.openstack.org/epoxy/) deployed on [Kubernetes 1.34](https://kubernetes.io/) via [openstack-helm](https://docs.openstack.org/openstack-helm/latest/).
+
+[Following OpenStack components are available](./openstack-components).
+
+Virtual server drives, volumes and image storage are provided by [Ceph](https://ceph.io/) (NVMe pool in Brno, triple replication,
+encrypted devices) and [LINSTOR/DRBD](https://linbit.com/linstor/) replicated pools. Tenant and control-plane networking
+uses [OVN](https://www.ovn.org/) on top of OVS (Open vSwitch) with geneve overlay tunnels.
+
+Cloud architecture strictly follows [IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code), [GitOps](https://opengitops.dev/) approaches to minimize [cloud maintenance toil](https://sre.google/workbook/eliminating-toil/).
+
+## Cloud workload
+
+Both general-purpose (`e1.*`) and compute-oriented (`c2.*`, `c3.*`) workloads up to 120 vCPUs / 240 GB RAM per instance
+are supported. See [List of flavors](./flavors).
+
+## Other Techical Info Specific for This Site
+
+ * [List of flavors](./flavors)
+ * [How to get access](./get-access)
+ * [Info on networking](./networking)
+ * [Support](./get-support)
+ * [Info on quotas](./quota-limits)
+ * [Specific FAQ](./faq)

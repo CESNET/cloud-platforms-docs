@@ -1,0 +1,12 @@
+{
+  "title": "Oliver multi-site",
+  "defaultOpen": false,
+  "pages": [
+    "faq",
+    "get-access",
+    "flavors",
+    "get-support",
+    "networking",
+    "openstack-components"
+  ]
+}
