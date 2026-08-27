@@ -1,0 +1,68 @@
+---
+title: "DNS as a Service"
+---
+
+DNS as a Service (DNSaaS) provides automatic DNS management for OpenStack resources.
+
+The service is based on OpenStack **Designate**, which provides DNS zone and record management and integrates with OpenStack Networking (Neutron).
+
+Projects with DNS enabled receive a dedicated DNS zone in the form:
+```yaml
+<project-name>.dyn.oliver.platform.cloud.e-infra.cz.
+```
+
+## DNS for virtual machines
+
+When a virtual machine is created in a DNS-enabled project, its name is used to generate the DNS hostname.
+
+For example:
+```yaml
+VM name: dns-test
+Project name: dns-example 
+```
+
+The project DNS zone would be:
+```yaml
+dns-example.dyn.oliver.platform.cloud.e-infra.cz.
+```
+When a Floating IP is associated with the virtual machine, OpenStack automatically creates an `A` record in that zone using the VM name:
+```yaml
+dns-test.dns-example.dyn.oliver.platform.cloud.e-infra.cz. A 78.128.234.123
+```
+The resulting hostname follows this format:
+```yaml
+<vm-name>.<project-name>.dyn.oliver.platform.cloud.e-infra.cz.
+```
+The hostname can then be resolved:
+```yaml
+dig dns-test.dns-example.dyn.oliver.platform.cloud.e-infra.cz.
+
+;; ANSWER SECTION:
+dns-test.dns-example.dyn.oliver.platform.cloud.e-infra.cz. 3600 IN A 78.128.234.123
+```
+
+Services running on the virtual machine can be accessed using the hostname, provided that the required ports are allowed by the virtual machine's security groups.
+
+## Checking DNS zones and records
+
+List the DNS zones available to the current project:
+```yaml
+openstack zone list
+```
+Show details of a zone:
+```yaml
+openstack zone show <zone.>
+```
+List DNS records in a zone:
+```yaml
+openstack recordset list <zone.>
+```
+
+<Callout type="info" title="Info">
+  **Note:** DNS changes may not be visible immediately on public resolvers due to caching. With the default TTL of `3600` seconds, cached responses may remain for up to one hour. During this time, the hostname may not resolve correctly for all users.
+  You can check public resolvers directly with:
+  ```yaml
+  dig @8.8.8.8 <hostname>
+  dig @1.1.1.1 <hostname>
+  ```
+</Callout>
