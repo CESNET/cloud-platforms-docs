@@ -23,12 +23,12 @@ Purpose of following image is to help you choosing best flavor for your project.
 | `g2.*` | general purpose, regular jobs / tasks, medium performance | Yes | Yes | No       | No                             | ~ PASSMARK 750, 1:2  | - |
 | `c2.*` | compute HPC, medium performance                           | No  | Yes | No       | No                             | ~ PASSMARK 750, 1:2  | - |
 | `c3.*` | compute HPC, high performance on shared storage           | No  | Yes | No       | No                             | ~ PASSMARK 2000, 1:1 | `hpc.*` |
-| `p3.*` | compute HPC, top performance on ephemeral storage         | No  | Yes, not guaranteed `(1)` | No | Yes            | ~ PASSMARK 2000, 1:1 | `hpc.*ephem` |
-| `a3.*` | compute HPC, top performance on ephemeral storage         | No  | No  | Yes      | Yes                            | ~ PASSMARK 2000, 1:1 | `hpc.*gpu` |
+| `p3.*` | compute HPC, top performance on ephemeral storage         | No  | Yes, not guaranteed <sup>1</sup> | No | Yes <sup>2</sup> | ~ PASSMARK 2000, 1:1 | `hpc.*ephem` |
+| `a3.*` | compute HPC, top performance on ephemeral storage         | No  | No  | Yes      | Yes <sup>2</sup>               | ~ PASSMARK 2000, 1:1 | `hpc.*gpu` |
 
-Notes:
+<sup>1</sup> *Both cold and live virtual server migrations are generally supported even for VMs with ephemeral storage, but they are not guaranteed as there may not be available ephemeral resources where to migrate.*
 
-- `(1)` Both cold and live virtual server migrations are generally supported even for VMs with ephemeral storage, but they are not guaranteed as there may not be available ephemeral resources where to migrate.
+<sup>2</sup> *The ephemeral disk presence may depend on instance setup. See [here](/docs/iaas-cloud/how-to-guides/instances-with-ephemeral-disk) for details.*
 
 
 ## Most frequently used flavors

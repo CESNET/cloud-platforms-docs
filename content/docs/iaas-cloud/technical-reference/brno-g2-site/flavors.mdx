@@ -23,12 +23,17 @@ Purpose of following image is to help you choosing best flavor for your project
 | `g2.*` | general purpose, regular jobs / tasks, medium performance | Yes | Yes | No       | No                             | ~PASSMARK 750, 1:2  |
 | `c2.*` | compute HPC, medium performance                           | No  | Yes | No       | No                             | ~PASSMARK 750, 1:2  |
 | `c3.*` | compute HPC, high performance on shared storage           | No  | Yes | No       | No                             | ~PASSMARK 2000, 1:1 |
-| `p3.*` | compute HPC, top performance on ephemeral storage         | No  | Yes, not guaranteed <sup>1</sup> | No | Yes            | ~PASSMARK 2000, 1:1 |
-| `r3.*` | compute HPC, ephemeral storage only                       | No  | Yes, not guaranteed <sup>1</sup> | No | Yes            | ~PASSMARK 2000, 1:1 |
-| `a3.*` | compute HPC, top performance on ephemeral storage         | No  | No  | Yes      | Yes                            | ~PASSMARK 2000, 1:1 |
+| `p3.*` | compute HPC, top performance on ephemeral storage         | No  | Yes, not guaranteed <sup>1</sup> | No | Yes <sup>2, 3</sup> | ~PASSMARK 2000, 1:1 |
+| `r3.*` | compute HPC, ephemeral storage only                       | No  | Yes, not guaranteed <sup>1</sup> | No | Yes <sup>2, 3</sup> | ~PASSMARK 2000, 1:1 |
+| `a3.*` | compute HPC, top performance on ephemeral storage         | No  | No  | Yes      | Yes <sup>2, 3</sup>               | ~PASSMARK 2000, 1:1 |
 
 <sup>1</sup> *Both cold and live virtual server migrations are generally supported even for VMs with ephemeral storage, but they are not guaranteed as there may not be available ephemeral resources where to migrate.*
 
+<sup>2</sup> *Some flavors may not provide disk resources on their own and must be combined with existing volumes. See [G2 Brno flavors page].*
+
+<sup>3</sup> *The ephemeral disk presence may depend on instance setup. See [here](/docs/iaas-cloud/how-to-guides/instances-with-ephemeral-disk) for details.*
 
 ## All available flavors
-All available flavors can be found on [this page](https://cloud.gitlab-pages.ics.muni.cz/g2/flavors-page/), where a periodically updated table of all possible flavors is provided.
+All available flavors can be found on [G2 Brno flavors page], where a periodically updated table of all possible flavors is provided.
+
+[G2 Brno flavors page]: https://cloud.gitlab-pages.ics.muni.cz/g2/flavors-page/
