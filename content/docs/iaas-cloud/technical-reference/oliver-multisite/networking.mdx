@@ -15,6 +15,10 @@ There is 1 generally available external network, which you can allocate floating
 
 Unlike the Brno G2 site, there is no MUNI-internal external network on this cloud.
 
+<Callout type="info" title="No shared internal network for personal projects">
+	Unlike the G2 clouds, there is no shared internal network for personal projects on this cloud —
+	the Oliver cloud does not offer personal projects at all. Each group project works with its own internal network.
+</Callout>
 
 ### Group Projects
 
@@ -24,8 +28,6 @@ By default, group projects are provided with a default internal network:
 
 This network already has a route (router `group-project-router`) to the recommended external network `external-ipv4-general-public`,
 which means you can associate FIPs from this external network to instances connected to the default internal network.
-
-You may also use the `internal-ipv4-general-private` internal network with the same effect.
 
 In case you create your own internal network (see [Create Networking How-to Guide](../../how-to-guides/create-networking)), you need to handle the routing
 yourself, i.e. create a new router (see [Create Router How-to Guide](../../how-to-guides/create-router)), if you want to assign FIPs from an external network
