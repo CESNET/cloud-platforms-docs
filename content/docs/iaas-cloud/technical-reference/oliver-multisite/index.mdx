@@ -42,8 +42,8 @@ released twice a year. OpenStack functionality is separated into more than 50 se
 
 [Following OpenStack components are available](./openstack-components).
 
-Virtual server drives, volumes and image storage are provided by [Ceph](https://ceph.io/) (NVMe pool in Brno, triple replication,
-encrypted devices) and [LINSTOR/DRBD](https://linbit.com/linstor/) replicated pools. Tenant and control-plane networking
+Virtual server drives, volumes and image storage are provided by distributed [Ceph](https://ceph.io/) clusters
+at both sites (see [Storage](#storage) below). Tenant and control-plane networking
 uses [OVN](https://www.ovn.org/) on top of OVS (Open vSwitch) with geneve overlay tunnels.
 
 Cloud architecture strictly follows [IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code), [GitOps](https://opengitops.dev/) approaches to minimize [cloud maintenance toil](https://sre.google/workbook/eliminating-toil/).
@@ -53,11 +53,31 @@ Cloud architecture strictly follows [IaC](https://en.wikipedia.org/wiki/Infrastr
 Both general-purpose (`e1.*`) and compute-oriented (`c2.*`, `c3.*`) workloads up to 120 vCPUs / 240 GB RAM per instance
 are supported. See [List of flavors](./flavors).
 
-## Other Techical Info Specific for This Site
+## Storage
 
- * [List of flavors](./flavors)
- * [How to get access](./get-access)
- * [Info on networking](./networking)
- * [Support](./get-support)
- * [Info on quotas](./quota-limits)
- * [Specific FAQ](./faq)
+All storage in the Oliver cloud — instance root disks, additional volumes and images — is provided by distributed
+[Ceph](https://ceph.io/) clusters. There is no ephemeral (local hypervisor) storage; instance data always resides in Ceph.
+
+Two block storage backends are available:
+
+| Backend | Location | Media | When to use |
+|---------|----------|-------|-------------|
+| Fast Ceph pool | Brno | NVMe, triple replication, encrypted devices | default backend; choose for I/O performance-sensitive workloads |
+| Capacity Ceph pool | Ostrava | rotational disks (HDD) | large-capacity or less performance-demanding storage |
+
+Volume types are named generically after the backend. Run `openstack volume type list` or check the volume type
+selection in Horizon to see the exact type names currently available in your project.
+
+<Callout type="info" title="VM image backup is work in progress">
+	Automated backup of VM images is currently being rolled out on the Oliver cloud. Until the service is available,
+	you are responsible for backing up your own data — see the [volume backup guide](../how-to-guides/manage-volumes)
+	and our [terms of service](../../additional-information/terms-of-service). See also the [site FAQ](./oliver-multisite/faq).
+</Callout>
+
+## Other Technical Info Specific for This Site
+
+ * [List of flavors](./oliver-multisite/flavors)
+ * [How to get access](./oliver-multisite/get-access)
+ * [Info on networking](./oliver-multisite/networking)
+ * [Support](./oliver-multisite/get-support)
+ * [Specific FAQ](./oliver-multisite/faq)

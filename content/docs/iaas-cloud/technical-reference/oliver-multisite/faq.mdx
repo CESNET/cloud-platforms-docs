@@ -4,7 +4,7 @@ title: "Frequently Asked Questions"
 
 ## "What networks can I use to access my instances?"
 
-Group projects by default come with the internal network `group-project-network (192.168.0.0/24)`, which already has routing set up to the recommended `external-ipv4-general-public` network. This allows direct allocation and use of public Floating IPs. Group projects may also use the `internal-ipv4-general-private` network with the same effect.
+Group projects by default come with the internal network `group-project-network (192.168.0.0/24)`, which already has routing set up to the recommended `external-ipv4-general-public` network. This allows direct allocation and use of public Floating IPs. Unlike the G2 clouds, there is no shared internal network for personal projects on this cloud.
 - See more details, like IP address ranges, at [Networking](./networking).
 
 ## "Where will my instance run — Brno or Ostrava?"
@@ -13,3 +13,9 @@ The Oliver cloud is a single cloud with two availability zones: `brno` and `ostr
 locations. You select the availability zone when creating an instance (CLI option `--availability-zone`, or the
 corresponding field in the Horizon dashboard). Flavor access controls on which host group the instance can be
 scheduled — see [Flavors](./flavors).
+
+## "Is VM/image backup available?"
+
+Automated backup of VM images is currently work in progress on the Oliver cloud. Until the service is rolled out,
+you are responsible for backing up your own data — see the [volume backup guide](../../how-to-guides/manage-volumes)
+and our [terms of service](../../../additional-information/terms-of-service).

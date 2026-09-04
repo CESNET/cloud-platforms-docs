@@ -7,27 +7,8 @@ with active accounts via the identity federations.
 Users from the Czech academic community should always use the `EINFRA CESNET`
 identity provider, unless instructed otherwise by user support.
 
-MetaCentrum Cloud provides the following ways for allocating resources
-
-* __personal project__,
-* __group project__.
-
-<Callout type="warn" title="Important">
-	Please note that personal projects are intended for temporary use. This means the resources allocated to these projects may be reset periodically, approximately twice a year. The primary reason for this ephemerality is to ensure effective use of cloud resources. Any virtual machines intended for long-term use must be part of group projects. This guideline is in accordance with our [terms of service](../../../additional-information/terms-of-service).
-</Callout>
-
-<Callout type="warn" title="Caution">
-	A personal project resource allocation quotas are fixed and cannot be changed.
-</Callout>
-
-Personal projects are available automatically to all users of the MetaCentrum.
-
 To register, follow the instructions for
 [registration in the MetaCentrum VO](https://metavo.metacentrum.cz/en/application/index.html).
-
-Personal projects are intended as a low-barrier entry
-into the infrastructure for testing and exploration of features.
-Any serious resource usage requires the use of a group project, see below.
 
 The following already established terms and conditions apply:
 
@@ -36,6 +17,36 @@ The following already established terms and conditions apply:
 * [Appreciation Formula / Acknowlegement in Publications](https://wiki.metacentrum.cz/wiki/Usage_rules/Acknowledgement)
 * [Account Validity](https://wiki.metacentrum.cz/wiki/Usage_rules/Account)
 * [Annual Report](https://wiki.metacentrum.cz/wiki/MetaCentrum_Annual_Report_%E2%88%92_Author_Instructions)
+
+## Project Types
+
+Resources on the Oliver cloud are allocated exclusively via **group projects**, which come in two flavors:
+
+* __non-sensitive group project__,
+* __sensitive group project__.
+
+<Callout type="info" title="No personal projects on Oliver">
+	Unlike the G2 Brno and G2 Ostrava clouds, the Oliver cloud does not provide personal projects.
+	If you need a low-barrier entry into the infrastructure for testing and exploration of features,
+	use the [G2 Brno](../brno-g2-site/get-access) or [G2 Ostrava](../ostrava-g2-site/get-access) cloud.
+</Callout>
+
+### Non-sensitive Group Project
+
+Non-sensitive group projects are equivalent to group projects on the previous OpenStack clouds
+(G2 Brno and G2 Ostrava) and are suitable for the vast majority of workloads.
+
+### Sensitive Group Project
+
+Sensitive group projects are intended for data that requires a higher level of confidentiality in the sense of the
+ISO 27000 family of standards — data that must not be easily accessible and whose leakage would pose a problem,
+such as personal data or unpublished research results.
+
+Sensitive projects are subject to stricter security rules:
+
+* a VM backup must be defined,
+* no plaintext external or internal traffic,
+* additional rules will be published.
 
 ## Group Project
 
@@ -56,4 +67,3 @@ request a group project using [this form](https://projects.brno.openstack.cloud.
 ## Increase Quotas for Existing Group Project
 
 To request quota increase, access to particular [flavor](flavors) or extend project lifetime, please use [this form](https://projects.brno.openstack.cloud.e-infra.cz/update.php).
-
