@@ -8,11 +8,11 @@
 #     [container_command] - Optional, default is "pnpm dev", alternatively: "pnpm build", "bash", ...
 # Environment variables:
 #     CONTAINER_BIN - Container tool, default "podman".
-#     FUMA_IMAGE    - Fuma container image, default "cerit.io/docs/fuma:v15.2.10".
+#     FUMA_IMAGE    - Fuma container image, default "cerit.io/docs/fuma:v16.19.0".
 
 
 CONTAINER_BIN=${CONTAINER_BIN:-"podman"}
-FUMA_IMAGE=${FUMA_IMAGE:-"cerit.io/docs/fuma:v16.4.6"}
+FUMA_IMAGE=${FUMA_IMAGE:-"cerit.io/docs/fuma:v16.19.0"}
 CONTAINER_COMMAND=${@:-"pnpm dev"}
 
 FAKE_OPENAI_API_KEY="fake-openai-api-key"
@@ -21,7 +21,7 @@ ${CONTAINER_BIN} run -it --rm \
   -p 3000:3000 \
   -v ./content/docs:/opt/fumadocs/content/docs \
   -v ./public:/opt/fumadocs/public \
-  -v ./app/api:/opt/fumadocs/app/api \
+  -v ./app/api/assistants:/opt/fumadocs/app/api/assistants \
   -v ./components:/tmp/fumadocs/components_local \
   -e STARTPAGE=/en/docs/overview \
   -e OPENAI_API_KEY=${FAKE_OPENAI_API_KEY} \
