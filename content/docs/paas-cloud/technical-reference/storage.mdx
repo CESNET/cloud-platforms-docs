@@ -2,7 +2,9 @@
 title: "Storage"
 ---
 
-PaaS Cloud storage is built on **LINSTOR** with **DRBD** replication, providing distributed, high-availability block storage for workloads and virtual machines.
+PaaS Cloud provides block storage for workloads and virtual machines on **Ceph RBD** (the default) and on **LINSTOR** with **DRBD** replication, plus **SeaweedFS** for shared file storage and S3 object storage.
+
+> **Use `ceph-rbd` unless you have a specific reason not to.** It is the default storage class, it is highly available, supports live migration of VMs, and is suitable for most workloads and VM disks. See [Choosing a storage class](#choosing-a-storage-class).
 
 ## Storage Architecture
 
@@ -11,45 +13,140 @@ PaaS Cloud storage is built on **LINSTOR** with **DRBD** replication, providing 
 | **LINSTOR** | Distributed storage management and volume provisioning |
 | **DRBD** | Block-level replication across nodes for HA |
 | **LINSTOR CSI** | Kubernetes CSI driver for dynamic volume provisioning |
-| **SeaweedFS / S3** | Object storage for backups and unstructured data |
+| **Ceph RBD** | Network block storage on an external Ceph cluster (provisioned through Rook CSI) |
+| **SeaweedFS** | Shared file storage (`seaweedfs-rwx`) and S3-compatible object storage |
+| **CDI** | Imports and clones VM disk images into PVCs for `vm-disk` resources |
 
 ## Storage Classes
 
-The following storage classes are typically available in PaaS Cloud:
+The following storage classes are available in PaaS Cloud:
 
-| Storage Class | Backend | Use Case |
-|---|---|---|
-| `replicated` | LINSTOR/DRBD (thin LVM) | Default for most workloads and VMs. Replicated across nodes for HA. |
-| `local` | LINSTOR (thin LVM, local) | Local-only thin LVM without replication. Faster but not HA. |
+| Storage Class | Backend | Access mode | Live migration of VMs | Use Case |
+|---|---|---|---|---|
+| `ceph-rbd` | Ceph RBD (external Ceph cluster) | ReadWriteMany\*, block | Yes | **Default and recommended** for most workloads and VM disks. HA. Most platform images live here. |
+| `replicated` | LINSTOR/DRBD (thin LVM), replicated across the platform's nodes | ReadWriteMany\*, block | Yes | Alternative HA block storage on the platform's own nodes. |
+| `local` | LINSTOR (thin LVM), no replication, data on one node | ReadWriteOnce, block | No | Fast local disk. Not HA: the VM is tied to the node that holds the disk. |
+| `seaweedfs-rwx` | SeaweedFS (FUSE filesystem) | ReadWriteMany, filesystem | – | Files shared by several pods at the same time. Not recommended for VM disks. |
 
-Specify the storage class when creating `vm-disk` resources or PVCs:
+\* **Live migration only.** For `ceph-rbd` and `replicated`, ReadWriteMany does not mean shared storage. The block disk is attached to two nodes only briefly while one VM is live-migrated; it must not be used by two VMs or pods at the same time. Only `seaweedfs-rwx` is ReadWriteMany in the usual sense (files shared by several pods). See [What "ReadWriteMany" means per storage class](#what-readwritemany-means-per-storage-class).
+
+Specify the storage class when creating `vm-disk` resources or PVCs. We recommend setting it explicitly even when you use the default:
 
 ```yaml
-storageClass: replicated
+storageClass: ceph-rbd
 ```
+
+### Choosing a storage class
+
+| You need | Use |
+|---|---|
+| A VM system disk or data disk, a database, most application PVCs | `ceph-rbd` |
+| A tenant Kubernetes cluster (worker node disks and PVCs inside the cluster) | `ceph-rbd`, see [Tenant Kubernetes clusters](#tenant-kubernetes-clusters) |
+| HA block storage on the platform's own nodes instead of Ceph | `replicated` |
+| Lowest latency for data you can afford to lose with a node (caches, scratch, rebuildable data) | `local` (blank disks only, see [Limitations](#limitations)) |
+| The same files mounted by several pods at once | `seaweedfs-rwx` |
+| Backups, large unstructured data | S3 object storage |
+
+### What "ReadWriteMany" means per storage class
+
+- **`ceph-rbd` and `replicated`** — the disk is a block device. ReadWriteMany exists so that a VM can be **live-migrated** to another node. A disk can still be used by **only one VM at a time**; attaching the same disk to a second VM is refused.
+- **`seaweedfs-rwx`** — a real shared filesystem. Several pods on different nodes can mount the same volume and read and write files concurrently. A VM disk on it is a disk image file accessed over FUSE and the network, so it is noticeably slower than block storage.
+- **`local`** — ReadWriteOnce only. The disk exists on a single node; VMs using it cannot be live-migrated.
+
+You do not choose the access mode yourself: `vm-disk` has no access-mode field, and the platform sets the right access mode and volume mode for each storage class.
 
 ## vm-disk Storage
 
-When you create a `vm-disk`, the underlying PVC is provisioned through LINSTOR CSI:
+A `vm-disk` is provisioned as a PVC through the CSI driver of the chosen storage class.
+
+Blank disk:
 
 ```yaml
+apiVersion: apps.cozystack.io/v1alpha1
+kind: VMDisk
+metadata:
+  name: data-disk
 spec:
-  pvc:
-    storageClassName: replicated
-    resources:
-      requests:
-        storage: 20Gi
+  storage: 20Gi
+  storageClass: ceph-rbd
+```
+
+Disk created from a platform image (golden image):
+
+```yaml
+apiVersion: apps.cozystack.io/v1alpha1
+kind: VMDisk
+metadata:
+  name: system-disk
+spec:
+  source:
+    image:
+      name: ubuntu-24.04
+  storage: 20Gi
+  storageClass: ceph-rbd
 ```
 
 - The default size is `5Gi`.
-- The default storage class is `replicated`.
+- The default storage class is `ceph-rbd`.
+- The disk must be **at least as large as the source image**. Most platform images are 20 GiB; `ubuntu` is 5 GiB.
+
+### Available images
+
+`almalinux-8`, `almalinux-9`, `almalinux-10`, `alpine-3.21`, `centos-stream-9`, `centos-stream-10`, `debian-12`, `debian-13`, `opensuse-leap-15.6`, `opensuse-leap-16.0`, `rocky-8`, `rocky-9`, `rocky-10`, `ubuntu`, `ubuntu-20.04`, `ubuntu-22.04`, `ubuntu-24.04`.
+
+All images except `ubuntu` are stored on `ceph-rbd`; `ubuntu` is stored on `replicated`. A disk created in the same storage class as its image is a fast storage-level clone, so `ceph-rbd` is the natural choice for system disks from platform images.
+
+### What to expect when creating a disk
+
+| Disk | Typical time to `Succeeded` |
+|---|---|
+| Blank disk on `replicated` | about 1 minute |
+| From an image in the same storage class (e.g. `ubuntu` into `replicated`) | about 1.5 minutes (fast storage-level clone) |
+| From an image in a different backend (e.g. `debian-12` from `ceph-rbd` into `replicated`) | a few minutes for 20 GiB (data is copied) |
+| Blank disk on `local` | stays `PendingPopulation` until a VM uses it, then about 1 minute |
+
+### Limitations
+
+- **Do not create a disk from an image in `local`.** Cloning an image into `local` can hang indefinitely (upstream Cozystack issue [#2908](https://github.com/cozystack/cozystack/issues/2908)). Create image-based disks in `ceph-rbd` (or `replicated`); use `local` for blank data disks.
+- **A disk can be attached to only one VM.** To share data between VMs or pods, use a PVC on `seaweedfs-rwx` or S3 object storage.
 
 ## Persistent Volumes for Applications
 
-Marketplace applications that require persistent storage also use LINSTOR-backed PVCs. When deploying an application, you can specify:
+Marketplace applications that require persistent storage use PVCs. When deploying an application, you can specify:
 
 - **Storage size** — Requested capacity.
-- **Storage class** — Typically `replicated` for HA.
+- **Storage class** — Use `ceph-rbd` unless you have a specific reason to choose another class.
+
+If several pods of your application need the **same files at the same time**, use a PVC with `storageClassName: seaweedfs-rwx` and `accessModes: [ReadWriteMany]`.
+
+## Tenant Kubernetes Clusters
+
+For a tenant Kubernetes cluster, set `ceph-rbd` in two places of the `Kubernetes` application:
+
+```yaml
+apiVersion: apps.cozystack.io/v1alpha1
+kind: Kubernetes
+metadata:
+  name: my-cluster
+spec:
+  storageClass: ceph-rbd          # storage for PVCs created inside the tenant cluster
+  nodeGroups:
+    md0:
+      storageClass: ceph-rbd      # system disks of the worker node VMs
+      # ... other node group settings
+```
+
+- **`nodeGroups.<name>.storageClass`** — storage class of the worker node VM disks. Worker VMs are live-migrated, so the class must support ReadWriteMany block: `ceph-rbd` or `replicated`. Never use `local` here. If empty, the application-level `storageClass` is used.
+- **`storageClass`** — backing storage for PVCs created inside the tenant cluster. Inside the tenant cluster, PVCs are provisioned by the KubeVirt CSI driver and attached to the worker VMs as disks.
+
+Storage classes visible **inside** the tenant cluster:
+
+| Class inside the tenant cluster | Backed by |
+|---|---|
+| `kubevirt` (default class) | the application-level `storageClass`, i.e. `ceph-rbd` with the example above |
+| `replicated` | `replicated` |
+
+PVCs that do not set `storageClassName` use the default class `kubevirt` and therefore land on the application-level `storageClass`. Only LINSTOR classes are copied into tenant clusters by name, so a class named `ceph-rbd` does not exist inside the tenant cluster.
 
 ## Disk Preparation
 
@@ -62,11 +159,7 @@ Tenants do not need to manage physical disk preparation.
 
 ## Encrypted Storage
 
-LINSTOR supports encrypted volumes using LUKS. If your tenant requires encrypted storage, contact the cloud team to enable encryption on specific storage pools.
-
-## NFS
-
-NFS shares can be consumed by workloads for shared file storage. Contact the cloud team if your application requires NFS access.
+LINSTOR supports encrypted volumes using LUKS. The `local` and `replicated` storage classes encrypt data at rest with LUKS. If your tenant has additional encryption requirements, contact the cloud team.
 
 ## Object Storage (S3)
 
@@ -83,5 +176,10 @@ Contact the cloud team for S3 endpoint details and credentials.
 | Problem | Cause | Solution |
 |---|---|---|
 | PVC stuck in Pending | No available storage pool or quota exceeded | Check tenant quotas and contact support. |
-| Disk performance is low | Using `replicated` over slow network | For latency-sensitive workloads, request `lvm-thin` (local) storage class. |
+| `local` disk stays in `PendingPopulation` | Expected: `local` waits until a VM uses the disk (WaitForFirstConsumer) | Attach the disk to a VM; it is created when the VM starts. |
+| Disk from an image in `local` never finishes | Known issue with cloning images into `local` (#2908) | Delete the disk and create it in `ceph-rbd`. |
+| VM stuck in `Scheduling`; event says `RWX block volume ... is being used by pods from different VMs` | The disk is already attached to another VM | Detach the disk from the other VM or use a separate disk. |
+| `vm-disk` reports `Spec is missing accessMode and volumeMode` | The storage class is not configured for VM disks on the platform | Contact the cloud team. |
+| Disk on `seaweedfs-rwx` stays in `ImportInProgress` | SeaweedFS cannot allocate space | Contact the cloud team. |
+| Disk performance is low | Network block storage (`ceph-rbd`, `replicated`) adds latency, or the VM disk is on `seaweedfs-rwx` | For latency-sensitive, non-critical data use `local`; do not put VM disks on `seaweedfs-rwx`. |
 | Disk full | Volume exceeded requested size | Resize the PVC or attach an additional `vm-disk`. |
