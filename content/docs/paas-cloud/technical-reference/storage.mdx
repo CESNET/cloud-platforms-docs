@@ -23,10 +23,12 @@ The following storage classes are available in PaaS Cloud:
 
 | Storage Class | Backend | Access mode | Live migration of VMs | Use Case |
 |---|---|---|---|---|
-| `ceph-rbd` | Ceph RBD (external Ceph cluster) | ReadWriteMany, block | Yes | **Default and recommended** for most workloads and VM disks. HA. Most platform images live here. |
-| `replicated` | LINSTOR/DRBD (thin LVM), replicated across the platform's nodes | ReadWriteMany, block | Yes | Alternative HA block storage on the platform's own nodes. |
+| `ceph-rbd` | Ceph RBD (external Ceph cluster) | ReadWriteMany\*, block | Yes | **Default and recommended** for most workloads and VM disks. HA. Most platform images live here. |
+| `replicated` | LINSTOR/DRBD (thin LVM), replicated across the platform's nodes | ReadWriteMany\*, block | Yes | Alternative HA block storage on the platform's own nodes. |
 | `local` | LINSTOR (thin LVM), no replication, data on one node | ReadWriteOnce, block | No | Fast local disk. Not HA: the VM is tied to the node that holds the disk. |
 | `seaweedfs-rwx` | SeaweedFS (FUSE filesystem) | ReadWriteMany, filesystem | – | Files shared by several pods at the same time. Not recommended for VM disks. |
+
+\* **Live migration only.** For `ceph-rbd` and `replicated`, ReadWriteMany does not mean shared storage. The block disk is attached to two nodes only briefly while one VM is live-migrated; it must not be used by two VMs or pods at the same time. Only `seaweedfs-rwx` is ReadWriteMany in the usual sense (files shared by several pods). See [What "ReadWriteMany" means per storage class](#what-readwritemany-means-per-storage-class).
 
 Specify the storage class when creating `vm-disk` resources or PVCs. We recommend setting it explicitly even when you use the default:
 
